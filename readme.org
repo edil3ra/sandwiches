@@ -8,7 +8,7 @@ The database will sqlite, il let the possibilty to choose another database for t
 I used Sqalchemy as an orm, il already play with it in the past and flask provide a wrapper around it, so it's a perfect match, it also extremly good if the application want to used other database system like mongo.
 
 *** Front end
-	materialize  for the css front.
+	materialize for the css front.
 	Jquery for small animation .
 	I do not used npm bower, or any package system to handle the depedencies, i just copy what i need or used cdn, this is ugly but it speed the setting process.
 
@@ -43,7 +43,6 @@ I used Sqalchemy as an orm, il already play with it in the past and flask provid
 *** Production
 	blank
 
-
 * Analyse
 ** Database
 *** User
@@ -54,9 +53,9 @@ The password will be hashed.
 	+ email :: String
 	+ password :: String
 	+ is_admin :: boolean
-	+ is_employe :: boolean
+	+ is_employee :: boolean
 	+ is_manager :: boolean
-	+ is_validated :: boolean
+	+ confirmed :: boolean
 
 *** Employee
 **** Description
@@ -109,7 +108,6 @@ The password will be hashed.
 	 + item_id :: Foreign Key | 
 	 + command_id :: Foreign Key
 	 + employee_id :: Foreign Key | *Not Required*
-
 
 ** Architecture
    the application will have 4 differents parts, that will be handle by flask as blueprint.
@@ -169,7 +167,6 @@ The password will be hashed.
 *** admin
 	TODO
 
-
 * Tasks
 ** boilerplate [4/4]
    + [X] make an hello world
@@ -177,31 +174,35 @@ The password will be hashed.
    + [X] make a template for the main blueprint
    + [X] integrate materialize
 
-** Dependencies settings installation [2/6]
+** Dependencies settings installation [4/6]
 	+ [X] Flask-Script
 	+ [X] Flask-Debugtollbar
-	+ [ ] Flask-SQLAlchemy
-	+ [ ] Flask-Migrate 
+	+ [X] Flask-SQLAlchemy
+	+ [X] Flask-Migrate 
 	+ [ ] Flask-Login
 	+ [ ] Flask-mail
 
 
-** Dependencies settings configuration [2/6]
+** Dependencies settings configuration [4/6]
 	+ [X] Flask-Script
 	+ [X] Flask-Debugtollbar
-	+ [ ] Flask-SQLAlchemy
-	+ [ ] Flask-Migrate 
+	+ [X] Flask-SQLAlchemy
+	+ [X] Flask-Migrate 
 	+ [ ] Flask-Login
 	+ [ ] Flask-mail
 
-** Blueprint setting [0/4]
-   + [ ] Create the main blueprint
+** Models [1/1]
+   + [ ] create the User model
+   
+
+** Blueprint setting [1/4]
+   + [X] Create the main blueprint
    + [ ] Create the auth blueprint
    + [ ] Create the manager blueprint
    + [ ] Create the admin blueprint
 
-** Config setting [0/4]
-   + [ ] Create the basic config
-   + [ ] Create the development config
-   + [ ] Create the testing config
-   + [ ] Create the production config
+** Config setting [4/4]
+   + [X] Create the basic config
+   + [X] Create the development config
+   + [X] Create the testing config
+   + [X] Create the production config
