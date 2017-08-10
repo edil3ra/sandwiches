@@ -3,16 +3,23 @@
 	<head>
 		<meta charset="UTF-8"/>
 		<title>{% block title %} {% endblock %}</title>
-		{% block styles %}
+
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 		<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+		
+		{% block styles %}
+		<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/materialize.min.css')}}"  media="screen,projection"/>
 		{% endblock %}
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		
 	</head>
 	<body>
 		{% block body %}
 		
 		{% endblock %}
 		{% block scripts %}
-		
+		<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+		<script type="text/javascript" src="{{ url_for('static', filename='js/materialize.min.js') }}"></script>
 		{% endblock %}
 	</body>
 </html>
