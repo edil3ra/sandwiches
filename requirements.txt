@@ -1,12 +1,18 @@
 backports.shutil-get-terminal-size==1.0.0
+click==6.7
 configparser==3.5.0
 decorator==4.1.2
 enum34==1.1.6
 flake8==3.4.1
+Flask==0.12.2
+Flask-Script==2.0.5
 importmagic==0.1.7
 ipython==4.2.1
 ipython-genutils==0.2.0
+itsdangerous==0.24
 jedi==0.10.2
+Jinja2==2.9.6
+MarkupSafe==1.0
 mccabe==0.6.1
 pathlib2==2.3.0
 pexpect==4.2.1
@@ -19,4 +25,5 @@ scandir==1.5
 simplegeneric==0.8.1
 six==1.10.0
 traitlets==4.3.2
+Werkzeug==0.12.2
 yapf==0.16.3

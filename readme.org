@@ -171,6 +171,7 @@ The password will be hashed.
 
 
 * Tasks
+** 
 ** Dependencies settings installation [0/6]
 	+ [ ] Flask-Script
 	+ [ ] Flask-Debugtollbar
