@@ -1,6 +1,6 @@
 import os
 
-from app import create_app
+from app import create_app, db
 from flask_script import Manager, Shell
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
