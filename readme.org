@@ -171,24 +171,24 @@ The password will be hashed.
 
 
 * Tasks
-** boilerplate [2/4]
+** boilerplate [4/4]
    + [X] make an hello world
    + [X] make a base template
-   + [ ] make a template for the main blueprint
-   + [ ] integrate materialize
+   + [X] make a template for the main blueprint
+   + [X] integrate materialize
 
-** Dependencies settings installation [0/6]
-	+ [ ] Flask-Script
-	+ [ ] Flask-Debugtollbar
+** Dependencies settings installation [2/6]
+	+ [X] Flask-Script
+	+ [X] Flask-Debugtollbar
 	+ [ ] Flask-SQLAlchemy
 	+ [ ] Flask-Migrate 
 	+ [ ] Flask-Login
 	+ [ ] Flask-mail
 
 
-** Dependencies settings configuration [0/6]
-	+ [ ] Flask-Script
-	+ [ ] Flask-Debugtollbar
+** Dependencies settings configuration [2/6]
+	+ [X] Flask-Script
+	+ [X] Flask-Debugtollbar
 	+ [ ] Flask-SQLAlchemy
 	+ [ ] Flask-Migrate 
 	+ [ ] Flask-Login
