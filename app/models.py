@@ -4,14 +4,15 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 
 class User(db.Model):
-    __tablename__ = 'users'
+    __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(64), unique=True, index=True)
     password_hash = db.Column(db.String(128))
     confirmed = db.Column(db.Boolean, default=False)
-    is_employee = db.Column(db.Boolean, default=False)
     is_manager = db.Column(db.Boolean, default=False)
     is_admin = db.Column(db.Boolean, default=False)
+    employee = db.relationship('Employee', uselist=False, back_populates="user")
+
 
     @property
     def password(self):
@@ -24,3 +25,12 @@ class User(db.Model):
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
 
+
+
+class Employee(db.Model):
+    __tablename__ = 'employee'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64))
+    salary = db.Column(db.Integer)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user = db.relationship('User', back_populates='employee')
