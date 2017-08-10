@@ -1,0 +1,201 @@
+* Description
+** Technologies choosen
+*** Backend
+   [[http://flask.pocoo.org/][flask]] for the backend, i hesitaded between django and flask, Flask is great for small project, both could do the job, but i want a light, fast and easy extensible solution.
+
+The database will sqlite, il let the possibilty to choose another database for the production environemnmt, but for the developing and testing environment sqlite should be enougth.
+
+I used Sqalchemy as an orm, il already play with it in the past and flask provide a wrapper around it, so it's a perfect match, it also extremly good if the application want to used other database system like mongo.
+
+*** Front end
+	materialize  for the css front.
+	Jquery for small animation .
+	I do not used npm bower, or any package system to handle the depedencies, i just copy what i need or used cdn, this is ugly but it speed the setting process.
+
+
+** Environement
+   The application will provide 3 different environement, one for deveolping, one for unittest one for the production
+   The setting will be implement by A Config object flask application and extension.
+   Default setting are provide for all the enviroment, it's possible to rewrite some setting by environment variables
+   
+*** List of rewrite rules by environment variable
+	FLASK_CONFIG *To choose the dev, prod, test environement*
+    SECRET_KEY *To secure the app*
+    MAIL_USERNAME *To manage the mail sender username*
+    MAIL_PASSWORD *To manage the mail sender password*
+	SQLALCHEMY_DATABASE_URI *For configuring the database*
+** Depedencies
+*** General
+	+ [[http://www.sqlalchemy.org/][SQL-Alchemy]] *Orm*
+	+ [[http://flask-sqlalchemy.pocoo.org/2.1/][Flask-SQLAlchemy]] *Wrapper around sqlachemy*
+	+ [[http://flask-script.readthedocs.io/en/latest/][Flask-Script]] *To Debug, test, create personnal command, having a developing server...*
+	+ [[http://flask-migrate.readthedocs.io/en/latest/][Flask-Migrate]] *To have a migration system*
+	+ [[https://pypi.python.org/pypi/Flask-Login][Flask-Login]] *To handle the authentication*
+	+ [[http://pythonhosted.org/Flask-Mail/][Flask-Mail]] *To handle mail*
+*** Developing
+	+ [[https://pypi.python.org/pypi/Flask-DebugToolbar][Flask-DebugToolbar]]
+	+ jedi
+	+ flake8
+    + importmagic
+    + ipython==4.2.1;"
+*** Testing
+	blank
+*** Production
+	blank
+
+
+* Analyse
+** Database
+*** User
+**** Description
+	 The is used to authenticate the user, it can have 3 different status that give them different permission on the application, the permission will be handle by 3 boolean (is_admin, is_employe, is_manager). The User can be all of them or none of them, of course if they are none of them, the application do nothing.
+The password will be hashed.
+**** Model
+	+ email :: String
+	+ password :: String
+	+ is_admin :: boolean
+	+ is_employe :: boolean
+	+ is_manager :: boolean
+	+ is_validated :: boolean
+
+*** Employee
+**** Description
+	 The Employee is an exstention of the user, it' s a one to one relationship with a user.
+	 First reason is we don't want the user to have useless information if they are not customers.
+	 Second reason is the orders table will be linked by a customer not by a user.
+**** Model
+	 + name :: String
+	 + salary :: Int
+	 + picture :: String | *Not Required*
+	 + user_id :: Foreign key
+	 + orders :: Many relationship -- Order
+*** Shop
+**** Description
+	 The shop has information to identify it.
+**** Model
+	+ name :: String
+	+ email :: String
+	+ telephone :: String
+	+ address :: String
+	+ map :: String | *Not Required*
+	+ items :: Many relationship -- Item
+	+ commands :: Many relationship -- Command
+		  
+*** Item
+**** Description
+	 Food by shop
+	 Item can be identified as extra (usefull for order without Employee associated to)
+**** Model
+	+ name :: String
+	+ price :: Float
+	+ extra :: Boolean
+	+ shop_id :: Foreign key 
+	+ orders :: Many relation ship --  Order
+
+*** Command
+**** Description
+	 A command is a set of orders associated to a specifc shop
+**** Model
+	 + commanded_date :: datetime (the time command was commanded)
+	 + delivered_date :: datetime (the time command was delivered) *Not Required*
+	 + is_done :: boolean (check if the command was delivered) _Not sured it is needed,i added it as preventive medecine_
+	 + shop :: Foreign key
+	 + orders :: Many relationship -- Order
+	 
+*** Order
+**** Description
+	 the order represent a food
+**** Model
+	 + item_id :: Foreign Key | 
+	 + command_id :: Foreign Key
+	 + employee_id :: Foreign Key | *Not Required*
+
+
+** Architecture
+   the application will have 4 differents parts, that will be handle by flask as blueprint.
+*** authentication
+	
+**** views
+	 + Sign in
+	 + Log in
+	 + Log Out
+	 + Validate account
+	 + Resend validation
+	   
+**** features
+	+ login_required decorator
+	+ is_employee decorator
+	+ is_manager decorator
+	+ is_admin decorator
+
+**** forms
+	 Login form
+	 Sign in Form
+	 
+
+*** main 
+**** views
+	 + main (a list of items filtered by the current command)
+	   + A list of items will be presented to the current user
+	   + An add button to add the item
+	   + A cancel button to reset the item count to 0
+	   + A Register button, to handle the current command 
+	 + history
+	   + List of previous command
+		 
+**** Form
+	 User Command form
+	 
+*** manager
+**** views
+	 + new command
+	 + crud for the shop
+	 + crud for the items
+	 + list of current orders for the command 
+
+**** features
+	 + create and edit shop
+	 + create and edit items
+	 + make a new command
+	 + edit the current command
+	 + passed the command as done
+	   
+
+**** forms
+	 + Shop Form
+	 + Item Form
+
+
+*** admin
+	TODO
+
+
+* Tasks
+** Dependencies settings installation [0/6]
+	+ [ ] Flask-Script
+	+ [ ] Flask-Debugtollbar
+	+ [ ] Flask-SQLAlchemy
+	+ [ ] Flask-Migrate 
+	+ [ ] Flask-Login
+	+ [ ] Flask-mail
+
+
+** Dependencies settings configuration [0/6]
+	+ [ ] Flask-Script
+	+ [ ] Flask-Debugtollbar
+	+ [ ] Flask-SQLAlchemy
+	+ [ ] Flask-Migrate 
+	+ [ ] Flask-Login
+	+ [ ] Flask-mail
+
+** Blueprint setting [0/4]
+   + [ ] Create the main blueprint
+   + [ ] Create the auth blueprint
+   + [ ] Create the manager blueprint
+   + [ ] Create the admin blueprint
+
+** Config setting [0/4]
+   + [ ] Create the basic config
+   + [ ] Create the development config
+   + [ ] Create the testing config
+   + [ ] Create the production config
