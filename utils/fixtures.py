@@ -1,11 +1,11 @@
 import os
 import random
 
-from app.models import User, Employee, Shop, Food
-from app import db, config
 from faker import Factory
 
-fk = Factory.create()
+from app.models import User, Employee, Shop, Food
+from app import create_app, db
+
 MIN_SALARY = 1300
 MAX_SALARY = 3000
 
@@ -13,6 +13,12 @@ MIN_PRICE = 3
 MAX_PRICE = 50
 
 RATE_EXTRA = 0.1
+
+
+current_app = create_app('development')
+config = current_app.config
+
+fk = Factory.create()
 
 def create_default_admin():
     admin_email = config['ADMIN_EMAIL']

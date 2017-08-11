@@ -1,3 +1,6 @@
+* Installation
+  virtualenv -p python2.7 _env
+  source _env/bin/activate
 * Description
 ** Technologies choosen
 *** Backend
