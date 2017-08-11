@@ -1,11 +1,11 @@
 * Description
 ** Technologies choosen
 *** Backend
-   [[http://flask.pocoo.org/][flask]] for the backend, i hesitaded between django and flask, Flask is great for small project, both could do the job, but i want a light, fast and easy extensible solution.
+	I choose [[http://flask.pocoo.org/][flask]] for the backend, I hesitaded between django and Flask, both could do the job, but I want a light solution.
 
-The database will sqlite, il let the possibilty to choose another database for the production environemnmt, but for the developing and testing environment sqlite should be enougth.
+Sqlite for the database, you can change the database very easly as everything is done through an orm, sqlite, is just esaier for testing, but it lack good migration support.
 
-I used Sqalchemy as an orm, il already play with it in the past and flask provide a wrapper around it, so it's a perfect match, it also extremly good if the application want to used other database system like mongo.
+Sqalchemy for orm, flask provide a wrapper around it so it's a perfect match.
 
 *** Front end
 	materialize for the css front.

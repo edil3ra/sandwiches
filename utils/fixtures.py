@@ -103,5 +103,5 @@ def create_foods(count=200):
 def create_commands(waiting_count=1, done_count=3, cancel_count=2):
     managers = User.query.filter_by(is_manager=True)
     delivery_address = config['COMPANY_ADDRESS']
-    sended = 
+    
     
