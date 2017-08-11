@@ -1,18 +1,21 @@
-from . import db
 from datetime import datetime
+
 from werkzeug.security import generate_password_hash, check_password_hash
+
+from . import db
+
 
 
 class User(db.Model):
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(64), unique=True, index=True)
+    email = db.Column(db.String(128), unique=True, index=True)
     password_hash = db.Column(db.String(128))
     confirmed = db.Column(db.Boolean, default=False)
     is_manager = db.Column(db.Boolean, default=False)
     is_admin = db.Column(db.Boolean, default=False)
     employee = db.relationship('Employee', uselist=False, back_populates='user')
-
+    commands = db.relationship('Command', back_populates='user')
 
     @property
     def password(self):
@@ -37,8 +40,8 @@ class User(db.Model):
 class Employee(db.Model):
     __tablename__ = 'employee'
     id = db.Column(db.Integer, primary_key=True)
-    firstname = db.Column(db.String(64))
-    lastname = db.Column(db.String(64))
+    firstname = db.Column(db.String(128))
+    lastname = db.Column(db.String(128))
     salary = db.Column(db.Integer)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     user = db.relationship('User', back_populates='employee')
@@ -47,24 +50,39 @@ class Employee(db.Model):
 class Shop(db.Model):
     __tablename__ = 'shop'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(64), unique=True)
-    email = db.Column(db.String(64))
-    telephone = db.Column(db.String(64))
-    address = db.Column(db.String(64))
+    name = db.Column(db.String(128), unique=True)
+    email = db.Column(db.String(128))
+    telephone = db.Column(db.String(128), nullable=True)
+    address = db.Column(db.String(128), nullable=True)
     foods = db.relationship('Food', back_populates='shop')
+    commands = db.relationship('Command', back_populates='shop')
 
 
 class Food(db.Model):
     __tablename__ = 'food'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(64), unique=True)
-    price = db.Column(db.String(64))
-    extra = db.Column(db.Boolean)
+    name = db.Column(db.String(128), unique=True)
+    price = db.Column(db.String(128))
+    extra = db.Column(db.Boolean, default=False)
     shop_id = db.Column(db.ForeignKey('shop.id'))
     shop = db.relationship('Shop', back_populates='foods')
 
 
     
+class Command(db.Model):
+    WAITING = 0
+    DONE = 1
+    CANCEL = 2
 
+    __tablename__ = 'command'
+    id = db.Column(db.Integer, primary_key=True)
+    delivery_address = db.Column(db.String(128))
+    sended = db.Column(db.DateTime, default=datetime.utcnow())
+    recieved = db.Column(db.DateTime, nullable=True)
+    status = db.Column(db.Integer)
+    shop_id = db.Column(db.ForeignKey('shop.id'))
+    user_id = db.Column(db.ForeignKey('user.id'))
+    shop = db.relationship('Shop', back_populates='commands')
+    user = db.relationship('User', back_populates='commands')
 
     

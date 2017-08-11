@@ -93,10 +93,12 @@ The password will be hashed, the address mail must be unique because it used to 
 **** Description
 	 A command is a set of orders associated to a specifc shop
 **** Model
-	 + commanded_date :: datetime (the time command was commanded)
-	 + delivered_date :: datetime (the time command was delivered) *Not Required*
+	 + delivery_address :: address of the deliveraison (society name)
+	 + sended :: datetime (the time command was send)
+	 + recieved :: datetime (the time command was recieve) *Not Required*
 	 + is_done :: boolean (check if the command was delivered) _Not sured it is needed,i added it as preventive medecine_
 	 + shop :: Foreign key
+     + user :: Foreign key :: The user who made the command, it only make sense to put user manager user in it
 	 + orders :: Many relationship -- Order
 	 
 *** Order
@@ -156,7 +158,6 @@ The password will be hashed, the address mail must be unique because it used to 
 	 + edit the current command
 	 + passed the command as done
 	   
-
 **** forms
 	 + Shop Form
 	 + Item Form
@@ -166,7 +167,7 @@ The password will be hashed, the address mail must be unique because it used to 
 	TODO
 
 * Tasks
-** boilerplate [4/4]
+** Boilerplate [4/4]
    + [X] make an hello world
    + [X] make a base template
    + [X] make a template for the main blueprint
@@ -189,8 +190,13 @@ The password will be hashed, the address mail must be unique because it used to 
 	+ [ ] Flask-Login
 	+ [ ] Flask-mail
 
-** Models [1/1]
-   + [ ] create the User model
+** Models [4/4]
+   + [X] create the User model
+   + [X] create the Employee model
+   + [X] create the Shop model
+   + [X] create the Food model
+   + [X] create the Command model
+   + [X] create the Order model
    
 
 ** Blueprint setting [1/4]
