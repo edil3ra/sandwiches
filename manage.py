@@ -100,6 +100,12 @@ def fixtures_creation():
                 'status': Command.DONE
             },
         },
+        {
+            'message': 'orders creation',
+            'function': fx.create_orders,
+            'args': [],
+            'kwargs': {},
+        },
     ]
 
     for i, d in enumerate(fixtures):

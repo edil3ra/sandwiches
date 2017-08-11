@@ -14,7 +14,8 @@ MAX_SALARY = 3000
 MIN_PRICE = 3
 MAX_PRICE = 50
 
-RATE_EXTRA = 0.1
+RATE_EXTRA_CREATION = 0.1
+RATE_EXTRA_ORDER = 0.1
 
 MINUTE_MIN_SENDED = 1 * 5 * 60
 MINUTE_MAX_SENDED = 30 * 24 * 60
@@ -122,11 +123,10 @@ def create_shops(count=5):
 
 def create_foods(count=200):
     shops = Shop.query.all()
-    rate_extra = 0.1
     for _ in range(count):
         name = fk.catch_phrase()
         price = (random.random() * MAX_PRICE) + MAX_PRICE
-        extra = True if random.random() <= RATE_EXTRA else False
+        extra = True if random.random() <= RATE_EXTRA_CREATION else False
         shop = random.choice(shops)
         food = Food(name=name, price=price, extra=extra, shop=shop)
         db.session.add(food)
@@ -180,17 +180,26 @@ def create_commands(status, count=5):
         db.session.rollback()
 
 
-def create_orders(count=10):
-    ''' the real count is multiply by the number of employers + extra order '''
-    shops = Shop.query.all()
-    employers = Employee.query.all()
-
-    foods = shops.foods
-
-
-
-
-    
-
-
+def create_orders():
+    ''' create order for each command except the wating one
+        the command filter the current wating command as it will be add individually
+    '''
+    commands = Command.query.filter(Command.status != Command.WAITING).all()
+    employees = Employee.query.all()
+    orders = []
+    for command in commands:
+        foods = command.shop.foods.filter_by(extra=False).all()
+        foods_extra = command.shop.foods.filter_by(extra=True).all()
+        extra_count = random.randint(0, ((Employee.query.count() // RATE_EXTRA_ORDER) + 1))
+        
+        for employee in employees:
+            order = Order(food=random.choice(foods), command=command, employee=employee)
+            orders.append(order)
+            
+        for _ in range(extra_count):
+            order = Order(food=random.choice(foods_extra), command=command)
+            orders.append(order)
+            
+        db.session.add_all(orders)
+        db.session.commit()
     
