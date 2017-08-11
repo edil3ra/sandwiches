@@ -55,10 +55,17 @@ def create_default_shop():
     db.session.add(shop)
     db.session.commit()
 
-    
+
 def create_default_command():
-    pass
-    
+    admin = User.get_admin()
+    shop = Shop.query.filter_by(email=config['DEFAULT_SHOP_EMAIL']).first()
+    command = Command(
+        delivery_address=config['COMPANY_ADDRESS'],
+        sended=datetime.utcnow(),
+        status=Command.WAITING,
+        shop=shop,
+        user=admin)
+
 
 def create_managers(count=10):
     for _ in range(count):
@@ -117,9 +124,9 @@ def create_foods(count=200):
     shops = Shop.query.all()
     rate_extra = 0.1
     for _ in range(count):
-        name = fk.name()
+        name = fk.catch_phrase()
         price = (random.random() * MAX_PRICE) + MAX_PRICE
-        extra = True if RATE_EXTRA <= random.random() else False
+        extra = True if random.random() <= RATE_EXTRA else False
         shop = random.choice(shops)
         food = Food(name=name, price=price, extra=extra, shop=shop)
         db.session.add(food)
@@ -130,7 +137,10 @@ def create_foods(count=200):
 
 
 def create_commands(status, count=5):
-    if status not in [Command.WAITING, Command.DONE, Command.CANCEL, Command.NEVER_DELIVERED]:
+    if status not in [
+            Command.WAITING, Command.DONE, Command.CANCEL,
+            Command.NEVER_DELIVERED
+    ]:
         raise Exception(
             'provide Command.WAITING, Command.DONE, Command.CANCEL Command.NEVER_DELIVERED'
         )

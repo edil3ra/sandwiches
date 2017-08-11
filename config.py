@@ -28,7 +28,7 @@ class DevelopmentConfig(Config):
     ADMIN_EMAIL = os.environ.get('ADMIN_EMAIL') or 'vincent.houba.test@gmail.com'
     ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD') or 'password'
     DEFAULT_SHOP_EMAIL = os.environ.get('DEFAULT_SHOP_EMAIL') or 'vincent.houba.test@gmail.com'
-    COMPANY_ADDRESS = os.environ.get('COMPANY_ADDRESS') or 'fake address 03 Liege'
+    COMPANY_ADDRESS = os.environ.get('COMPANY_ADDRESS') or 'company address 03 Liege Observatoire'
     
 
 
@@ -43,6 +43,11 @@ class ProductionConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
         'sqlite:///' + os.path.join(basedir, 'data-prod.sqlite')
 
+    ADMIN_EMAIL = os.environ.get('ADMIN_EMAIL')
+    ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD')
+    DEFAULT_SHOP_EMAIL = os.environ.get('DEFAULT_SHOP_EMAIL')
+    COMPANY_ADDRESS = os.environ.get('COMPANY_ADDRESS')
+    
 
 config = {
     'development': DevelopmentConfig,

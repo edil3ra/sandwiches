@@ -36,6 +36,10 @@ class User(db.Model):
     def is_employee(self, value):
         raise AttributeError('is_employee is not settable')
 
+    @staticmethod
+    def get_admin():
+        return User.query.filter_by(is_admin=True).first()
+    
 
 class Employee(db.Model):
     __tablename__ = 'employee'

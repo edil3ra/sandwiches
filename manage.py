@@ -128,6 +128,10 @@ def fill_db():
     fx.create_default_shop()
     print('End default shop creation')
 
+    print('Start default shop creation')
+    fx.create_default_command()
+    print('End default shop creation')
+
     print('\n\n--------------\n\n')
     
     print('Start fixture creation')
