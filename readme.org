@@ -12,7 +12,6 @@ I used Sqalchemy as an orm, il already play with it in the past and flask provid
 	Jquery for small animation .
 	I do not used npm bower, or any package system to handle the depedencies, i just copy what i need or used cdn, this is ugly but it speed the setting process.
 
-
 ** Environement
    The application will provide 3 different environement, one for deveolping, one for unittest one for the production
    The setting will be implement by A Config object flask application and extension.
@@ -47,8 +46,8 @@ I used Sqalchemy as an orm, il already play with it in the past and flask provid
 ** Database
 *** User
 **** Description
-	 The is used to authenticate the user, it can have 3 different status that give them different permission on the application, the permission will be handle by 3 boolean (is_admin, is_employe, is_manager). The User can be all of them or none of them, of course if they are none of them, the application do nothing.
-The password will be hashed.
+	 The is used to authenticate the user, it can have 3 different status that give them different permission on the application, the permission will be handle by 3 boolean (is_admin, is_employe, is_manager). The User can be all of them or none of them, of course if they are none of them, the application is pointless.
+The password will be hashed, the address mail must be unique because it used to authenticate the user.
 **** Model
 	+ email :: String
 	+ password :: String

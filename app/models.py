@@ -25,12 +25,20 @@ class User(db.Model):
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
 
+    @property
+    def is_employee(self):
+        return False if self.employee is None else True
 
+    @is_employee.setter
+    def is_employee(self, value):
+        raise AttributeError('is_employee is not settable')
+    
 
 class Employee(db.Model):
     __tablename__ = 'employee'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(64))
+    firstname = db.Column(db.String(64))
+    lastname = db.Column(db.String(64))
     salary = db.Column(db.Integer)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     user = db.relationship('User', back_populates='employee')
