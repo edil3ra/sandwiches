@@ -11,7 +11,7 @@ class User(db.Model):
     confirmed = db.Column(db.Boolean, default=False)
     is_manager = db.Column(db.Boolean, default=False)
     is_admin = db.Column(db.Boolean, default=False)
-    employee = db.relationship('Employee', uselist=False, back_populates="user")
+    employee = db.relationship('Employee', uselist=False, back_populates='user')
 
 
     @property
@@ -44,7 +44,6 @@ class Employee(db.Model):
     user = db.relationship('User', back_populates='employee')
 
 
-
 class Shop(db.Model):
     __tablename__ = 'shop'
     id = db.Column(db.Integer, primary_key=True)
@@ -52,7 +51,17 @@ class Shop(db.Model):
     email = db.Column(db.String(64))
     telephone = db.Column(db.String(64))
     address = db.Column(db.String(64))
+    foods = db.relationship('Food', back_populates='shop')
 
+
+class Food(db.Model):
+    __tablename__ = 'food'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64), unique=True)
+    price = db.Column(db.String(64))
+    extra = db.Column(db.Boolean)
+    shop_id = db.Column(db.ForeignKey('shop.id'))
+    shop = db.relationship('Shop', back_populates='foods')
 
 
     

@@ -4,7 +4,7 @@ from flask_script import Manager, Shell
 from flask_migrate import Migrate, MigrateCommand
 
 from app import create_app, db
-from app.models import User, Employee, Shop
+from app.models import User, Employee, Shop, Food
 from utils import fixtures as fx
 
 
@@ -24,6 +24,7 @@ def make_shell_context():
         User=User,
         Employee=Employee,
         Shop=Shop,
+        Food=Food,
     )
 
 manager.add_command("shell", Shell(make_context=make_shell_context))
@@ -53,9 +54,15 @@ def fixtures_creation():
         },
         {
             'message': 'Shops creation',
-            'function': fx.create_shop,
+            'function': fx.create_shops,
             'args': [],
             'kwargs': {'count': 5 },
+        },
+        {
+            'message': 'foods creation',
+            'function': fx.create_foods,
+            'args': [],
+            'kwargs': {'count': 120 },
         },
         
     ]    

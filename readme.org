@@ -78,7 +78,7 @@ The password will be hashed, the address mail must be unique because it used to 
 	+ items :: Many relationship -- Item
 	+ commands :: Many relationship -- Command
 		  
-*** Item
+*** Food
 **** Description
 	 Food by shop
 	 Item can be identified as extra (usefull for order without Employee associated to)

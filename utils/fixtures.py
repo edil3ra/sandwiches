@@ -1,7 +1,7 @@
 import os
 import random
 
-from app.models import User, Employee, Shop
+from app.models import User, Employee, Shop, Food
 from app import db
 from faker import Factory
 
@@ -9,6 +9,10 @@ fk = Factory.create()
 MIN_SALARY = 1300
 MAX_SALARY = 3000
 
+MIN_PRICE = 3
+MAX_PRICE = 50
+
+RATE_EXTRA = 0.1
 
 def create_default_admin():
     admin_email = os.environ.get('ADMIN_EMAIL') or 'vincent.houba.test@gmail.com'
@@ -65,7 +69,7 @@ def create_employees(count=50, manager=False):
 
 
 
-def create_shop(count=5):
+def create_shops(count=5):
     for _ in range(count):
         name = fk.company()
         email = fk.email()
@@ -73,6 +77,23 @@ def create_shop(count=5):
         address = fk.street_address ()
         shop = Shop(name=name, email=email, telephone=telephone, address=address)
         db.session.add(shop)
+        try:
+            db.session.commit()
+        except IntegrityError:
+            db.session.rollback()
+
+
+
+def create_foods(count=120):
+    shops = Shop.query.all()
+    rate_extra = 0.1
+    for _ in range(count):
+        name = fk.name()
+        price = (random.random() * MAX_PRICE) + MAX_PRICE
+        extra = True if RATE_EXTRA <= random.random() else False
+        shop = random.choice(shops)
+        food = Food(name=name, price=price, extra=extra, shop=shop)
+        db.session.add(food)
         try:
             db.session.commit()
         except IntegrityError:
