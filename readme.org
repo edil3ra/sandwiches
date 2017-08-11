@@ -108,7 +108,7 @@ The password will be hashed, the address mail must be unique because it used to 
 **** Description
 	 the order represent a food
 **** Model
-	 + item_id :: Foreign Key | 
+	 + food_id :: Foreign Key 
 	 + command_id :: Foreign Key
 	 + employee_id :: Foreign Key | *Not Required*
 
@@ -133,7 +133,6 @@ The password will be hashed, the address mail must be unique because it used to 
 	 Login form
 	 Sign in Form
 	 
-
 *** main 
 **** views
 	 + main (a list of items filtered by the current command)
@@ -164,7 +163,6 @@ The password will be hashed, the address mail must be unique because it used to 
 **** forms
 	 + Shop Form
 	 + Item Form
-
 
 *** admin
 	TODO

@@ -39,7 +39,7 @@ class User(db.Model):
     @staticmethod
     def get_admin():
         return User.query.filter_by(is_admin=True).first()
-    
+
 
 class Employee(db.Model):
     __tablename__ = 'employee'
@@ -49,6 +49,7 @@ class Employee(db.Model):
     salary = db.Column(db.Integer)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     user = db.relationship('User', back_populates='employee')
+    orders = db.relationship('Order', back_populates='orders')
 
 
 class Shop(db.Model):
@@ -70,6 +71,7 @@ class Food(db.Model):
     extra = db.Column(db.Boolean, default=False)
     shop_id = db.Column(db.ForeignKey('shop.id'))
     shop = db.relationship('Shop', back_populates='foods')
+    orders = db.relationship('Order', back_populates='orders')
 
 
 class Command(db.Model):
@@ -94,3 +96,13 @@ class Command(db.Model):
     user_id = db.Column(db.ForeignKey('user.id'))
     shop = db.relationship('Shop', back_populates='commands')
     user = db.relationship('User', back_populates='commands')
+    orders = db.relationship('Order', back_populates='command')
+
+
+class Order(db.Model):
+    food_id = db.Column(db.ForeignKey('food.id'))
+    command_id = db.Column(db.ForeignKey('command.id'))
+    employee_id = db.Column(db.ForeignKey('employee.id', nullable=True))
+    food = db.relationship('Food', back_populates='orders')
+    command = db.relationship('Command', back_populates='orders')
+    employee = db.relationship('User', back_populates='orders')
