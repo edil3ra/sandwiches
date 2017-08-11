@@ -2,7 +2,7 @@ import os
 import random
 
 from app.models import User, Employee, Shop, Food
-from app import db
+from app import db, config
 from faker import Factory
 
 fk = Factory.create()
@@ -15,8 +15,8 @@ MAX_PRICE = 50
 RATE_EXTRA = 0.1
 
 def create_default_admin():
-    admin_email = os.environ.get('ADMIN_EMAIL') or 'vincent.houba.test@gmail.com'
-    admin_password = os.environ.get('ADMIN_PASSWORD') or 'password'
+    admin_email = config['ADMIN_EMAIL']
+    admin_password = config['ADMIN_PASSWORD']
     admin = User(email=admin_email, password=admin_password, confirmed=True, is_admin=True, is_manager=True)
     db.session.add(admin)
     db.session.commit()
@@ -26,7 +26,7 @@ def create_default_admin():
 
     
 def create_default_shop():
-    shop_email = os.environ.get('DEFAULT_SHOP_EMAIL') or 'vincent.houba.test@gmail.com'
+    shop_email = config['DEFAULT_SHOP_EMAIL']
     shop = Shop(name='shop', email=shop_email, telephone='0499316385', address='rue machin 4311 liege') 
     db.session.add(shop)
     db.session.commit()
@@ -84,7 +84,7 @@ def create_shops(count=5):
 
 
 
-def create_foods(count=120):
+def create_foods(count=200):
     shops = Shop.query.all()
     rate_extra = 0.1
     for _ in range(count):
@@ -98,3 +98,10 @@ def create_foods(count=120):
             db.session.commit()
         except IntegrityError:
             db.session.rollback()
+
+
+def create_commands(waiting_count=1, done_count=3, cancel_count=2):
+    managers = User.query.filter_by(is_manager=True)
+    delivery_address = config['COMPANY_ADDRESS']
+    sended = 
+    

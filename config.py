@@ -8,6 +8,7 @@ class Config:
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_RECORD_QUERIES = True
+
     
     @staticmethod
     def init_app(app):
@@ -23,6 +24,12 @@ class DevelopmentConfig(Config):
     DEBUG_TB_TEMPLATE_EDITOR_ENABLED = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
         'sqlite:///' + os.path.join(basedir, 'data-dev.sqlite')
+
+    ADMIN_EMAIL = os.environ.get('ADMIN_EMAIL') or 'vincent.houba.test@gmail.com'
+    ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD') or 'password'
+    DEFAULT_SHOP_EMAIL = os.environ.get('DEFAULT_SHOP_EMAIL') or 'vincent.houba.test@gmail.com'
+    COMPANY_ADDRESS = os.environ.get('COMPANY_ADDRESS') or 'fake address 03 Liege'
+    
 
 
 class TestingConfig(Config):

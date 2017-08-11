@@ -35,6 +35,8 @@ class User(db.Model):
     @is_employee.setter
     def is_employee(self, value):
         raise AttributeError('is_employee is not settable')
+
+    
     
 
 class Employee(db.Model):
@@ -79,7 +81,7 @@ class Command(db.Model):
     delivery_address = db.Column(db.String(128))
     sended = db.Column(db.DateTime, default=datetime.utcnow())
     recieved = db.Column(db.DateTime, nullable=True)
-    status = db.Column(db.Integer)
+    status = db.Column(db.Integer, default=Command.WAITING)
     shop_id = db.Column(db.ForeignKey('shop.id'))
     user_id = db.Column(db.ForeignKey('user.id'))
     shop = db.relationship('Shop', back_populates='commands')
