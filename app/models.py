@@ -5,7 +5,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
 
 
-
 class User(db.Model):
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
@@ -14,7 +13,8 @@ class User(db.Model):
     confirmed = db.Column(db.Boolean, default=False)
     is_manager = db.Column(db.Boolean, default=False)
     is_admin = db.Column(db.Boolean, default=False)
-    employee = db.relationship('Employee', uselist=False, back_populates='user')
+    employee = db.relationship(
+        'Employee', uselist=False, back_populates='user')
     commands = db.relationship('Command', back_populates='user')
 
     @property
@@ -36,8 +36,6 @@ class User(db.Model):
     def is_employee(self, value):
         raise AttributeError('is_employee is not settable')
 
-    
-    
 
 class Employee(db.Model):
     __tablename__ = 'employee'
@@ -70,11 +68,17 @@ class Food(db.Model):
     shop = db.relationship('Shop', back_populates='foods')
 
 
-    
 class Command(db.Model):
+    '''
+    WAITING: when the command is sended but not recieve yet
+    CANCEL: when the command is sended and recieved
+    DONE: when the command is cancel before recieved
+    NEVER_DELIVERED: when the command is cancel before recieved
+    '''
     WAITING = 0
     DONE = 1
     CANCEL = 2
+    NEVER_DELIVERED = 3
 
     __tablename__ = 'command'
     id = db.Column(db.Integer, primary_key=True)
@@ -86,5 +90,3 @@ class Command(db.Model):
     user_id = db.Column(db.ForeignKey('user.id'))
     shop = db.relationship('Shop', back_populates='commands')
     user = db.relationship('User', back_populates='commands')
-
-    

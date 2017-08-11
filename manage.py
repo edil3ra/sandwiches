@@ -7,31 +7,26 @@ from app import create_app, db
 from app.models import User, Employee, Shop, Food, Command
 from utils import fixtures as fx
 
-
-
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 manager = Manager(app)
 migrate = Migrate(app, db)
-
-
 
 
 def make_shell_context():
     return dict(
         app=app,
         fx=fx,
-        fk= fx.fk,
+        fk=fx.fk,
         db=db,
         User=User,
         Employee=Employee,
         Shop=Shop,
         Food=Food,
-        Command=Command,
-    )
+        Command=Command, )
+
 
 manager.add_command("shell", Shell(make_context=make_shell_context))
 manager.add_command('db', MigrateCommand)
-
 
 
 def fixtures_creation():
@@ -40,49 +35,88 @@ def fixtures_creation():
             'message': 'Managers creation',
             'function': fx.create_employees,
             'args': [],
-            'kwargs': {'count': 3 },
+            'kwargs': {
+                'count': 2
+            },
         },
         {
             'message': 'Employees creation',
             'function': fx.create_employees,
             'args': [],
-            'kwargs': {'count': 25 },
+            'kwargs': {
+                'count': 10
+            },
         },
         {
             'message': 'Employees as manager creation',
             'function': fx.create_employees,
             'args': [],
-            'kwargs': {'count': 5, 'manager': True },
+            'kwargs': {
+                'count': 3,
+                'manager': True
+            },
         },
         {
             'message': 'Shops creation',
             'function': fx.create_shops,
             'args': [],
-            'kwargs': {'count': 5 },
+            'kwargs': {
+                'count': 5
+            },
         },
         {
-            'message': 'foods creation',
+            'message': 'Foods creation',
             'function': fx.create_foods,
             'args': [],
-            'kwargs': {'count': 120 },
+            'kwargs': {
+                'count': 200
+            },
         },
-    ]    
-    
+        {
+            'message': 'Cancel commands creation',
+            'function': fx.create_commands,
+            'args': [],
+            'kwargs': {
+                'count': 2,
+                'status': Command.CANCEL
+            },
+        },
+        {
+            'message': 'Never delivered commands creation',
+            'function': fx.create_commands,
+            'args': [],
+            'kwargs': {
+                'count': 2,
+                'status': Command.NEVER_DELIVERED
+            },
+        },
+        {
+            'message': 'Done commands creation',
+            'function': fx.create_commands,
+            'args': [],
+            'kwargs': {
+                'count': 10,
+                'status': Command.DONE
+            },
+        },
+    ]
+
     for i, d in enumerate(fixtures):
-        message, function, args, kwargs = d['message'], d['function'], d['args'], d['kwargs'], 
+        message, function, args, kwargs = d['message'], d['function'], d[
+            'args'], d['kwargs'],
         print('{}/{} -- start {} with {}  and {} '\
               .format(i+1, len(fixtures), message, args, kwargs))
         d['function'](*args, **kwargs)
         print('{}/{} -- end {} with {} args  {} '.\
               format(i+1, len(fixtures), message, args, kwargs))
 
-    
+
 @manager.command
 def fill_db():
     '''
     Create the database with an administrator and random datas
     '''
-    
+
     db.drop_all()
     db.create_all()
 
@@ -94,17 +128,12 @@ def fill_db():
     fx.create_default_shop()
     print('End default shop creation')
 
-
+    print('\n\n--------------\n\n')
+    
     print('Start fixture creation')
     fixtures_creation()
     print('End fixture creation')
 
 
-    
-
-        
-        
-
-    
 if __name__ == '__main__':
     manager.run()
