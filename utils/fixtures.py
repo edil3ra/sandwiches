@@ -5,7 +5,7 @@ from faker import Factory
 
 from sqlalchemy.exc import IntegrityError
 
-from app.models import User, Employee, Shop, Food, Command
+from app.models import User, Employee, Shop, Food, Command, Order
 from app import create_app, db
 
 MIN_SALARY = 1300
@@ -178,3 +178,19 @@ def create_commands(status, count=5):
         db.session.commit()
     except IntegrityError:
         db.session.rollback()
+
+
+def create_orders(count=10):
+    ''' the real count is multiply by the number of employers + extra order '''
+    shops = Shop.query.all()
+    employers = Employee.query.all()
+
+    foods = shops.foods
+
+
+
+
+    
+
+
+    

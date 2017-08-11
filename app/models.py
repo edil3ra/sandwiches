@@ -49,7 +49,7 @@ class Employee(db.Model):
     salary = db.Column(db.Integer)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     user = db.relationship('User', back_populates='employee')
-    orders = db.relationship('Order', back_populates='orders')
+    orders = db.relationship('Order', back_populates='employee')
 
 
 class Shop(db.Model):
@@ -59,7 +59,7 @@ class Shop(db.Model):
     email = db.Column(db.String(128))
     telephone = db.Column(db.String(128), nullable=True)
     address = db.Column(db.String(128), nullable=True)
-    foods = db.relationship('Food', back_populates='shop')
+    foods = db.relationship('Food', back_populates='shop', lazy='dynamic')
     commands = db.relationship('Command', back_populates='shop')
 
 
@@ -71,7 +71,7 @@ class Food(db.Model):
     extra = db.Column(db.Boolean, default=False)
     shop_id = db.Column(db.ForeignKey('shop.id'))
     shop = db.relationship('Shop', back_populates='foods')
-    orders = db.relationship('Order', back_populates='orders')
+    orders = db.relationship('Order', back_populates='food')
 
 
 class Command(db.Model):
@@ -100,9 +100,11 @@ class Command(db.Model):
 
 
 class Order(db.Model):
+    __tablename__ = 'order'
+    id = db.Column(db.Integer, primary_key=True)
     food_id = db.Column(db.ForeignKey('food.id'))
     command_id = db.Column(db.ForeignKey('command.id'))
-    employee_id = db.Column(db.ForeignKey('employee.id', nullable=True))
+    employee_id = db.Column(db.ForeignKey('employee.id'), nullable=True)
     food = db.relationship('Food', back_populates='orders')
     command = db.relationship('Command', back_populates='orders')
-    employee = db.relationship('User', back_populates='orders')
+    employee = db.relationship('Employee', back_populates='orders')

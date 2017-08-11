@@ -4,7 +4,7 @@ from flask_script import Manager, Shell
 from flask_migrate import Migrate, MigrateCommand
 
 from app import create_app, db
-from app.models import User, Employee, Shop, Food, Command
+from app.models import User, Employee, Shop, Food, Command, Order
 from utils import fixtures as fx
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
@@ -22,7 +22,8 @@ def make_shell_context():
         Employee=Employee,
         Shop=Shop,
         Food=Food,
-        Command=Command, )
+        Order=Order,
+        Command=Command)
 
 
 manager.add_command("shell", Shell(make_context=make_shell_context))
@@ -133,7 +134,7 @@ def fill_db():
     print('End default shop creation')
 
     print('\n\n--------------\n\n')
-    
+
     print('Start fixture creation')
     fixtures_creation()
     print('End fixture creation')
