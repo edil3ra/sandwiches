@@ -1,9 +1,10 @@
 import os
 
-from app import create_app, db
-from app.models import User, Employee
 from flask_script import Manager, Shell
 from flask_migrate import Migrate, MigrateCommand
+
+from app import create_app, db
+from app.models import User, Employee, Shop
 from utils import fixtures as fx
 
 
@@ -15,24 +16,21 @@ migrate = Migrate(app, db)
 
 
 def make_shell_context():
-    return dict(app=app, fx=fx, db=db, User=User, Employee=Employee)
+    return dict(
+        app=app,
+        fx=fx,
+        fk= fx.fk,
+        db=db,
+        User=User,
+        Employee=Employee,
+        Shop=Shop,
+    )
 
 manager.add_command("shell", Shell(make_context=make_shell_context))
 manager.add_command('db', MigrateCommand)
 
 
 
-def admin_creation():
-    admin_email = os.environ.get('ADMIN_EMAIL') or 'vincent.houba.test@gmail.com'
-    admin_password = os.environ.get('ADMIN_PASSWORD') or 'password'
-    admin = User(email=admin_email, password=admin_password, confirmed=True, is_admin=True, is_manager=True)
-    db.session.add(admin)
-    db.session.commit()
-    admin_employee = Employee(firstname='Vincent', lastname='Houba', salary=2000, user=admin)
-    db.session.add(admin_employee)
-    db.session.commit()
-
-    
 def fixtures_creation():
     fixtures = [
         {
@@ -53,15 +51,22 @@ def fixtures_creation():
             'args': [],
             'kwargs': {'count': 5, 'manager': True },
         },
+        {
+            'message': 'Shops creation',
+            'function': fx.create_shop,
+            'args': [],
+            'kwargs': {'count': 5 },
+        },
+        
     ]    
     
     for i, d in enumerate(fixtures):
         message, function, args, kwargs = d['message'], d['function'], d['args'], d['kwargs'], 
         print('{}/{} -- start {} with {}  and {} '\
-              .format(i+1, len(fixtures)+1, message, args, kwargs))
+              .format(i+1, len(fixtures), message, args, kwargs))
         d['function'](*args, **kwargs)
         print('{}/{} -- end {} with {} args  {} '.\
-              format(i+1, len(fixtures)+1, message, args, kwargs))
+              format(i+1, len(fixtures), message, args, kwargs))
 
     
 @manager.command
@@ -73,9 +78,13 @@ def fill_db():
     db.drop_all()
     db.create_all()
 
-    print('Start admin creation')
-    admin_creation()
-    print('End admin creation')
+    print('Start default admin creation')
+    fx.create_default_admin()
+    print('End default admin creation')
+
+    print('Start default shop creation')
+    fx.create_default_shop()
+    print('End default shop creation')
 
 
     print('Start fixture creation')

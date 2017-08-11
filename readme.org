@@ -75,7 +75,6 @@ The password will be hashed, the address mail must be unique because it used to 
 	+ email :: String
 	+ telephone :: String
 	+ address :: String
-	+ map :: String | *Not Required*
 	+ items :: Many relationship -- Item
 	+ commands :: Many relationship -- Command
 		  

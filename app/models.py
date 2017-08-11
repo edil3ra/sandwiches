@@ -42,3 +42,20 @@ class Employee(db.Model):
     salary = db.Column(db.Integer)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     user = db.relationship('User', back_populates='employee')
+
+
+
+class Shop(db.Model):
+    __tablename__ = 'shop'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64), unique=True)
+    email = db.Column(db.String(64))
+    telephone = db.Column(db.String(64))
+    address = db.Column(db.String(64))
+
+
+
+    
+
+
+    
