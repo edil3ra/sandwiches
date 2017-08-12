@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from config import config
 
 from flask_debugtoolbar import DebugToolbarExtension
@@ -30,5 +30,21 @@ def create_app(config_name):
 
     from .manager import manager as manager_blueprint
     app.register_blueprint(manager_blueprint, url_prefix='/manager')
+
+
+    @app.errorhandler(403)
+    def forbidden(e):
+        return render_template('errors/403.html'), 403
+
+
+    @app.errorhandler(404)
+    def page_not_found(e):
+        return render_template('errors/404.html'), 404
+
+
+    @app.errorhandler(500)
+    def internal_server_error(e):
+        return render_template('errors/500.html'), 500
+
     
     return app
