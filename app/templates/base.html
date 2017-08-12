@@ -16,45 +16,41 @@
 		
 	</head>
 	<body>
-		{% block body %}
-
-		{% block nav %}
-		<nav class="light-orange lighten-1" role="navigation">
-			<div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Intersentia Sandwiches</a>
-				<ul class="right hide-on-med-and-down">
-					<li><a href="#"></a></li>
-				</ul>
-
-				<ul id="nav-mobile" class="side-nav">
-					<li><a href="#">Navbar Link</a></li>
-				</ul>
-				<a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
-			</div>
-		</nav>
-		{% endblock %}
-		
-		{% block flash %}
-		{% if get_flashed_messages() %}
-		<div class="blue">
-			<div class="section ">
+		{% block header %}
+		<header>
+			<nav class="top-nav">
 				<div class="container">
-					{% for message in get_flashed_messages() %}
-					<div id="card-alert" class="card blue">
-						<div class="card-content white-text light-blue">
-							<p>{{ message }}</p>
-						</div>
-					</div>
-					{% endfor %}
-			</div>
-		</div>
-		{% endif %}
+					<div class="nav-wrapper"><a href="{{ url_for('main.index') }}" class="page-title">Intersentia</a></div>
+				</div>
+			</nav>
+			<ul class="side-nav fixed" style="transform: none">
+				{% block side_nav %}
 
+				{% endblock %}
+			</ul>
+		</header>
+		
 		{% endblock %}
-		
-		{% block header %} {% endblock %}
-		
-		{% block content %} {% endblock %}
-
+		<main>
+			{% block flash %}
+			{% if get_flashed_messages() %}
+			<div class="blue">
+				<div class="section ">
+					<div class="container">
+						{% for message in get_flashed_messages() %}
+						<div id="card-alert" class="card blue">
+							<div class="card-content white-text light-blue">
+								<p>{{ message }}</p>
+							</div>
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+			{% endif %}
+			{% endblock %}
+			{% block content %} {% endblock %}
+		</main>
 		{% block footer %}
 		<footer class="page-footer orange">
 			<div class="section">
@@ -62,7 +58,7 @@
 					<div class="row">
 						<div class="col l12">
 							<h5 class="white-text">Intersentia Sandwiches</h5>
-							<p class="grey-text text-lighten-4">Intersentia Sandwiches is an application to command sandwiches from different shops, it's small application that help employer to command foods as a group, in the end of the month the managers can see how much foods each employer have command and calculate their net salary</p>
+							<p class="grey-text text-lighten-4">Intersentia Sandwiches is an application to command sandwiches from different shops, it's small application that help manager to command foods as a group, in the end of the month the managers can see how much foods each employer have command and calculate their net salary</p>
 							<div class="footer-copyright">
 								<div class="container center">
 									Made by Vincent Houba
@@ -72,10 +68,7 @@
 					</div>
 				</div>
 			</div>
-
 		</footer>
-		{% endblock %}
-		
 		{% endblock %}
 		{% block scripts %}
 		<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
