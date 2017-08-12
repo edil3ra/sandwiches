@@ -207,7 +207,7 @@ The password will be hashed, the address mail must be unique because it used to 
    + [X] create the Command model
    + [X] create the Order model
    + [X] refactor the command to change the status
-** Fake [13/15]
+** Fake [15/15]
    + [X] create default admin
    + [X] create a  default shop for te admin
    + [X] create a default command for the admin
@@ -221,17 +221,46 @@ The password will be hashed, the address mail must be unique because it used to 
    + [X] Create a default command with preparing status done with admin
    + [X] Refactor the orders to hit all the commands
    + [X] Refactor the create foods to create foods by shop
-   + [ ] Create a default list for food items to make it more realist
-   + [ ] Change the variable for the name of the foods
+   + [X] Create a default list for food items to make it more realist
+   + [X] Change the names of the foods with the foods list
 	 
-** Blueprint setting [1/4]
+** Blueprint setting [2/4]
    + [X] Create the main blueprint
-   + [ ] Create the auth blueprint
+   + [X] Create the auth blueprint
    + [ ] Create the manager blueprint
    + [ ] Create the admin blueprint
+
+** auth []
+   + 
 
 ** Config setting [4/4]
    + [X] Create the basic config
    + [X] Create the development config
    + [X] Create the testing config
    + [X] Create the production config
+
+
+* Utils
+#+BEGIN_SRC shell 
+find . -name '*.pyc' -delete
+#+END_SRC
+
+#+RESULTS:
+
+#+BEGIN_SRC shell :results scalar
+python manage.py routes
+#+END_SRC
+
+#+RESULTS:
+: _debug_toolbar.static                              HEAD,OPTIONS,GET     /_debug_toolbar/static/[filename]
+: auth.index                                         HEAD,OPTIONS,GET     /auth/
+: debugtoolbar.save_template                         POST,OPTIONS         /_debug_toolbar/views/template/[key]/save
+: debugtoolbar.sql_select                            HEAD,POST,OPTIONS,GET /_debug_toolbar/views/sqlalchemy/sql_explain
+: debugtoolbar.sql_select                            HEAD,POST,OPTIONS,GET /_debug_toolbar/views/sqlalchemy/sql_select?explain=[explain]
+: debugtoolbar.template_editor                       HEAD,OPTIONS,GET     /_debug_toolbar/views/template/[key]
+: debugtoolbar.template_preview                      POST,OPTIONS         /_debug_toolbar/views/template/[key]
+: main.index                                         HEAD,OPTIONS,GET     /
+: static                                             HEAD,OPTIONS,GET     /static/[filename]
+
+
+

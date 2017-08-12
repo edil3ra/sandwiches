@@ -15,7 +15,8 @@ class User(db.Model):
     is_admin = db.Column(db.Boolean, default=False)
     employee = db.relationship(
         'Employee', uselist=False, back_populates='user')
-    commands = db.relationship('Command', back_populates='user', lazy='dynamic')
+    commands = db.relationship(
+        'Command', back_populates='user', lazy='dynamic')
 
     @property
     def password(self):
@@ -49,7 +50,8 @@ class Employee(db.Model):
     salary = db.Column(db.Integer)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     user = db.relationship('User', back_populates='employee')
-    orders = db.relationship('Order', back_populates='employee', lazy='dynamic')
+    orders = db.relationship(
+        'Order', back_populates='employee', lazy='dynamic')
 
 
 class Shop(db.Model):
@@ -60,7 +62,8 @@ class Shop(db.Model):
     telephone = db.Column(db.String(128), nullable=True)
     address = db.Column(db.String(128), nullable=True)
     foods = db.relationship('Food', back_populates='shop', lazy='dynamic')
-    commands = db.relationship('Command', back_populates='shop', lazy='dynamic')
+    commands = db.relationship(
+        'Command', back_populates='shop', lazy='dynamic')
 
 
 class Food(db.Model):

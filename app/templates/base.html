@@ -9,17 +9,59 @@
 		
 		{% block styles %}
 		<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/materialize.min.css')}}"  media="screen,projection"/>
+		<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}"  media="screen,projection"/>
 		{% endblock %}
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 		
 	</head>
 	<body>
 		{% block body %}
+
+		{% block nav %}
+		<nav class="light-orange lighten-1" role="navigation">
+			<div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Intersentia Sandwiches</a>
+				<ul class="right hide-on-med-and-down">
+					<li><a href="#"></a></li>
+				</ul>
+
+				<ul id="nav-mobile" class="side-nav">
+					<li><a href="#">Navbar Link</a></li>
+				</ul>
+				<a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+			</div>
+		</nav>
+		{% endblock %}
+
+		{% block header %} {% endblock %}
+		
+		{% block content %} {% endblock %}
+
+		{% block footer %}
+		<footer class="page-footer orange">
+			<div class="section no-pad-top">
+				<div class="container">
+					<div class="row">
+						<div class="col l12">
+							<h5 class="white-text">Intersentia Sandwiches</h5>
+							<p class="grey-text text-lighten-4">Intersentia Sandwiches is an application to command sandwiches from different shops, it's small application that help employer to command foods as a group, in the end of the month the managers can see how much foods each employer have command and calculate their net salary</p>
+							<div class="footer-copyright">
+								<div class="container center">
+									Made by Vincent Houba
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</footer>
+		{% endblock %}
 		
 		{% endblock %}
 		{% block scripts %}
 		<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
 		<script type="text/javascript" src="{{ url_for('static', filename='js/materialize.min.js') }}"></script>
+		<script type="text/javascript" src="{{ url_for('static', filename='js/init.js') }}"></script>
 		{% endblock %}
 	</body>
 </html>
