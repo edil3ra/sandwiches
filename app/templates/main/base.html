@@ -1,9 +1,21 @@
 {% extends 'base.html' %}
 {% block title %} sandwiches {% endblock %}
 
-{% block body %}
-<h1>Authentication</h1>
-{% block content %} 
+
+{% block header %}
 
 {% endblock %}
+
+{% block content %}
+<div class="auth-content orange lighten-2">
+	<div class="container">
+		<div class="section">
+			{% block content_body %}
+			
+			{% endblock %}
+		</div>
+	</div>	
+</div>
 {% endblock %}
+
+
