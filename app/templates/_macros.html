@@ -1,0 +1,21 @@
+{% macro input_widget(field, size=12) %}
+<div class="input-field col s{{size}}">
+	{% if not field.errors %}
+	{{ field }}
+	{{ field.label }}
+	{% else %}
+	{{ field(class='red', style='margin:0') }}
+	{{ field.label }}
+	<div style="margin-bottom: 10px;" class="red lighten-2">{{ field.errors[0] }}</div>
+	{% endif %}
+</div>
+{% endmacro %}
+
+
+{% macro submit_widget(field, size=12) %}
+<div class="col s{{size}}">
+	<div class="waves-effect waves-light btn orange">
+		{{ field }}
+	</div>
+</div>
+{% endmacro %}

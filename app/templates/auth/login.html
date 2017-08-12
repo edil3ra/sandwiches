@@ -5,38 +5,13 @@
 	<div class="col l12 ">
 		<h3 class="">Login</h3>
 		<form method="post" action="{{url_for('.login')}}">
-			{{ form.errors }}
 			{{ form.csrf_token() }}
 			<div class="row">
-				<div class="input-field col s12">
-					{% if not form.email.errors %}
-					{{ form.email }}
-					{{ form.email.label }}
-					{% else %}
-					{{ form.email(class='red', style='margin:0') }}
-					{{ form.email.label }}
-					<div style="margin-bottom: 10px;" class="red lighten-2">{{ form.email.errors[0] }}</div>
-				</div>
-				{% endif %}
-				
-				<div class="input-field col s12">
-					{% if not form.password.errors %}
-					{{ form.password }}
-					{{ form.password.label }}
-					{% else %}
-					{{ form.password(class='red', style='margin:0') }}
-					{{ form.password.label() }}
-					<div style="margin-bottom: 10px;" class="red lighten-2">{{ form.password.errors[0] }}</div>
-					{% endif %}
-				</div>
-				
+				{{ macros.input_widget(form.email) }}
+				{{ macros.input_widget(form.password) }}
 			</div>
 			<div class="row">
-				<div class="col s12">
-					<div class="waves-effect waves-light btn orange">
-						{{ form.submit }}
-					</div>
-				</div>
+				{{ macros.submit_widget(form.submit) }}
 			</div>
 		</form>
 	</div>
