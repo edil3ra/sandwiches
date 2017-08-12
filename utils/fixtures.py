@@ -8,6 +8,8 @@ from sqlalchemy.exc import IntegrityError
 
 from app.models import User, Employee, Shop, Food, Command, Order
 from app import create_app, db
+import fixtures_data
+
 
 MIN_SALARY = 1300
 MAX_SALARY = 3000
@@ -69,7 +71,7 @@ def create_default_command():
         user=admin)
 
 
-def create_managers(count=10):
+def create_managers(count=5):
     for _ in range(count):
         email = fk.email()
         password = fk.password()
@@ -82,7 +84,7 @@ def create_managers(count=10):
             db.session.rollback()
 
 
-def create_employees(count=50, manager=False):
+def create_employees(count=10, manager=False):
     for _ in range(count):
         email = fk.email()
         password = fk.password()
@@ -127,14 +129,16 @@ def create_foods(count_by_shop=20, rate_extra=RATE_EXTRA_CREATION):
     shops = Shop.query.all()
     foods = []
     for shop in shops:
-        name = fk.catch_phrase()
+        foods_choice = random.sample(fixtures_data.foods, count_by_shop)
+        foods_extra_choice = random.sample(fixtures_data.foods_extra, count_by_shop_extra)
+        # name = random.choice(foods)
         price = (random.random() * MAX_PRICE) + MAX_PRICE
         
-        for _ in range(count_by_shop):
-            food = Food(name=name, price=price, extra=False,shop=shop)
+        for i in range(count_by_shop):
+            food = Food(name=foods_choice[i], price=price, extra=False,shop=shop)
             foods.append(food)
-        for _ in range(count_by_shop_extra):
-            food = Food(name=name, price=price, extra=True, shop=shop)
+        for i in range(count_by_shop_extra):
+            food = Food(name=foods_extra_choice[i], price=price, extra=True, shop=shop)
             foods.append(food)
 
 
