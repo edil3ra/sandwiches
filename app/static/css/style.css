@@ -15,10 +15,9 @@ header, main, footer {
     color: #fff;
 }
 
-
-/* label color */
-.input-field label {
-    color: #fff;
+input, label{
+    color: #fff !important;
+	
 }
 
 .input-field {
@@ -33,6 +32,7 @@ header, main, footer {
 
  .row .input-field input {
    border-bottom: 1px solid #eee !important;
+   font-size: 1.7em !important;
  }
 
  .row .input-field input:focus {
@@ -40,7 +40,5 @@ header, main, footer {
    box-shadow: 0 1px 0 0 #fff !important;
  }
 
- .row .input-field input::placeholder {
-    color: #ddd !important;
- }
+
 

@@ -18,16 +18,38 @@
 	<body>
 		{% block header %}
 		<header>
+			{% if current_user.is_authenticated %}
+			<ul id="user-dropdown" class="dropdown-content">
+				{% if current_user.is_employee %}
+				<li><a href="{{url_for('main.index')}}">Employee</a></li>
+				{% endif %}
+				{% if current_user.is_manager %}
+				<li><a href="{{url_for('manager.index')}}">Manager</a></li>
+				{% endif %}
+				{% if current_user.is_admin %}
+				<li><a href="#">Admin</a></li>
+				{% endif %}
+				<li class="divider"></li>
+				<li><a href="{{url_for('auth.logout')}}">Logout</a></li>
+			</ul>
+			{% endif %}
 			<nav class="top-nav">
 				<div class="container">
-					<div class="nav-wrapper"><a href="{{ url_for('main.index') }}" class="page-title">Intersentia</a></div>
+					<div class="nav-wrapper">
+						<a href="{{ url_for('main.index') }}" class="page-title">Intersentia</a>
+						{% if current_user.is_authenticated %}
+						<ul class="right hide-on-med-and-down">
+							<li>
+								<a class="dropdown-button" href="#!" data-activates="user-dropdown"><i class="large material-icons">account_circle</i></a>
+							</li>
+							{% endif %}
+						</ul>
+					</div>
 				</div>
 			</nav>
-			<ul class="side-nav fixed" style="transform: none">
-				{% block side_nav %}
+			{% block side_nav %}
 
-				{% endblock %}
-			</ul>
+			{% endblock %}
 		</header>
 		
 		{% endblock %}

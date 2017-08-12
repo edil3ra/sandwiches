@@ -1,6 +1,17 @@
 {% extends 'base.html' %}
 {% block title %} sandwiches {% endblock %}
 
+
+{% block side_nav %}
+<ul class="side-nav fixed" style="transform: none">	
+	<li class="bold"><a href="#" class="waves-effect waves-teal">Commands</a></li>
+	<li class="bold"><a href="#" class="waves-effect waves-teal">History</a></li>
+	<li class="bold"><a href="#" class="waves-effect waves-teal">Shops</a></li>
+	<li class="bold"><a href="#" class="waves-effect waves-teal">Foods</a></li>
+	<li class="bold"><a href="#" class="waves-effect waves-teal">Employees</a></li>
+</ul>
+{% endblock %}
+
 {% block content %}
 <div class="auth-content orange lighten-2">
 	<div class="container">

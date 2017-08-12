@@ -1,0 +1,22 @@
+{% extends 'auth/base.html' %}
+
+{% block content_body %}
+<div class="row ">
+	<div class="col l12 ">
+		<h3 class="">Register as a manager </h3>
+		<form method="post" action="{{url_for('.register_manager')}}">
+			{{ form.csrf_token() }}
+			<div class="row">
+				{{ macros.input_widget(form.email) }}
+				{{ macros.input_widget(form.password) }}
+				{{ macros.input_widget(form.password2) }}
+			</div>
+			<div class="row">
+				{{ macros.submit_widget(form.submit) }}
+			</div>
+		</form>
+	</div>
+</div>
+{% endblock %}
+
+

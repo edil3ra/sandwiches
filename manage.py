@@ -3,23 +3,24 @@ import urllib
 
 from flask_script import Manager, Shell
 from flask_migrate import Migrate, MigrateCommand
-
 from flask import url_for
 
-from app import create_app, db
+from app import create_app, db, auth
 from app.models import User, Employee, Shop, Food, Command, Order
 from utils import fixtures as fx
 
-from app import auth
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 manager = Manager(app)
 migrate = Migrate(app, db)
 
+from flask_login import current_user
+
 
 def make_shell_context():
     return dict(
         app=app,
+        current_user=current_user,
         auth=auth,
         fx=fx,
         fk=fx.fk,

@@ -226,10 +226,10 @@ The password will be hashed, the address mail must be unique because it used to 
    + [X] Create a default list for food items to make it more realist
    + [X] Change the names of the foods with the foods list
 	 
-** Blueprint setting [2/4]
+** Blueprint setting [3/4]
    + [X] Create the main blueprint
    + [X] Create the auth blueprint
-   + [ ] Create the manager blueprint
+   + [X] Create the manager blueprint
    + [ ] Create the admin blueprint
 
 ** auth [4/5]
@@ -237,10 +237,17 @@ The password will be hashed, the address mail must be unique because it used to 
    + [X] create the view for the login 
    + [X] Add sign in button for the login form
    + [X] make the auth login view log the user
-   + [ ] Add decorator for protect specific route
+   + [ ] Add decorator to protect route
 	 
-** main [/]
-   + [] Make the default template
+
+** main [1/1]
+   + [X] Make the default template
+
+** manager [1/1]
+   + [X] Make the default template
+
+
+
 
 ** Config setting [4/4]
    + [X] Create the basic config
@@ -261,15 +268,18 @@ python manage.py routes
 #+END_SRC
 
 #+RESULTS:
-: _debug_toolbar.static                              HEAD,OPTIONS,GET     /_debug_toolbar/static/[filename]
-: auth.index                                         HEAD,OPTIONS,GET     /auth/
-: debugtoolbar.save_template                         POST,OPTIONS         /_debug_toolbar/views/template/[key]/save
-: debugtoolbar.sql_select                            HEAD,POST,OPTIONS,GET /_debug_toolbar/views/sqlalchemy/sql_explain
-: debugtoolbar.sql_select                            HEAD,POST,OPTIONS,GET /_debug_toolbar/views/sqlalchemy/sql_select?explain=[explain]
-: debugtoolbar.template_editor                       HEAD,OPTIONS,GET     /_debug_toolbar/views/template/[key]
-: debugtoolbar.template_preview                      POST,OPTIONS         /_debug_toolbar/views/template/[key]
-: main.index                                         HEAD,OPTIONS,GET     /
-: static                                             HEAD,OPTIONS,GET     /static/[filename]
+#+begin_example
+_debug_toolbar.static                              HEAD,OPTIONS,GET     /_debug_toolbar/static/[filename]
+auth.login                                         HEAD,POST,OPTIONS,GET /auth/
+debugtoolbar.save_template                         POST,OPTIONS         /_debug_toolbar/views/template/[key]/save
+debugtoolbar.sql_select                            HEAD,POST,OPTIONS,GET /_debug_toolbar/views/sqlalchemy/sql_explain
+debugtoolbar.sql_select                            HEAD,POST,OPTIONS,GET /_debug_toolbar/views/sqlalchemy/sql_select?explain=[explain]
+debugtoolbar.template_editor                       HEAD,OPTIONS,GET     /_debug_toolbar/views/template/[key]
+debugtoolbar.template_preview                      POST,OPTIONS         /_debug_toolbar/views/template/[key]
+main.index                                         HEAD,OPTIONS,GET     /
+manager.index                                      HEAD,OPTIONS,GET     /manager/
+static                                             HEAD,OPTIONS,GET     /static/[filename]
+#+end_example
 
 
 

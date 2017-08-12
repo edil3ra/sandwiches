@@ -12,9 +12,18 @@
 {% endmacro %}
 
 
+{% macro checkbox_widget(field, size=12) %}
+<div class="col s{{size}}">
+	{{ field(class="filled-in") }}
+	{{ field.label }}
+</div>
+{% endmacro %}
+
+
+
 {% macro submit_widget(field, size=12) %}
 <div class="col s{{size}}">
-	<div class="waves-effect waves-light btn orange">
+	<div class="waves-effect waves-light btn red">
 		{{ field }}
 	</div>
 </div>

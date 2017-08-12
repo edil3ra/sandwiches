@@ -3,7 +3,7 @@
 {% block content_body %}
 <div class="row ">
 	<div class="col l12 ">
-		<h3 class="">Login</h3>
+		<h3>Login</h3>
 		<form method="post" action="{{url_for('.login')}}">
 			{{ form.csrf_token() }}
 			<div class="row">
@@ -20,9 +20,8 @@
 <div class="row ">
 	<div class="col l12">
 		<h3>No Account Sign in</h3>
-		<a class="waves-effect waves-light btn red">Employee</a>
-		<a class="waves-effect waves-light btn red">Manager</a>
-		<a class="waves-effect waves-light btn red">Employee as Manager</a>		
+		<a href="{{url_for('auth.register_employee')}}" class="waves-effect waves-light btn red">Employee</a>
+		<a href="{{url_for('auth.register_manager')}}" class="waves-effect waves-light btn red">Manager</a>
 	</div>
 </div>
 
