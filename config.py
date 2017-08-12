@@ -27,10 +27,12 @@ class DevelopmentConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
         'sqlite:///' + os.path.join(basedir, 'data-dev.sqlite')
 
+    WTF_CSRF_ENABLED = True
+    
     ADMIN_EMAIL = os.environ.get('ADMIN_EMAIL') or 'vincent.houba.test@gmail.com'
     ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD') or 'password'
     COMPANY_ADDRESS = os.environ.get('COMPANY_ADDRESS') or 'company address 03 Liege Observatoire'
-    
+
 
 
 class TestingConfig(Config):

@@ -10,6 +10,8 @@ from app import create_app, db
 from app.models import User, Employee, Shop, Food, Command, Order
 from utils import fixtures as fx
 
+from app import auth
+
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 manager = Manager(app)
 migrate = Migrate(app, db)
@@ -18,6 +20,7 @@ migrate = Migrate(app, db)
 def make_shell_context():
     return dict(
         app=app,
+        auth=auth,
         fx=fx,
         fk=fx.fk,
         db=db,
