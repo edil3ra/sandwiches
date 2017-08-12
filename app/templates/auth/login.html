@@ -1,7 +1,6 @@
 {% extends 'auth/base.html' %}
 
 {% block content_body %}
-{{form['data']}}
 <div class="row ">
 	<div class="col l12 ">
 		<h3 class="">Login</h3>
@@ -18,13 +17,26 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="waves-effect waves-light btn orange">
-					{{ form.submit }}
+				<div class="col s12">
+					<div class="waves-effect waves-light btn orange">
+						{{ form.submit }}
+					</div>
 				</div>
 			</div>
 		</form>
 	</div>
 </div>
+<hr/>
+<div class="row ">
+	<div class="col l12">
+		<h3>No Account Sign in</h3>
+		<a class="waves-effect waves-light btn red">Employee</a>
+		<a class="waves-effect waves-light btn red">Manager</a>
+		<a class="waves-effect waves-light btn red">Employee as Manager</a>		
+	</div>
+</div>
+
+
 {% endblock %}
 
 
