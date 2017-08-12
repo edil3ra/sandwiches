@@ -70,20 +70,20 @@ def fixtures_creation():
             'function': fx.create_foods,
             'args': [],
             'kwargs': {
-                'count': 200
+                'count_by_shop': 20
             },
         },
         {
-            'message': 'Cancel commands creation',
+            'message': 'Delivered commands creation',
             'function': fx.create_commands,
             'args': [],
             'kwargs': {
-                'count': 2,
-                'status': Command.CANCEL
+                'count': 10,
+                'status': Command.DELIVERED
             },
         },
         {
-            'message': 'Never delivered commands creation',
+            'message': 'Not Delivered commands creation',
             'function': fx.create_commands,
             'args': [],
             'kwargs': {
@@ -91,15 +91,7 @@ def fixtures_creation():
                 'status': Command.NEVER_DELIVERED
             },
         },
-        {
-            'message': 'Done commands creation',
-            'function': fx.create_commands,
-            'args': [],
-            'kwargs': {
-                'count': 10,
-                'status': Command.DONE
-            },
-        },
+        
         {
             'message': 'orders creation',
             'function': fx.create_orders,

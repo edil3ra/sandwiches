@@ -1,4 +1,5 @@
 import os
+import math
 import random
 from datetime import datetime, timedelta
 from faker import Factory
@@ -63,7 +64,7 @@ def create_default_command():
     command = Command(
         delivery_address=config['COMPANY_ADDRESS'],
         sended=datetime.utcnow(),
-        status=Command.WAITING,
+        status=Command.PREPARING,
         shop=shop,
         user=admin)
 
@@ -121,29 +122,31 @@ def create_shops(count=5):
             db.session.rollback()
 
 
-def create_foods(count=200):
+def create_foods(count_by_shop=20, rate_extra=RATE_EXTRA_CREATION):
+    count_by_shop_extra = int(math.floor(count_by_shop * rate_extra) + 1)
     shops = Shop.query.all()
-    for _ in range(count):
+    foods = []
+    for shop in shops:
         name = fk.catch_phrase()
         price = (random.random() * MAX_PRICE) + MAX_PRICE
-        extra = True if random.random() <= RATE_EXTRA_CREATION else False
-        shop = random.choice(shops)
-        food = Food(name=name, price=price, extra=extra, shop=shop)
-        db.session.add(food)
-        try:
-            db.session.commit()
-        except IntegrityError:
-            db.session.rollback()
+        
+        for _ in range(count_by_shop):
+            food = Food(name=name, price=price, extra=False,shop=shop)
+            foods.append(food)
+        for _ in range(count_by_shop_extra):
+            food = Food(name=name, price=price, extra=True, shop=shop)
+            foods.append(food)
 
 
-def create_commands(status, count=5):
-    if status not in [
-            Command.WAITING, Command.DONE, Command.CANCEL,
-            Command.NEVER_DELIVERED
-    ]:
-        raise Exception(
-            'provide Command.WAITING, Command.DONE, Command.CANCEL Command.NEVER_DELIVERED'
-        )
+    db.session.add_all(foods)
+    db.session.commit()
+            
+
+        
+
+def create_commands(status=Command.DELIVERED, count=5):
+    if status not in [Command.DELIVERED, Command.NEVER_DELIVERED]:
+        raise Exception('Command.DELIVERED Command.NEVER_DELIVERED')
 
     shops = Shop.query.all()
     managers = User.query.filter_by(is_manager=True).all()
@@ -152,10 +155,7 @@ def create_commands(status, count=5):
     recieved_minute = random.randint(MINUTE_MIN_SENDED, MINUTE_MAX_SENDED)
 
     for _ in range(count):
-        if status == Command.WAITING:
-            sended = datetime.utcnow()
-            recieved = None
-        elif status == Command.DONE:
+        if status == Command.DELIVERED:
             sended = datetime.utcnow() - timedelta(minutes=sended_minute)
             recieved = sended + timedelta(minutes=recieved_minute)
         else:
@@ -181,25 +181,24 @@ def create_commands(status, count=5):
 
 
 def create_orders():
-    ''' create order for each command except the wating one
-        the command filter the current wating command as it will be add individually
-    '''
-    commands = Command.query.filter(Command.status != Command.WAITING).all()
+    ''' create order for each commands '''
+    commands = Command.query.all()
     employees = Employee.query.all()
     orders = []
     for command in commands:
         foods = command.shop.foods.filter_by(extra=False).all()
         foods_extra = command.shop.foods.filter_by(extra=True).all()
-        extra_count = random.randint(0, ((Employee.query.count() // RATE_EXTRA_ORDER) + 1))
-        
+        extra_count = random.randint(
+            0, (math.floor(Employee.query.count() * RATE_EXTRA_ORDER) + 1))
+
         for employee in employees:
-            order = Order(food=random.choice(foods), command=command, employee=employee)
+            order = Order(
+                food=random.choice(foods), command=command, employee=employee)
             orders.append(order)
-            
+
         for _ in range(extra_count):
             order = Order(food=random.choice(foods_extra), command=command)
             orders.append(order)
-            
+
         db.session.add_all(orders)
         db.session.commit()
-    

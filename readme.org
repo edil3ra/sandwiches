@@ -207,7 +207,7 @@ The password will be hashed, the address mail must be unique because it used to 
    + [X] create the Command model
    + [X] create the Order model
    + [X] refactor the command to change the status
-** Fake [9/9]
+** Fake [13/15]
    + [X] create default admin
    + [X] create a  default shop for te admin
    + [X] create a default command for the admin
@@ -217,8 +217,10 @@ The password will be hashed, the address mail must be unique because it used to 
    + [X] create foods
    + [X] create commands
    + [X] create orders
-   + [ ] Refactor the command for the change status
-   + [ ] Refactor the create foods to create foods by shop
+   + [X] Refactor the command to change status
+   + [X] Create a default command with preparing status done with admin
+   + [X] Refactor the orders to hit all the commands
+   + [X] Refactor the create foods to create foods by shop
    + [ ] Create a default list for food items to make it more realist
    + [ ] Change the variable for the name of the foods
 	 
