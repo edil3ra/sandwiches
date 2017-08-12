@@ -2,7 +2,7 @@
   virtualenv -p python2.7 _env
   source _env/bin/activate
 * Description
-** Technologies choosen
+** Technologies
 *** Backend
 	I choose [[http://flask.pocoo.org/][flask]] for the backend, I hesitaded between django and Flask, both could do the job, but I want a light solution.
 
@@ -16,16 +16,21 @@ Sqalchemy for orm, flask provide a wrapper around it so it's a perfect match.
 	I do not used npm bower, or any package system to handle the depedencies, i just copy what i need or used cdn, this is ugly but it speed the setting process.
 
 ** Environement
-   The application will provide 3 different environement, one for deveolping, one for unittest one for the production
-   The setting will be implement by A Config object flask application and extension.
+   The application will has 3 different environement, one for deveolping, one for unittest one for the production.
    Default setting are provide for all the enviroment, it's possible to rewrite some setting by environment variables
-   
-*** List of rewrite rules by environment variable
+
+*** environment variable that you want to change
 	FLASK_CONFIG *To choose the dev, prod, test environement*
     SECRET_KEY *To secure the app*
+	SQLALCHEMY_DATABASE_URI *For configuring the database*
     MAIL_USERNAME *To manage the mail sender username*
     MAIL_PASSWORD *To manage the mail sender password*
-	SQLALCHEMY_DATABASE_URI *For configuring the database*
+    DEFAULT_SHOP_EMAIL *Shop default email* 
+
+    ADMIN_EMAIL *Admin default email* | must be set for production mode
+    ADMIN_PASSWORD *Admin default password* | must be set production mode
+    COMPANY_ADDRESS *The addres of the company* (when the email is sended it will craft it with this variable)
+
 ** Depedencies
 *** General
 	+ [[http://www.sqlalchemy.org/][SQL-Alchemy]] *Orm*
@@ -94,12 +99,16 @@ The password will be hashed, the address mail must be unique because it used to 
 
 *** Command
 **** Description
-	 A command is a set of orders associated to a specifc shop
+	 The command can be in those four states:
+    + PREPARING: when the command is not sended
+    + WAITING: when the command is sended but not recieve yet
+    + DELIVERED: when the command is recieved
+    + NEVER_DELIVERED: when the command is canceled because it was neve delivered
 **** Model
 	 + delivery_address :: address of the deliveraison (society name)
 	 + sended :: datetime (the time command was send)
 	 + recieved :: datetime (the time command was recieve) *Not Required*
-	 + is_done :: boolean (check if the command was delivered) _Not sured it is needed,i added it as preventive medecine_
+     + status :: int | default PREPARING
 	 + shop :: Foreign key
      + user :: Foreign key :: The user who made the command, it only make sense to put user manager user in it
 	 + orders :: Many relationship -- Order
@@ -182,7 +191,6 @@ The password will be hashed, the address mail must be unique because it used to 
 	+ [ ] Flask-Login
 	+ [ ] Flask-mail
 
-
 ** Dependencies settings configuration [4/6]
 	+ [X] Flask-Script
 	+ [X] Flask-Debugtollbar
@@ -191,15 +199,29 @@ The password will be hashed, the address mail must be unique because it used to 
 	+ [ ] Flask-Login
 	+ [ ] Flask-mail
 
-** Models [4/4]
+** Models [6/6]
    + [X] create the User model
    + [X] create the Employee model
    + [X] create the Shop model
    + [X] create the Food model
    + [X] create the Command model
    + [X] create the Order model
-   
-
+   + [X] refactor the command to change the status
+** Fake [9/9]
+   + [X] create default admin
+   + [X] create a  default shop for te admin
+   + [X] create a default command for the admin
+   + [X] create managers
+   + [X] create employees
+   + [X] create shops
+   + [X] create foods
+   + [X] create commands
+   + [X] create orders
+   + [ ] Refactor the command for the change status
+   + [ ] Refactor the create foods to create foods by shop
+   + [ ] Create a default list for food items to make it more realist
+   + [ ] Change the variable for the name of the foods
+	 
 ** Blueprint setting [1/4]
    + [X] Create the main blueprint
    + [ ] Create the auth blueprint

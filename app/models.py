@@ -76,14 +76,14 @@ class Food(db.Model):
 
 class Command(db.Model):
     '''
+    PREPARING: when the command is not sended
     WAITING: when the command is sended but not recieve yet
-    CANCEL: when the command is sended and recieved
-    DONE: when the command is cancel before recieved
-    NEVER_DELIVERED: when the command is cancel before recieved
+    DELIVERED: when the command is recieved
+    NEVER_DELIVERED: when the command is canceled because it was neve delivered
     '''
-    WAITING = 0
-    DONE = 1
-    CANCEL = 2
+    PREPARING = 0
+    WAITING = 1
+    DELIVERED = 2
     NEVER_DELIVERED = 3
 
     __tablename__ = 'command'
