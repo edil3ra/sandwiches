@@ -1,11 +1,13 @@
 from datetime import datetime
 
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import UserMixin, AnonymousUserMixin
 
-from . import db
+from . import db, login_manager
 
 
-class User(db.Model):
+
+class User(UserMixin, db.Model):
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(128), unique=True, index=True)
@@ -41,6 +43,25 @@ class User(db.Model):
     def get_admin():
         return User.query.filter_by(is_admin=True).first()
 
+
+class AnonymousUser(AnonymousUserMixin):
+    def is_manager(self):
+        return False
+
+    def is_admin(self):
+        return False
+
+    def is_employee(self):
+        return False
+    
+login_manager.anonymous_user = AnonymousUser
+
+#find the user by id
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+    
 
 class Employee(db.Model):
     __tablename__ = 'employee'

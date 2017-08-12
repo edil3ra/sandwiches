@@ -183,23 +183,23 @@ The password will be hashed, the address mail must be unique because it used to 
    + [X] make a template for the main blueprint
    + [X] integrate materialize
 
-** Dependencies settings installation [4/6]
+** Dependencies settings installation [5/6]
 	+ [X] Flask-Script
 	+ [X] Flask-Debugtollbar
 	+ [X] Flask-SQLAlchemy
 	+ [X] Flask-Migrate 
-	+ [ ] Flask-Login
+	+ [X] Flask-Login
 	+ [ ] Flask-mail
 
-** Dependencies settings configuration [4/6]
+** Dependencies settings configuration [5/6]
 	+ [X] Flask-Script
 	+ [X] Flask-Debugtollbar
 	+ [X] Flask-SQLAlchemy
 	+ [X] Flask-Migrate 
-	+ [ ] Flask-Login
+	+ [X] Flask-Login
 	+ [ ] Flask-mail
 
-** Models [6/6]
+** Models [8/8]
    + [X] create the User model
    + [X] create the Employee model
    + [X] create the Shop model
@@ -207,6 +207,8 @@ The password will be hashed, the address mail must be unique because it used to 
    + [X] create the Command model
    + [X] create the Order model
    + [X] refactor the command to change the status
+   + [X] Add anonymous user
+   + [X] Tell to the login_manager instance how to find user
 ** Fake [15/15]
    + [X] create default admin
    + [X] create a  default shop for te admin
@@ -230,11 +232,13 @@ The password will be hashed, the address mail must be unique because it used to 
    + [ ] Create the manager blueprint
    + [ ] Create the admin blueprint
 
-** auth [2/2]
+** auth [3/3]
    + [X] Create login form
    + [X] create the view for the login 
-   + [] handle login session
-
+   + [X] Add sign in button for the login form
+   + [ ] Handle login session
+   + [ ] Add decorator for protect specific route
+	 
 ** Config setting [4/4]
    + [X] Create the basic config
    + [X] Create the development config
