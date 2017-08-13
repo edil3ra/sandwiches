@@ -125,23 +125,23 @@ class Command(db.Model):
 
     @property
     def is_preparing(self):
-        return self.status == PREPARING
+        return self.status == Command.PREPARING
 
     @property
     def is_waiting(self):
-        return self.status == WAITING
+        return self.status == Command.WAITING
 
     @property
     def is_delivered(self):
-        return self.status == DELIVERED
+        return self.status == Command.DELIVERED
 
     @property
     def is_never_delivered(self):
-        return self.status == NEVER_DELIVERED
+        return self.status == Command.NEVER_DELIVERED
 
     @property
     def is_done(self):
-        return self.is_delivered or self.is_never_dilevered
+        return self.is_delivered or self.is_never_delivered
 
 
     @staticmethod

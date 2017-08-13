@@ -5,11 +5,15 @@ from . import manager
 from .. import db
 
 
-@manager.route('/')
+@manager.route('/', methods=['GET', 'POST'])
 def index():
-    command = Command.la
-    
-    return render_template('index.html')
+    command = Command.last()
+    if command.is_preparing:
+        return render_template('command_preparing.html')
+    elif command.is_waiting:
+        return render_template('command_waiting.html')
+    elif command.is_done:
+        return render_template('command_done.html')
 
 
 @manager.route('/shops')
