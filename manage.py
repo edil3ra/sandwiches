@@ -174,8 +174,8 @@ def command_never_delivered():
 
 @manager.command
 def random_orders():
-    '''make random orders for every command'''
-    fx.create_orders()
+    '''make random orders for the last command'''
+    fx.create_orders_last_command()
     
     
 @manager.command

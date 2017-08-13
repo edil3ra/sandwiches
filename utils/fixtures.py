@@ -208,3 +208,28 @@ def create_orders():
 
         db.session.add_all(orders)
         db.session.commit()
+
+
+def create_orders_last_command():
+    command = Command.last()
+    employees = Employee.query.all()
+    orders = []
+    foods = command.shop.foods.filter_by(extra=False).all()
+    foods_extra = command.shop.foods.filter_by(extra=True).all()
+    extra_count = random.randint(
+        0, (math.floor(Employee.query.count() * RATE_EXTRA_ORDER) + 1))
+
+    for employee in employees:
+        order = Order(
+            food=random.choice(foods), command=command, employee=employee)
+        orders.append(order)
+
+    for _ in range(extra_count):
+        order = Order(food=random.choice(foods_extra), command=command)
+        orders.append(order)
+
+    db.session.add_all(orders)
+    db.session.commit()
+
+
+    
