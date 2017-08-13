@@ -113,7 +113,7 @@ class Command(db.Model):
     __tablename__ = 'command'
     id = db.Column(db.Integer, primary_key=True)
     delivery_address = db.Column(db.String(128))
-    sended = db.Column(db.DateTime, default=datetime.utcnow())
+    sended = db.Column(db.DateTime, nullable=True)
     recieved = db.Column(db.DateTime, nullable=True)
     status = db.Column(db.Integer, default=PREPARING)
     shop_id = db.Column(db.ForeignKey('shop.id'))
@@ -144,9 +144,30 @@ class Command(db.Model):
         return self.is_delivered or self.is_never_delivered
 
 
+    def wait(self):
+        self.status = Command.WAITING
+        self.sended = datetime.utcnow()
+
+        
+    def devlivered(self):
+        self.status = Command.DELIVERED
+        self.recieved = datetime.utcnow()
+
+        
+    def never_devlivered(self):
+        self.status = Command.NEVER_DELIVERED
+
+
+    def add_order(self, order):
+        self.orders.append(order)
+        db.session.add(self)
+        
+        
+    
     @staticmethod
     def last():
         return Command.query.order_by(Command.id.desc()).first()
+
 
 
     
