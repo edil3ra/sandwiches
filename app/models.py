@@ -144,6 +144,12 @@ class Command(db.Model):
         return self.is_delivered or self.is_never_dilevered
 
 
+    @staticmethod
+    def last():
+        return Command.query.order_by(Command.id.desc()).first()
+
+
+    
     
     
 class Order(db.Model):

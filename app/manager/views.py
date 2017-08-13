@@ -1,5 +1,5 @@
 from flask import render_template, redirect, flash, url_for, request
-from ..models import Shop, Food
+from ..models import Shop, Food, Command
 from .forms import ShopForm, FoodForm
 from . import manager
 from .. import db
@@ -7,6 +7,8 @@ from .. import db
 
 @manager.route('/')
 def index():
+    command = Command.la
+    
     return render_template('index.html')
 
 
