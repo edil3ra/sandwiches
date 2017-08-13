@@ -10,7 +10,7 @@ class Config:
     SQLALCHEMY_RECORD_QUERIES = True
 
     DEFAULT_SHOP_EMAIL = os.environ.get('DEFAULT_SHOP_EMAIL') or 'vincent.houba.test@gmail.com'
-
+    COMPANY_ADDRESS = os.environ.get('COMPANY_ADDRESS') or 'company address 03 Liege Observatoire'
     
     @staticmethod
     def init_app(app):
@@ -31,7 +31,7 @@ class DevelopmentConfig(Config):
     
     ADMIN_EMAIL = os.environ.get('ADMIN_EMAIL') or 'vincent.houba.test@gmail.com'
     ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD') or 'password'
-    COMPANY_ADDRESS = os.environ.get('COMPANY_ADDRESS') or 'company address 03 Liege Observatoire'
+
 
 
 

@@ -20,12 +20,25 @@
 {% endmacro %}
 
 
+{% macro select_widget(field, size=12) %}
+<div class="col s{{size}} input-field">
+	<select id="{{field.id}}" name="{{field.name}}">
+		<option disabled selected value="{{field.choices[0][0]}}"> {{field.choices[0][1]}} </option>
+		{% for (value, label) in field.choices[1:] %}
+		<option value="{{value}}">{{label}}</option>
+		{% endfor %}
+	</select>
+</div>
+{% endmacro %}
+
 
 {% macro submit_widget(field, size=2) %}
 <div class="col s{{size}} waves-effect waves-light btn red">
 	{{ field }}
 </div>
 {% endmacro %}
+
+
 
 
 {% macro back_button(url, size=2, text='Back', color='blue') %}
