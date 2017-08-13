@@ -19,7 +19,36 @@
 			</div>
 		</form>
 		<h3>Foods</h3>
-		for
+
+
+		<table class="bordered">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>price</th>
+					<th>extra</th>
+					<th><a href="{{url_for('.shop_create')}}" class="btn btn-floating blue"><i class="material-icons">add</i></a></th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for food in foods %}
+				<tr>
+					<td>{{ food.name }}</td>			
+					<td>{{ food.price }}</td>			
+					<td>{{ food.extra }}</td>
+					<td><a href="#" class="btn btn-floating orange"><i class="material-icons">edit</i></a></td>
+					<td><a href="#" class="btn btn-floating red"><i class="material-icons">delete</i></a></td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+			
+
+
+		
+		
 	</div>
 </div>
 {% endblock %}

@@ -19,14 +19,12 @@ def shops():
 @manager.route('/shop/<int:pk>', methods=['GET', 'POST'])
 def shop(pk):
     shop = Shop.query.filter_by(id=pk).first()
+    foods = shop.foods.all()
     form = ShopForm()
     if not shop:
         flash('The shop id does not exist')
         return render_template('shops.html')
-    
-    
-    return render_template('shop.html', shop=shop, form=form)
-
+    return render_template('shop.html', shop=shop, form=form, foods=foods)
 
     
 
@@ -62,3 +60,6 @@ def shop_create():
         return redirect(url_for('.shops', form=form))
 
     return render_template('shop_create.html', form=form)
+
+
+

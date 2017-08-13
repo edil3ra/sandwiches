@@ -131,14 +131,14 @@ def create_foods(count_by_shop=20, rate_extra=RATE_EXTRA_CREATION):
     for shop in shops:
         foods_choice = random.sample(fixtures_data.foods, count_by_shop)
         foods_extra_choice = random.sample(fixtures_data.foods_extra, count_by_shop_extra)
-        # name = random.choice(foods)
-        price = (random.random() * MAX_PRICE) + MAX_PRICE
+        price_choice = [(random.random() * MAX_PRICE) + MAX_PRICE for i in range(count_by_shop)]
+        price_extra_choice = [(random.random() * MAX_PRICE) + MAX_PRICE for i in range(count_by_shop_extra)]
         
         for i in range(count_by_shop):
-            food = Food(name=foods_choice[i], price=price, extra=False,shop=shop)
+            food = Food(name=foods_choice[i], price=price_choice[i], extra=False,shop=shop)
             foods.append(food)
         for i in range(count_by_shop_extra):
-            food = Food(name=foods_extra_choice[i], price=price, extra=True, shop=shop)
+            food = Food(name=foods_extra_choice[i], price=price_extra_choice[i], extra=True, shop=shop)
             foods.append(food)
 
 
