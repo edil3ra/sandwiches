@@ -5,8 +5,8 @@
 <div class="row ">
 	<div class="col l12 ">
 		<h2>{{shop.name}}</h2>
-		<h3>Edit</h3>
-		<form method="post" action="{{url_for('.shop_create')}}">
+		<h3>Edit the current shop</h3>
+		<form method="post" action="{{url_for('.shop', pk=shop.id )}}">
 			{{ form.csrf_token() }}
 			<div class="row">
 				{{ macros.input_widget(form.name) }}
