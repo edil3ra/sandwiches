@@ -20,42 +20,6 @@ def index():
     elif command.is_done:
         return handle_done(command)
 
-    
-@manager.route('/increment_food/<int:food_id>', methods=['GET'])
-def increment_food(food_id):
-    command = Command.last()
-    food = Food.query.filter_by(id=food_id).first()
-    
-    if not food:
-        flash('food does not exist')
-        return redirect(url_for('.index'))
-    
-    order = Order(command=command, food=food)
-    db.session.add(order)
-    return redirect(url_for('.index'))
-
-
-@manager.route('/decrement_food/<int:food_id>', methods=['GET'])
-def decrement_food(food_id):
-    command = Command.last()
-    food = Food.query.filter_by(id=food_id).first()
-    
-    if not food:
-        flash('food does not exist')
-        return redirect(url_for('.index'))
-    
-    order = command.orders.filter_by(food=food).first()
-    
-    if not order:
-        flash('you cant\'t have negative order ')
-        return redirect(url_for('.index'))
-    
-
-    db.session.delete(order)
-    return redirect(url_for('.index'))
-
-
-
 
 def handle_prepraing(command):
     extra_foods = command.shop.foods.filter_by(extra=True).all()
@@ -88,6 +52,68 @@ def handle_done(command):
         db.session.commit()
         return redirect(url_for('.index'))
     return render_template('command_done.html', form=form, command=command)    
+
+
+
+@manager.route('/increment_food/<int:food_id>', methods=['GET'])
+def increment_food(food_id):
+    command = Command.last()
+    food = Food.query.filter_by(id=food_id).first()
+    
+    if not food:
+        flash('food does not exist')
+        return redirect(url_for('.index'))
+    
+    order = Order(command=command, food=food)
+    db.session.add(order)
+    return redirect(url_for('.index'))
+
+
+@manager.route('/decrement_food/<int:food_id>')
+def decrement_food(food_id):
+    command = Command.last()
+    food = Food.query.filter_by(id=food_id).first()
+    
+    if not food:
+        flash('food does not exist')
+        return redirect(url_for('.index'))
+    
+    order = command.orders.filter_by(food=food).first()
+    
+    if not order:
+        flash('you cant\'t have negative order ')
+        return redirect(url_for('.index'))
+    
+
+    db.session.delete(order)
+    return redirect(url_for('.index'))
+
+
+@manager.route('/wait')
+def wait():
+    Command.last().wait()
+    return redirect(url_for('.index'))
+
+
+@manager.route('/send_mail_command')
+def send_mail_command():
+    Command.last()
+    flash('Todo: send mail')
+    return redirect(url_for('.index'))
+    
+
+
+@manager.route('/cancel')
+def cancel():
+    Command.last().cancel()
+    return redirect(url_for('.index'))
+
+
+@manager.route('/cancel')
+def cancel():
+    Command.last().cancel()
+    return redirect(url_for('.index'))
+
 
 
 @manager.route('/shops')
