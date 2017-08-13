@@ -123,6 +123,29 @@ class Command(db.Model):
     orders = db.relationship('Order', back_populates='command', lazy='dynamic')
 
 
+    @property
+    def is_preparing(self):
+        return self.status == PREPARING
+
+    @property
+    def is_waiting(self):
+        return self.status == WAITING
+
+    @property
+    def is_delivered(self):
+        return self.status == DELIVERED
+
+    @property
+    def is_never_delivered(self):
+        return self.status == NEVER_DELIVERED
+
+    @property
+    def is_done(self):
+        return self.is_delivered or self.is_never_dilevered
+
+
+    
+    
 class Order(db.Model):
     __tablename__ = 'order'
     id = db.Column(db.Integer, primary_key=True)
