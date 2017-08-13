@@ -25,7 +25,7 @@ def login():
                 return redirect(request.args.get('next') or url_for('main.index'))
                 
         flash('Invalid username or password.')
-    return render_template('auth/login.html', form=form)
+    return render_template('login.html', form=form)
 
 
 @auth.route('/logout')
@@ -50,7 +50,7 @@ def register_manager():
         login_user(user, True)
         flash('You are registred as a manager with mail:{}'.format(user.email))
         return redirect(url_for('main.index'))
-    return render_template('auth/register_manager.html', form=form)
+    return render_template('register_manager.html', form=form)
 
 
 
@@ -81,7 +81,7 @@ def register_employee():
             flash('You are registerd as an employe with mail:{}'.format(user.email))
             
         return redirect(url_for('manager.index'))
-    return render_template('auth/register_employee.html', form=form)
+    return render_template('register_employee.html', form=form)
 
 
 

@@ -4,8 +4,22 @@
 {% block content_body %}
 <div class="row ">
 	<div class="col l12 ">
-		<h2>shop item</h2>
-		{{shop}}
+		<h2>{{shop.name}}</h2>
+		<h3>Edit</h3>
+		<form method="post" action="{{url_for('.shop_create')}}">
+			{{ form.csrf_token() }}
+			<div class="row">
+				{{ macros.input_widget(form.name) }}
+				{{ macros.input_widget(form.email) }}
+				{{ macros.input_widget(form.telephone) }}
+				{{ macros.input_widget(form.address) }}
+			</div>
+			<div class="row">
+				{{ macros.submit_widget(form.submit) }}
+			</div>
+		</form>
+		<h3>Foods</h3>
+		for
 	</div>
 </div>
 {% endblock %}
