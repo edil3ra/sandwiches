@@ -1,7 +1,7 @@
 {% extends 'manager/base.html' %}
 
 {% block content_body %}
-<h2>Update {{food.name}} food in the {{food.shop.name}} shop</h2>
+<h2>Update {{food.name}}  in  {{food.shop.name}}</h2>
 
 <form method="post" action="{{url_for('.food_update', pk=food.id )}}">
 	{{ form.csrf_token() }}
