@@ -16,7 +16,10 @@
 				{{ macros.checkbox_widget(form.is_manager) }}
 			</div>
 			<div class="row">
-				{{ macros.submit_widget(form.submit) }}
+				<div class="col s12">
+					{{ macros.submit_widget(form.submit) }}
+					{{ macros.back_button(url_for('.login')) }}
+				</div>
 			</div>
 		</form>
 	</div>

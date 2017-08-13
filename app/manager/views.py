@@ -19,36 +19,38 @@ def shops():
 @manager.route('/shop/<int:pk>', methods=['GET', 'POST'])
 def shop(pk):
     shop = Shop.query.filter_by(id=pk).first()
-    
+
     if not shop:
         flash('The shop does not exist')
         return render_template('shops.html')
 
     foods = shop.foods.all()
-    
+
     if request.method == 'POST':
         form = ShopForm()
         if form.validate_on_submit():
             if Shop.query.filter_by(name=form.name.data).first() is not None\
                and shop.name != form.name.data:
-                flash('The shop: {} already exist, please try another name'.format(
-                    form.name.data))
-                return render_template('shop.html', shop=shop, form=form, foods=foods)
-            
-            shop.name=form.name.data
-            shop.email=form.email.data
-            shop.telephone=form.telephone.data
-            shop.address=form.address.data
+                flash('The shop: {} already exist, please try another name'.
+                      format(form.name.data))
+                return render_template(
+                    'shop.html', shop=shop, form=form, foods=foods)
+
+            shop.name = form.name.data
+            shop.email = form.email.data
+            shop.telephone = form.telephone.data
+            shop.address = form.address.data
             db.session.add(shop)
             flash('The shop: {} has been updated'.format(form.name.data))
             return redirect(url_for('.shops', form=form))
-        
-    
-    # prefill the form data
-    form = ShopForm(name=shop.name, email=shop.email, telephone=shop.telephone, address=shop.address)
-    return render_template('shop.html', shop=shop, form=form, foods=foods)
 
-    
+    # prefill the form data
+    form = ShopForm(
+        name=shop.name,
+        email=shop.email,
+        telephone=shop.telephone,
+        address=shop.address)
+    return render_template('shop.html', shop=shop, form=form, foods=foods)
 
 
 @manager.route('/shop/delete_<int:pk>')
@@ -79,10 +81,30 @@ def shop_create():
             address=form.address.data)
         db.session.add(shop)
         flash('The shop: {} has been registred'.format(form.name.data))
-        return redirect(url_for('.shops', form=form))
+        return redirect(url_for('.shops'))
 
     return render_template('shop_create.html', form=form)
 
+
+@manager.route('/food/create_<int:pk_shop>_shop', methods=['GET', 'POST'])
+def food_create(pk_shop):
+    shop = Shop.query.filter_by(id=pk_shop).first()
+    if not shop:
+        flash('You try to add food to a non existing shop')
+        return redirect(url_for('.shops'))
+
+    form = FoodForm()
+    if form.validate_on_submit():
+        food = Food(
+            name=form.name.data,
+            price=form.price.data,
+            extra=form.extra.data,
+            shop=shop)
+        db.session.add(food)
+        flash('The food: {} has been add to {}'.format(food.name, shop.name))
+        return redirect(url_for('.shop', pk=pk_shop))
+
+    return render_template('food_create.html', form=form, shop=shop)
 
 
 @manager.route('/food/update_<int:pk>', methods=['GET', 'POST'])
@@ -95,17 +117,15 @@ def food_update(pk):
     if request.method == 'POST':
         form = FoodForm()
         if form.validate_on_submit():
-            food.name=form.name.data
-            food.price=form.price.data
-            food.extra=form.extra.data
+            food.name = form.name.data
+            food.price = form.price.data
+            food.extra = form.extra.data
             db.session.add(food)
             flash('The food: {} has been updated'.format(form.name.data))
             return redirect(url_for('.shop', pk=food.shop_id))
 
     form = FoodForm(name=food.name, price=food.price, extra=food.extra)
     return render_template('food_update.html', form=form, food=food)
-        
-
 
 
 @manager.route('/food/delete_<int:pk>')
@@ -118,5 +138,3 @@ def food_delete(pk):
     db.session.delete(food)
     flash('The food {} has been removed'.format(food.name))
     return redirect(url_for('.shop', pk=food.shop_id))
-
-

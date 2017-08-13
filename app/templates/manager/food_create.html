@@ -1,9 +1,9 @@
 {% extends 'manager/base.html' %}
 
 {% block content_body %}
-<h2>Update {{food.name}}  in  {{food.shop.name}}</h2>
+<h2>Add food to {{shop.name}}</h2>
 
-<form method="post" action="{{url_for('.food_update', pk=food.id )}}">
+<form method="post" action="{{url_for('.food_create', pk_shop=shop.id)}}">
 	{{ form.csrf_token() }}
 	<div class="row">
 		{{ macros.input_widget(form.name) }}
@@ -13,7 +13,7 @@
 	<div class="row">
 		<div class="col s12">
 			{{ macros.submit_widget(form.submit) }}
-			{{ macros.back_button(url_for('.shop', pk=food.shop_id))}}
+			{{ macros.back_button(url_for('.shop', pk=shop.id))}}
 		</div>
 	</div>
 </form>

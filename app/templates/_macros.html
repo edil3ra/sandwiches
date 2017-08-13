@@ -21,10 +21,13 @@
 
 
 
-{% macro submit_widget(field, size=12) %}
-<div class="col s{{size}}">
-	<div class="waves-effect waves-light btn red">
-		{{ field }}
-	</div>
+{% macro submit_widget(field, size=2) %}
+<div class="col s{{size}} waves-effect waves-light btn red">
+	{{ field }}
 </div>
+{% endmacro %}
+
+
+{% macro back_button(url, size=2, text='Back', color='blue') %}
+<a style="margin-left: 10px;" href="{{url}}" class="col s{{size}} waves-effect waves-light btn {{color}}"> {{text}} </a>
 {% endmacro %}

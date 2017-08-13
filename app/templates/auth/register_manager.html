@@ -12,7 +12,10 @@
 				{{ macros.input_widget(form.password2) }}
 			</div>
 			<div class="row">
-				{{ macros.submit_widget(form.submit) }}
+				<div class="col s12">
+					{{ macros.submit_widget(form.submit) }}
+					{{ macros.back_button(url_for('.login')) }}
+				</div>
 			</div>
 		</form>
 	</div>
