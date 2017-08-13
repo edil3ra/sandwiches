@@ -37,7 +37,7 @@
 					<td>{{ food.name }}</td>			
 					<td>{{ food.price }}</td>			
 					<td>{{ food.extra }}</td>
-					<td><a href="#" class="btn btn-floating orange"><i class="material-icons">edit</i></a></td>
+					<td><a href="{{ url_for('.food_update', pk=food.id) }}" class="btn btn-floating orange"><i class="material-icons">edit</i></a></td>
 					<td><a href="{{ url_for('.food_delete', pk=food.id) }}" class="btn btn-floating red"><i class="material-icons">delete</i></a></td>
 				</tr>
 				{% endfor %}

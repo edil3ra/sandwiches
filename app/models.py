@@ -91,7 +91,7 @@ class Food(db.Model):
     __tablename__ = 'food'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(128))
-    price = db.Column(db.String(128))
+    price = db.Column(db.Float)
     extra = db.Column(db.Boolean, default=False)
     shop_id = db.Column(db.ForeignKey('shop.id'))
     shop = db.relationship('Shop', back_populates='foods')

@@ -1,6 +1,6 @@
 from flask import render_template, redirect, flash, url_for, request
 from ..models import Shop, Food
-from .forms import ShopForm
+from .forms import ShopForm, FoodForm
 from . import manager
 from .. import db
 
@@ -83,6 +83,28 @@ def shop_create():
 
     return render_template('shop_create.html', form=form)
 
+
+
+@manager.route('/food/update_<int:pk>', methods=['GET', 'POST'])
+def food_update(pk):
+    food = Food.query.filter_by(id=pk).first()
+    if not food:
+        flash('The food does not exist')
+        return redirect(url_for('.shop', pk=food.shop_id))
+
+    if request.method == 'POST':
+        form = FoodForm()
+        if form.validate_on_submit():
+            food.name=form.name.data
+            food.price=form.price.data
+            food.extra=form.extra.data
+            db.session.add(food)
+            flash('The food: {} has been updated'.format(form.name.data))
+            return redirect(url_for('.shop', pk=food.shop_id))
+
+    form = FoodForm(name=food.name, price=food.price, extra=food.extra)
+    return render_template('food_update.html', form=form, food=food)
+        
 
 
 
