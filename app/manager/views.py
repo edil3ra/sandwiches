@@ -1,5 +1,5 @@
 from flask import render_template, redirect, flash, url_for, request
-from ..models import Shop
+from ..models import Shop, Food
 from .forms import ShopForm
 from . import manager
 from .. import db
@@ -55,11 +55,11 @@ def shop(pk):
 def shop_delete(pk):
     shop = Shop.query.filter_by(id=pk).first()
     if not shop:
-        flash('The shop id does not exist')
+        flash('The shop does not exist')
         return render_template('shops.html')
 
     db.session.delete(shop)
-    flash('The shop {} is remove'.format(shop.name))
+    flash('The shop {} has been removed'.format(shop.name))
     return redirect(url_for('.shops'))
 
 
@@ -84,5 +84,17 @@ def shop_create():
     return render_template('shop_create.html', form=form)
 
 
+
+
+@manager.route('/food/delete_<int:pk>')
+def food_delete(pk):
+    food = Food.query.filter_by(id=pk).first()
+    if not food:
+        flash('The food does not exist')
+        return redirect(url_for('.shop', pk=food.shop_id))
+
+    db.session.delete(food)
+    flash('The food {} has been removed'.format(food.name))
+    return redirect(url_for('.shop', pk=food.shop_id))
 
 
