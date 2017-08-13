@@ -232,12 +232,13 @@ The password will be hashed, the address mail must be unique because it used to 
    + [X] Create the manager blueprint
    + [ ] Create the admin blueprint
 
-** auth [4/5]
+** auth [5/5]
    + [X] Create login form
    + [X] create the view for the login 
    + [X] Add sign in button for the login form
    + [X] make the auth login view log the user
-   + [ ] Add decorator to protect route
+   + [X] Add decorator to protect route
+   + [ ] Redirect to the correct route after user are created
 	 
 
 ** main [1/1]
