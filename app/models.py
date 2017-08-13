@@ -80,8 +80,8 @@ class Shop(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(128), unique=True)
     email = db.Column(db.String(128))
-    telephone = db.Column(db.String(128), nullable=True)
-    address = db.Column(db.String(128), nullable=True)
+    telephone = db.Column(db.String(128))
+    address = db.Column(db.String(128))
     foods = db.relationship('Food', back_populates='shop', lazy='dynamic')
     commands = db.relationship(
         'Command', back_populates='shop', lazy='dynamic')

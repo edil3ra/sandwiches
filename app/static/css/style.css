@@ -1,5 +1,3 @@
-
-
 .side-nav {
 	-webkit-transform: none !important;
 	transform: none !important;
@@ -17,7 +15,6 @@ header, main, footer {
 
 input, label{
     color: #fff !important;
-	
 }
 
 .input-field {
