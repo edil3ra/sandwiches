@@ -144,18 +144,25 @@ class Command(db.Model):
         return self.is_delivered or self.is_never_delivered
 
 
+    def cancel(self):
+        db.session.delete()
+
+    
     def wait(self):
         self.status = Command.WAITING
         self.sended = datetime.utcnow()
+        db.session.add(self)
 
         
-    def devlivered(self):
+    def delivered(self):
         self.status = Command.DELIVERED
         self.recieved = datetime.utcnow()
+        db.session.add(self)
 
         
     def never_devlivered(self):
         self.status = Command.NEVER_DELIVERED
+        db.session.add(self)
 
 
     def add_order(self, order):
@@ -169,9 +176,6 @@ class Command(db.Model):
         return Command.query.order_by(Command.id.desc()).first()
 
 
-
-    
-    
     
 class Order(db.Model):
     __tablename__ = 'order'

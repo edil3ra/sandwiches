@@ -145,6 +145,34 @@ def fill_db():
     print('End fixture creation')
 
 
+
+@manager.command
+def command_prepare():
+    '''Register a new command'''
+    delivery_address = app.config['COMPANY_ADDRESS']
+    shop_id = input('shop id: ')
+    user_id = input('user id:')
+    db.session.add(Command(delivery_address=delivery_address, shop_id=shop_id, user_id=user_id))
+    
+    
+@manager.command
+def command_wait():
+    '''pass the current command status to wait'''
+    Command.last().wait()
+
+    
+@manager.command
+def command_delivered():
+    '''pass the current command status to delivered'''
+    Command.last().delivered()
+
+    
+@manager.command
+def command_never_delivered():
+    '''pass the current command status to not delivered'''
+    Command.last().delivered()
+    
+    
 @manager.command
 def routes():
     output = []
