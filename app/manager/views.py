@@ -12,16 +12,16 @@ def index():
     command = Command.last()
 
     if command.is_preparing:
-        return handle_prepraing(command)
-    
+        return handle_preparing(command)
+
     elif command.is_waiting:
         return handle_waiting(command)
-    
+
     elif command.is_done:
         return handle_done(command)
 
 
-def handle_prepraing(command):
+def handle_preparing(command):
     extra_foods = command.shop.foods.filter_by(extra=True).all()
     extra_orders = command.orders.filter(Order.employee == None)
     employee_orders = command.orders.filter(Order.employee != None)
@@ -30,13 +30,19 @@ def handle_prepraing(command):
         command=command,
         extra_foods=extra_foods,
         extra_orders=extra_orders,
-        employee_orders=employee_orders)    
+        employee_orders=employee_orders)
 
 
 def handle_waiting(command):
-    orders = command.orders.all()
-    return render_template('command_waiting.html', command=command, orders=orders)
-    
+    extra_orders = command.orders.filter(Order.employee == None)
+    employee_orders = command.orders.filter(Order.employee != None)
+
+    return render_template(
+        'command_waiting.html',
+        command=command,
+        employee_orders=employee_orders,
+        extra_orders=extra_orders)
+
 
 def handle_done(command):
     form = CommandForm()
@@ -52,19 +58,18 @@ def handle_done(command):
         db.session.add(command)
         db.session.commit()
         return redirect(url_for('.index'))
-    return render_template('command_done.html', form=form, command=command)    
-
+    return render_template('command_done.html', form=form, command=command)
 
 
 @manager.route('/increment_food/<int:food_id>', methods=['GET'])
 def increment_food(food_id):
     command = Command.last()
     food = Food.query.filter_by(id=food_id).first()
-    
+
     if not food:
         flash('food does not exist')
         return redirect(url_for('.index'))
-    
+
     order = Order(command=command, food=food)
     db.session.add(order)
     return redirect(url_for('.index'))
@@ -74,17 +79,16 @@ def increment_food(food_id):
 def decrement_food(food_id):
     command = Command.last()
     food = Food.query.filter_by(id=food_id).first()
-    
+
     if not food:
         flash('food does not exist')
         return redirect(url_for('.index'))
-    
+
     order = command.orders.filter_by(food=food).first()
-    
+
     if not order:
         flash('you cant\'t have negative order ')
         return redirect(url_for('.index'))
-    
 
     db.session.delete(order)
     return redirect(url_for('.index'))
@@ -101,7 +105,6 @@ def send_mail_command():
     Command.last()
     flash('Todo: send mail')
     return redirect(url_for('.index'))
-    
 
 
 @manager.route('/cancel')
@@ -120,7 +123,6 @@ def delivered():
 def never_delivered():
     Command.last().never_delivered()
     return redirect(url_for('.index'))
-
 
 
 @manager.route('/shops')

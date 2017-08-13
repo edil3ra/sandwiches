@@ -168,7 +168,16 @@ class Command(db.Model):
     def add_order(self, order):
         self.orders.append(order)
         db.session.add(self)
-        
+
+    def sum_price_employee(self):
+        return sum([order.food.price for order in self.orders.filter(Order.employee != None)])
+
+    def sum_price_extra(self):
+        return sum([order.food.price for order in self.orders.filter(Order.employee == None)])
+
+    def sum_price_total(self):
+        return sum([order.food.price for order in self.orders])
+
         
     
     @staticmethod

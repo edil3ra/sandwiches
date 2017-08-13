@@ -3,32 +3,51 @@
 {% block content_body %}
 <div class="row">
 	<div class="col l12 ">
-		<h3>Validate the current command</h3>
+		<h2>Validate the current command</h2>
 		<a href="{{ url_for('.delivered') }}" class="btn blue">Delivered</a>
 		<a href="{{ url_for('.never_delivered') }}" class="btn green">Never Delivered</a>
 	</div>
 </div
 <div class="row">
 	<div class="col l12">
-		<h3>Details about the current command</h3>
-		
+		<h2>Details about the current command</h2>
+		<ul class="collection">
+			<li class="collection-item red lighten-1">Employee: {{ command.sum_price_employee() }}$</li>
+			<li class="collection-item red lighten-1">Extra: {{ command.sum_price_extra() }}$</li>
+			<li class="collection-item red lighten-1">Total: {{ command.sum_price_total() }}$</li>
+		</ul>
+		<h3>Order by employee</h3>
 		<table class="bordered">
 			<thead>
 				<tr>
 					<th>Employee</th>
 					<th>Food</th>
 					<th>Price</th>
-					<th>Extra</th>
 				</tr>
 			</thead>
-
 			<tbody>
-				{% for order in orders %}
+				{% for order in employee_orders %}
 				<tr>
 					<td>{{ order.employee.firstname }}</td>
 					<td>{{ order.food.name }}</td>
 					<td>{{ order.food.price }}</td>
-					<td>{{ order.food.extra }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		<h3>Extra</h3>
+		<table class="bordered">
+			<thead>
+				<tr>
+					<th>Food</th>
+					<th>Price</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for order in extra_orders %}
+				<tr>
+					<td>{{ order.food.name }}</td>
+					<td>{{ order.food.price }}</td>
 				</tr>
 				{% endfor %}
 			</tbody>
