@@ -1,7 +1,43 @@
 {% extends 'manager/base.html' %}
 
 {% block content_body %}
-<h2>Waiting command</h2>
+<div class="row">
+	<div class="col l12 ">
+		<h3>Validate the current command</h3>
+		<a href="{{ url_for('.delivered') }}" class="btn blue">Delivered</a>
+		<a href="{{ url_for('.never_delivered') }}" class="btn green">Never Delivered</a>
+	</div>
+</div
+<div class="row">
+	<div class="col l12">
+		<h3>Details about the current command</h3>
+		
+		<table class="bordered">
+			<thead>
+				<tr>
+					<th>Employee</th>
+					<th>Food</th>
+					<th>Price</th>
+					<th>Extra</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				{% for order in orders %}
+				<tr>
+					<td>{{ order.employee.firstname }}</td>
+					<td>{{ order.food.name }}</td>
+					<td>{{ order.food.price }}</td>
+					<td>{{ order.food.extra }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+
+
+
 
 
 {% endblock %}

@@ -34,7 +34,8 @@ def handle_prepraing(command):
 
 
 def handle_waiting(command):
-    return render_template('command_waiting.html', command=command)    
+    orders = command.orders.all()
+    return render_template('command_waiting.html', command=command, orders=orders)
     
 
 def handle_done(command):
@@ -109,9 +110,15 @@ def cancel():
     return redirect(url_for('.index'))
 
 
-@manager.route('/cancel')
-def cancel():
-    Command.last().cancel()
+@manager.route('/delivered')
+def delivered():
+    Command.last().delivered()
+    return redirect(url_for('.index'))
+
+
+@manager.route('/never_delivered')
+def never_delivered():
+    Command.last().never_delivered()
     return redirect(url_for('.index'))
 
 
