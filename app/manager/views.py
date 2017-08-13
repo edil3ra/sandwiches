@@ -1,33 +1,45 @@
 from flask import render_template, redirect, flash, url_for, request, current_app
 from flask_login import current_user
 
-from ..models import Shop, Food, Command
+from ..models import Shop, Food, Command, Employee, Order
 from .forms import ShopForm, FoodForm, CommandForm
 from . import manager
 from .. import db
+
 
 @manager.route('/', methods=['GET', 'POST'])
 def index():
     command = Command.last()
 
     if command.is_preparing:
-        return render_template('command_preparing.html', command=command)
+        extra_foods = command.shop.foods.filter_by(extra=True).all()
+        extra_orders = command.orders.filter(Order.employee == None)
+        employee_orders = command.orders.filter(Order.employee != None)
+        return render_template(
+            'command_preparing.html',
+            command=command,
+            extra_foods=extra_foods,
+            extra_orders=extra_orders,
+            employee_orders=employee_orders)
+    
     elif command.is_waiting:
         return render_template('command_waiting.html', command=command)
+    
     elif command.is_done:
         form = CommandForm()
         if not form.delivery_address.data:
-            form.delivery_address.data = current_app.config['COMPANY_ADDRESS'] 
+            form.delivery_address.data = current_app.config['COMPANY_ADDRESS']
 
         if form.validate_on_submit():
             flash('the command was succefully added')
-            command = Command(delivery_address=form.delivery_address.data, shop_id=form.shop.data, user=current_user)
+            command = Command(
+                delivery_address=form.delivery_address.data,
+                shop_id=form.shop.data,
+                user=current_user)
             db.session.add(command)
             db.session.commit()
             return redirect(url_for('.index'))
         return render_template('command_done.html', form=form, command=command)
-
-
 
 
 @manager.route('/shops')

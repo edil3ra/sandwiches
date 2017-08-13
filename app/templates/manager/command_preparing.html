@@ -1,7 +1,54 @@
 {% extends 'manager/base.html' %}
 
 {% block content_body %}
-<h2>Preparing command</h2>
+<h3>Extra order for the current command </h3>
+
+<table class="bordered">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Price</th>
+			<th>Add</th>
+			<th>Remove</th>
+			<th>Count</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		{% for food in extra_foods %}
+		<tr>
+			<td>{{ food.name }}</td>
+			<td>{{ food.price }}</td>
+			<td><a href="#" class="btn btn-floating orange"><i class="material-icons">add</i></a></td>
+			<td><a href="#" class="btn btn-floating red"><i class="material-icons">remove</i></a></td>
+			<td>{{ extra_orders.filter_by(food=food).count() }}</td>
+		</tr>
+		{% endfor %}
+	</tbody>		
+</table>
+
+<h3>Employees Orders</h3>
+
+<table class="bordered">
+	<thead>
+		<tr>
+			<th>Employee</th>
+			<th>Name</th>
+			<th>Price</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		{% for order in employee_orders %}
+		<tr>
+			<td>{{ order.employee.firstname }}</td>
+			<td>{{ order.food.name }}</td>
+			<td>{{ order.food.price }}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+
 
 
 {% endblock %}

@@ -157,20 +157,25 @@ def command_prepare():
     
 @manager.command
 def command_wait():
-    '''pass the current command status to wait'''
+    '''Set the current command status to wait'''
     Command.last().wait()
 
     
 @manager.command
 def command_delivered():
-    '''pass the current command status to delivered'''
+    '''Set the current command status to delivered'''
     Command.last().delivered()
 
     
 @manager.command
 def command_never_delivered():
-    '''pass the current command status to not delivered'''
+    '''Set the current command status to not delivered'''
     Command.last().delivered()
+
+@manager.command
+def random_orders():
+    '''make random orders for every command'''
+    fx.create_orders()
     
     
 @manager.command
