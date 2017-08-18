@@ -19,7 +19,6 @@
    python manage.py fill_db | Fill the database with random data, create a default admin
    python manage.py python manage.py | random_orders, fill the last command with random orders
 
-   
 * Description
 ** Technologies
 *** Backend
@@ -243,7 +242,7 @@ The password will be hashed, the address mail must be unique because it used to 
    + [X] Refactor the create foods to create foods by shop
    + [X] Create a default list for food items to make it more realist
    + [X] Change the names of the foods with the foods list
-	 
+   + [] Change the create_orders_last_command to randomize_command, so it won't create new order, it will update them
 ** Blueprint setting [3/4]
    + [X] Create the main blueprint
    + [X] Create the auth blueprint

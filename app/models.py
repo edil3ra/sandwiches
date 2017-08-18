@@ -1,4 +1,5 @@
 from datetime import datetime
+from itertools import groupby
 
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin, AnonymousUserMixin
@@ -97,6 +98,8 @@ class Food(db.Model):
     shop = db.relationship('Shop', back_populates='foods')
     orders = db.relationship('Order', back_populates='food', lazy='dynamic')
 
+    
+        
 
 class Command(db.Model):
     '''
@@ -146,29 +149,59 @@ class Command(db.Model):
 
     def cancel(self):
         db.session.delete()
+        return self
 
     
     def wait(self):
         self.status = Command.WAITING
         self.sended = datetime.utcnow()
         db.session.add(self)
+        return self
 
         
     def delivered(self):
         self.status = Command.DELIVERED
         self.recieved = datetime.utcnow()
         db.session.add(self)
+        return self
 
         
-    def never_devlivered(self):
+    def never_delivered(self):
         self.status = Command.NEVER_DELIVERED
         db.session.add(self)
+        return self
 
 
     def add_order(self, order):
         self.orders.append(order)
         db.session.add(self)
+        return self
 
+        
+    def employees(self):
+        self.orders.filter(Order.employee != None)
+
+
+    def extra(self):
+        self.orders.filter(Order.employee == None)
+
+
+        
+    def empty_orders(self):
+        '''trash the orders of the command'''
+        self.orders = []
+        db.session.add(self)
+        return self
+        
+
+    def switch_shop(self, shop):
+        '''empty the orders of the current command and change the shop '''
+        self.empty_orders()
+        self.shop = shop
+        db.session.add(self)
+        return self
+        
+    
     def sum_price_employee(self):
         return sum([order.food.price for order in self.orders.filter(Order.employee != None)])
 

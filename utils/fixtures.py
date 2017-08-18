@@ -20,6 +20,9 @@ MAX_PRICE = 50
 RATE_EXTRA_CREATION = 0.1
 RATE_EXTRA_ORDER = 0.1
 
+RATE_EXTRA_COMMANDED_MIN = 1
+RATE_EXTRA_COMMANDED_MAX = 4
+
 MINUTE_MIN_SENDED = 1 * 5 * 60
 MINUTE_MAX_SENDED = 30 * 24 * 60
 
@@ -203,17 +206,21 @@ def create_orders():
             orders.append(order)
 
         for _ in range(extra_count):
-            order = Order(food=random.choice(foods_extra), command=command)
-            orders.append(order)
+            for _ in range(random.randint(RATE_EXTRA_COMMANDED_MIN, RATE_EXTRA_COMMANDED_MAX)):
+                order = Order(food=random.choice(foods_extra), command=command)
+                orders.append(order)
 
         db.session.add_all(orders)
         db.session.commit()
 
 
-def create_orders_last_command():
-    command = Command.last()
+def randomize_last_command_orders():
+    ''' update order for each commands '''
+    command = Command.last().empty_orders()
     employees = Employee.query.all()
     orders = []
+    
+    
     foods = command.shop.foods.filter_by(extra=False).all()
     foods_extra = command.shop.foods.filter_by(extra=True).all()
     extra_count = random.randint(
@@ -224,10 +231,13 @@ def create_orders_last_command():
             food=random.choice(foods), command=command, employee=employee)
         orders.append(order)
 
-    for _ in range(extra_count):
-        order = Order(food=random.choice(foods_extra), command=command)
-        orders.append(order)
+            
+    for food_extra in foods_extra:
+        extra_count = random.randint(RATE_EXTRA_COMMANDED_MIN, RATE_EXTRA_COMMANDED_MAX)
+        orders += [Order(food=food_extra, command=command) for _ in range(extra_count)]
 
+            
+            
     db.session.add_all(orders)
     db.session.commit()
 
