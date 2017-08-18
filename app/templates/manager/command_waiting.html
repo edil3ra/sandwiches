@@ -28,9 +28,9 @@
 			<tbody>
 				{% for order in employee_orders %}
 				<tr>
-					<td>{{ order.employee.firstname }}</td>
-					<td>{{ order.food.name }}</td>
-					<td>{{ order.food.price }}</td>
+					<td>{{ order.employee }}</td>
+					<td>{{ order.food }}</td>
+					<td>{{ order.price }}</td>
 				</tr>
 				{% endfor %}
 			</tbody>
@@ -44,10 +44,12 @@
 				</tr>
 			</thead>
 			<tbody>
+
 				{% for order in extra_orders %}
+
 				<tr>
-					<td>{{ order.food.name }}</td>
-					<td>{{ order.food.price }}</td>
+					<td>{{ order.food }}</td>
+					<td>{{ order.price }}</td>
 				</tr>
 				{% endfor %}
 			</tbody>

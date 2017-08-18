@@ -22,26 +22,38 @@ def index():
 
 
 def handle_preparing(command):
-    extra_foods = command.shop.foods.filter_by(extra=True).all()
-    extra_orders = command.orders.filter(Order.employee == None)
-    employee_orders = command.orders.filter(Order.employee != None)
+    extra_foods = command.shop.foods.filter_by(extra=True)
+    extra_orders = command.extra_orders()
+    employee_orders = command.employees_orders()
+
     return render_template(
         'command_preparing.html',
         command=command,
         extra_foods=extra_foods,
-        extra_orders=extra_orders,
+        extra_orders=extra_orders_format,
         employee_orders=employee_orders)
 
 
 def handle_waiting(command):
-    extra_orders = command.orders.filter(Order.employee == None)
-    employee_orders = command.orders.filter(Order.employee != None)
+    extra_orders = command.extra_orders()
+    employee_orders = command.employees_orders()
+
+    extra_orders_formatted = [{
+        'food': orders[0].food.name,
+        'price': Order.sum_price(orders)
+    } for orders in Order.groupby(extra_orders, Order.GROUP_BY_FOOD)]
+
+    employee_orders_formatted = [{
+        'employee': orders[0].employee.fullname,
+        'food': orders[0].food.name,
+        'price': Order.sum_price(orders)
+    } for orders in Order.groupby(employee_orders, Order.GROUP_BY_FOOD)]
 
     return render_template(
         'command_waiting.html',
         command=command,
-        employee_orders=employee_orders,
-        extra_orders=extra_orders)
+        employee_orders=employee_orders_formatted,
+        extra_orders=extra_orders_formatted)
 
 
 def handle_done(command):
