@@ -30,7 +30,8 @@ def make_shell_context():
         Shop=Shop,
         Food=Food,
         Order=Order,
-        Command=Command)
+        Command=Command,
+        l=Command.last())
 
 
 manager.add_command("shell", Shell(make_context=make_shell_context))

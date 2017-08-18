@@ -178,12 +178,12 @@ class Command(db.Model):
         return self
 
         
-    def employees(self):
-        self.orders.filter(Order.employee != None)
+    def employees_orders(self):
+        return self.orders.filter(Order.employee != None)
 
 
-    def extra(self):
-        self.orders.filter(Order.employee == None)
+    def extra_orders(self):
+        return self.orders.filter(Order.employee == None)
 
 
         
@@ -215,11 +215,20 @@ class Command(db.Model):
     
     @staticmethod
     def last():
+        '''return the last command'''
         return Command.query.order_by(Command.id.desc()).first()
 
 
     
 class Order(db.Model):
+    GROUP_BY_FOOD = 'food'
+    GROUP_BY_COMMAND = 'command'
+    GROUP_BY_EMPLOYEE = 'employee'
+    GROUP_BY_FOOD_ID = 'food_id'
+    GROUP_BY_COMMAND_ID = 'command_id'
+    GROUP_BY_EMPLOYEE_ID = 'employee_id'
+    
+    
     __tablename__ = 'order'
     id = db.Column(db.Integer, primary_key=True)
     food_id = db.Column(db.ForeignKey('food.id'))
@@ -228,3 +237,23 @@ class Order(db.Model):
     food = db.relationship('Food', back_populates='orders')
     command = db.relationship('Command', back_populates='orders')
     employee = db.relationship('Employee', back_populates='orders')
+
+
+    @staticmethod
+    def groupby(orders, key=GROUP_BY_FOOD):
+        '''return List of orders formated by group
+        Paramaters
+        ----------
+        orders: List Order
+        key: str -- must be an attribute of the object
+        Returns
+        ------
+        List List<Order> -- return a list of list groupby object attribute
+        '''
+        return [list(group) for _, group in groupby(orders, lambda order: getattr(order, key))]
+        
+
+        
+        
+
+        

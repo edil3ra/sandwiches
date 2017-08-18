@@ -161,6 +161,11 @@ The password will be hashed, the address mail must be unique because it used to 
 	 
 *** main 
 **** views
+	 + the main bluprint display let the employee order food for the current command
+	 + The employee can order multiple foods, he can also order the same foods
+	 + The employee can see what food he is ordering for the current command
+	 + The employee can delete, or modify the food that he currently ordering
+	 + The employee total price of his current orders
 	 + main (a list of items filtered by the current command)
 	   + A list of items will be presented to the current user
 	   + An add button to add the item
@@ -216,7 +221,7 @@ The password will be hashed, the address mail must be unique because it used to 
 	+ [X] Flask-Login
 	+ [ ] Flask-mail
 
-** Models [8/8]
+** Models [9/9]
    + [X] create the User model
    + [X] create the Employee model
    + [X] create the Shop model
@@ -226,7 +231,8 @@ The password will be hashed, the address mail must be unique because it used to 
    + [X] refactor the command to change the status
    + [X] Add anonymous user
    + [X] Tell to the login_manager instance how to find user
-** Fake [15/15]
+   + [ ] Add static method to the helper to format orders 
+** Fake [16/16]
    + [X] create default admin
    + [X] create a  default shop for te admin
    + [X] create a default command for the admin
@@ -242,7 +248,7 @@ The password will be hashed, the address mail must be unique because it used to 
    + [X] Refactor the create foods to create foods by shop
    + [X] Create a default list for food items to make it more realist
    + [X] Change the names of the foods with the foods list
-   + [] Change the create_orders_last_command to randomize_command, so it won't create new order, it will update them
+   + [X] Change the create_orders_last_command to randomize_command, so it won't create new order, it will update them
 ** Blueprint setting [3/4]
    + [X] Create the main blueprint
    + [X] Create the auth blueprint
@@ -263,8 +269,8 @@ The password will be hashed, the address mail must be unique because it used to 
 
 ** manager [1/1]
    + [X] Make the default template
-
-
+   + [ ] display extra command by count order, either by aggregation or group_by in python 
+	 
 
 
 ** Config setting [4/4]
