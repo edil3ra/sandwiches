@@ -221,7 +221,7 @@ The password will be hashed, the address mail must be unique because it used to 
 	+ [X] Flask-Login
 	+ [ ] Flask-mail
 
-** Models [9/9]
+** Models [10/10]
    + [X] create the User model
    + [X] create the Employee model
    + [X] create the Shop model
@@ -231,7 +231,8 @@ The password will be hashed, the address mail must be unique because it used to 
    + [X] refactor the command to change the status
    + [X] Add anonymous user
    + [X] Tell to the login_manager instance how to find user
-   + [ ] Add static method to the helper to format orders 
+   + [X] Add static method to the helper to format orders 
+   + 
 ** Fake [16/16]
    + [X] create default admin
    + [X] create a  default shop for te admin
@@ -249,6 +250,8 @@ The password will be hashed, the address mail must be unique because it used to 
    + [X] Create a default list for food items to make it more realist
    + [X] Change the names of the foods with the foods list
    + [X] Change the create_orders_last_command to randomize_command, so it won't create new order, it will update them
+   + [X] Make the create_orders and create_orders_last_command more realist as employers can have multiple commands
+   + [X] Fix bug in create_orders and create_orders_last_command
 ** Blueprint setting [3/4]
    + [X] Create the main blueprint
    + [X] Create the auth blueprint

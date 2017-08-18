@@ -10,7 +10,6 @@ from app.models import User, Employee, Shop, Food, Command, Order
 from app import create_app, db
 import fixtures_data
 
-
 MIN_SALARY = 1300
 MAX_SALARY = 3000
 
@@ -22,6 +21,9 @@ RATE_EXTRA_ORDER = 0.1
 
 RATE_EXTRA_COMMANDED_MIN = 1
 RATE_EXTRA_COMMANDED_MAX = 4
+
+RATE_EMPLOYEE_COMMANDED_MIN = 1
+RATE_EMPLOYEE_COMMANDED_MAX = 4
 
 MINUTE_MIN_SENDED = 1 * 5 * 60
 MINUTE_MAX_SENDED = 30 * 24 * 60
@@ -133,25 +135,35 @@ def create_foods(count_by_shop=20, rate_extra=RATE_EXTRA_CREATION):
     foods = []
     for shop in shops:
         foods_choice = random.sample(fixtures_data.foods, count_by_shop)
-        foods_extra_choice = random.sample(fixtures_data.foods_extra, count_by_shop_extra)
-        price_choice = [round((random.random() * MAX_PRICE) + MAX_PRICE, 2)
-                        for _ in range(count_by_shop)]
-        price_extra_choice = [round((random.random() * MAX_PRICE) + MAX_PRICE, 2)
-                              for _ in range(count_by_shop_extra)]
-        
+        foods_extra_choice = random.sample(fixtures_data.foods_extra,
+                                           count_by_shop_extra)
+        price_choice = [
+            round((random.random() * MAX_PRICE) + MAX_PRICE, 2)
+            for _ in range(count_by_shop)
+        ]
+        price_extra_choice = [
+            round((random.random() * MAX_PRICE) + MAX_PRICE, 2)
+            for _ in range(count_by_shop_extra)
+        ]
+
         for i in range(count_by_shop):
-            food = Food(name=foods_choice[i], price=price_choice[i], extra=False,shop=shop)
+            food = Food(
+                name=foods_choice[i],
+                price=price_choice[i],
+                extra=False,
+                shop=shop)
             foods.append(food)
         for i in range(count_by_shop_extra):
-            food = Food(name=foods_extra_choice[i], price=price_extra_choice[i], extra=True, shop=shop)
+            food = Food(
+                name=foods_extra_choice[i],
+                price=price_extra_choice[i],
+                extra=True,
+                shop=shop)
             foods.append(food)
-
 
     db.session.add_all(foods)
     db.session.commit()
-            
 
-        
 
 def create_commands(status=Command.DELIVERED, count=5):
     if status not in [Command.DELIVERED, Command.NEVER_DELIVERED]:
@@ -194,6 +206,7 @@ def create_orders():
     commands = Command.query.all()
     employees = Employee.query.all()
     orders = []
+
     for command in commands:
         foods = command.shop.foods.filter_by(extra=False).all()
         foods_extra = command.shop.foods.filter_by(extra=True).all()
@@ -201,14 +214,22 @@ def create_orders():
             0, (math.floor(Employee.query.count() * RATE_EXTRA_ORDER) + 1))
 
         for employee in employees:
-            order = Order(
-                food=random.choice(foods), command=command, employee=employee)
-            orders.append(order)
+            employee_count = random.randint(RATE_EMPLOYEE_COMMANDED_MIN,
+                                            RATE_EMPLOYEE_COMMANDED_MAX)
+            orders += [
+                Order(
+                    food=random.choice(foods),
+                    command=command,
+                    employee=employee) for _ in range(employee_count)
+            ]
 
-        for _ in range(extra_count):
-            for _ in range(random.randint(RATE_EXTRA_COMMANDED_MIN, RATE_EXTRA_COMMANDED_MAX)):
-                order = Order(food=random.choice(foods_extra), command=command)
-                orders.append(order)
+        for food_extra in foods_extra:
+            extra_count = random.randint(RATE_EXTRA_COMMANDED_MIN,
+                                         RATE_EXTRA_COMMANDED_MAX)
+            orders += [
+                Order(food=food_extra, command=command)
+                for _ in range(extra_count)
+            ]
 
         db.session.add_all(orders)
         db.session.commit()
@@ -219,27 +240,27 @@ def randomize_last_command_orders():
     command = Command.last().empty_orders()
     employees = Employee.query.all()
     orders = []
-    
-    
+
     foods = command.shop.foods.filter_by(extra=False).all()
     foods_extra = command.shop.foods.filter_by(extra=True).all()
     extra_count = random.randint(
         0, (math.floor(Employee.query.count() * RATE_EXTRA_ORDER) + 1))
 
     for employee in employees:
-        order = Order(
-            food=random.choice(foods), command=command, employee=employee)
-        orders.append(order)
+        employee_count = random.randint(RATE_EMPLOYEE_COMMANDED_MIN,
+                                        RATE_EMPLOYEE_COMMANDED_MAX)
+        orders += [
+            Order(
+                food=random.choice(foods), command=command, employee=employee)
+            for _ in range(employee_count)
+        ]
 
-            
     for food_extra in foods_extra:
-        extra_count = random.randint(RATE_EXTRA_COMMANDED_MIN, RATE_EXTRA_COMMANDED_MAX)
-        orders += [Order(food=food_extra, command=command) for _ in range(extra_count)]
+        extra_count = random.randint(RATE_EXTRA_COMMANDED_MIN,
+                                     RATE_EXTRA_COMMANDED_MAX)
+        orders += [
+            Order(food=food_extra, command=command) for _ in range(extra_count)
+        ]
 
-            
-            
     db.session.add_all(orders)
     db.session.commit()
-
-
-    

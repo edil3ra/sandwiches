@@ -45,9 +45,9 @@ def handle_waiting(command):
 
     employee_orders_formatted = [{
         'employee': orders[0].employee.fullname,
-        'food': orders[0].food.name,
+        'food': Food.counter_foods([order.food for order in orders]),
         'price': Order.sum_price(orders)
-    } for orders in Order.groupby(employee_orders, Order.GROUP_BY_FOOD)]
+    } for orders in Order.groupby(employee_orders, Order.GROUP_BY_EMPLOYEE)]
 
     return render_template(
         'command_waiting.html',

@@ -1,5 +1,6 @@
 from datetime import datetime
 from itertools import groupby
+from collections import Counter
 
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin, AnonymousUserMixin
@@ -106,6 +107,19 @@ class Food(db.Model):
     shop = db.relationship('Shop', back_populates='foods')
     orders = db.relationship('Order', back_populates='food', lazy='dynamic')
 
+    @staticmethod
+    def counter_foods(foods):
+        '''return a dict of food name count
+        Paramaters
+        ----------
+        orders: List foods
+        Returns
+        ------
+        Dict -- return dict name count
+        '''
+        
+        return dict(Counter(food.name for food in foods))
+    
 
 class Command(db.Model):
     '''
