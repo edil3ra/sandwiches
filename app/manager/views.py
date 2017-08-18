@@ -25,7 +25,7 @@ def index():
 
 def handle_preparing(command):
     extra_foods = command.shop.foods.filter_by(extra=True)
-    extra_orders = command.extra_orders()
+    extra_orders = command.extra_orders().join(Food).order_by(Food.name)
     employee_orders = command.employees_orders()
 
     return render_template(
@@ -37,8 +37,8 @@ def handle_preparing(command):
 
 
 def handle_waiting(command):
-    extra_orders = command.extra_orders()
-    employee_orders = command.employees_orders()
+    extra_orders = command.extra_orders().join(Food).order_by(Food.name)
+    employee_orders = command.employees_orders().join(Employee).order_by(Employee.firstname)
 
     extra_orders_formatted = [{
         'food': orders[0].food.name,
