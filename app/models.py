@@ -115,10 +115,22 @@ class Food(db.Model):
         orders: List foods
         Returns
         ------
-        Dict -- return dict name count
+        dict -- return dict name count
         '''
-        
         return dict(Counter(food.name for food in foods))
+
+    @staticmethod
+    def format_counter_foods(foods):
+        '''format the foods counter method
+        Paramaters
+        ----------
+        orders: Dict
+        Returns
+        ------
+        str
+        '''
+        return ', '.join(["{}({})".format(key, item) for key, item in foods.items()])
+        
     
 
 class Command(db.Model):
