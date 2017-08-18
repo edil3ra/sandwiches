@@ -7,14 +7,14 @@
 		<a href="{{ url_for('.delivered') }}" class="btn blue">Delivered</a>
 		<a href="{{ url_for('.never_delivered') }}" class="btn green">Never Delivered</a>
 	</div>
-</div
+</div>
 <div class="row">
 	<div class="col l12">
-		<h2>Details about the current command</h2>
+		<h3>Details about the current command</h3>
 		<ul class="collection">
-			<li class="collection-item red lighten-1">Employee: {{ command.sum_price_employee() }}$</li>
-			<li class="collection-item red lighten-1">Extra: {{ command.sum_price_extra() }}$</li>
-			<li class="collection-item red lighten-1">Total: {{ command.sum_price_total() }}$</li>
+			<li class="collection-item red lighten-1">Employee: {{ command.sum_price_employee() }}€</li>
+			<li class="collection-item red lighten-1">Extra: {{ command.sum_price_extra() }}€</li>
+			<li class="collection-item red lighten-1">Total: {{ command.sum_price_total() }}€</li>
 		</ul>
 		<h3>Order by employee</h3>
 
@@ -27,9 +27,6 @@
 		
 	</div>
 </div>
-
-
-
 
 
 {% endblock %}

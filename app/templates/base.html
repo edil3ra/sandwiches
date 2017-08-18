@@ -19,21 +19,21 @@
 		{% block header %}
 		<header>
 			{% if current_user.is_authenticated %}
-			<ul id="user-dropdown" class="dropdown-content">
+			<ul id="user-dropdown" class="dropdown-content red lighten-1">
 				{% if current_user.is_employee %}
-				<li><a href="{{url_for('main.index')}}">Employee</a></li>
+				<li> <a class="white-text" href="{{url_for('main.index')}}">Employee</a></li>
 				{% endif %}
 				{% if current_user.is_manager %}
-				<li><a href="{{url_for('manager.index')}}">Manager</a></li>
+				<li><a class="white-text" href="{{url_for('manager.index')}}">Manager</a></li>
 				{% endif %}
 				{% if current_user.is_admin %}
-				<li><a href="#">Admin</a></li>
+				<li><a class="white-text" href="#">Admin</a></li>
 				{% endif %}
 				<li class="divider"></li>
-				<li><a href="{{url_for('auth.logout')}}">Logout</a></li>
+				<li><a class="white-text " href="{{url_for('auth.logout')}}">Logout</a></li>
 			</ul>
 			{% endif %}
-			<nav class="top-nav">
+			<nav class="top-nav orange">
 				<div class="container">
 					<div class="nav-wrapper">
 						<a href="{{ url_for('main.index') }}" class="page-title">Intersentia</a>
@@ -47,7 +47,7 @@
 					</div>
 				</div>
 			</nav>
-			<ul class="side-nav fixed" style="transform: none">	
+			<ul class="side-nav fixed red lighten-1" style="transform: none">	
 				{% block side_nav %}
 
 				{% endblock %}

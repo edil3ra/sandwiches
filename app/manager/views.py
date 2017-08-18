@@ -1,12 +1,18 @@
 from collections import OrderedDict
 
-from flask import render_template, redirect, flash, url_for, request, current_app
+from flask import render_template, redirect, flash, url_for, request, current_app, g
 from flask_login import current_user
 
 from ..models import Shop, Food, Command, Employee, Order
 from .forms import ShopForm, FoodForm, CommandForm
 from . import manager
 from .. import db
+
+
+@manager.before_request
+def active_sidenav():
+    url = request.url_rule.rule.split('/')[2]
+    g.current_nav_name = url if url  else 'default'
 
 
 @manager.route('/', methods=['GET', 'POST'])
@@ -38,26 +44,24 @@ def handle_preparing(command):
 
 def handle_waiting(command):
     extra_orders = command.extra_orders().join(Food).order_by(Food.name)
-    employee_orders = command.employees_orders().join(Employee).order_by(Employee.firstname)
+    employee_orders = command.employees_orders().join(Employee).order_by(
+        Employee.firstname)
 
     extra_orders_formatted = [{
         'food': orders[0].food.name,
         'price': Order.sum_price(orders)
     } for orders in Order.groupby(extra_orders, Order.GROUP_BY_FOOD)]
 
-
-    # OrderDict is not orderd if sended by names paramaters in python2
+    # OrderDict is not orderd if sended by as kwargs arguments in python2
     extra_orders_formatted = [
         OrderedDict(
-            zip(["food", "price"], [
-                orders[0].food.name,
-                Order.sum_price(orders)
-            ]))
+            zip(["food", "price"],
+                [orders[0].food.name,
+                 Order.sum_price(orders)]))
         for orders in Order.groupby(extra_orders, Order.GROUP_BY_FOOD)
     ]
-    
-    
-    # OrderDict is not orderd if sendeb by names paramaters in python2
+
+    # OrderDict is not orderd if sendeb by as kwargs arguments in python2
     employee_orders_formatted = [
         OrderedDict(
             zip(["employee", "food", "price"], [
@@ -68,7 +72,6 @@ def handle_waiting(command):
             ]))
         for orders in Order.groupby(employee_orders, Order.GROUP_BY_EMPLOYEE)
     ]
-
 
     return render_template(
         'command_waiting.html',

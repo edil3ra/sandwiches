@@ -27,18 +27,22 @@ input, label{
 
 }
 
- .row .input-field input {
-   border-bottom: 1px solid #eee !important;
-   font-size: 1.7em !important;
- }
+.row .input-field input {
+	border-bottom: 1px solid #eee !important;
+	font-size: 1.7em !important;
+}
 
  .row .input-field input:focus {
-   border-bottom: 1px solid #fff !important;
-   box-shadow: 0 1px 0 0 #fff !important;
+	 border-bottom: 1px solid #fff !important;
+	 box-shadow: 0 1px 0 0 #fff !important;
  }
 
 
 table.highlight > tbody > tr:hover {
-  background-color: #ffa726 !important;
+	background-color: #ffa726 !important;
 }
 
+.dropdown-content li>a:hover {
+	color: white !important;
+	background-color: #E53935 !important;
+}
