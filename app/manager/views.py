@@ -1,3 +1,5 @@
+from collections import OrderedDict
+
 from flask import render_template, redirect, flash, url_for, request, current_app
 from flask_login import current_user
 
@@ -43,15 +45,30 @@ def handle_waiting(command):
         'price': Order.sum_price(orders)
     } for orders in Order.groupby(extra_orders, Order.GROUP_BY_FOOD)]
 
-    employee_orders_formatted = [{
-        'employee':
-        orders[0].employee.fullname,
-        'food':
-        Food.format_counter_foods(
-            Food.counter_foods([order.food for order in orders])),
-        'price':
-        Order.sum_price(orders)
-    } for orders in Order.groupby(employee_orders, Order.GROUP_BY_EMPLOYEE)]
+
+    # OrderDict is not orderd if sended by names paramaters in python2
+    extra_orders_formatted = [
+        OrderedDict(
+            zip(["food", "price"], [
+                orders[0].food.name,
+                Order.sum_price(orders)
+            ]))
+        for orders in Order.groupby(extra_orders, Order.GROUP_BY_FOOD)
+    ]
+    
+    
+    # OrderDict is not orderd if sendeb by names paramaters in python2
+    employee_orders_formatted = [
+        OrderedDict(
+            zip(["employee", "food", "price"], [
+                orders[0].employee.fullname,
+                Food.format_counter_foods(
+                    Food.counter_foods([order.food for order in orders])),
+                Order.sum_price(orders),
+            ]))
+        for orders in Order.groupby(employee_orders, Order.GROUP_BY_EMPLOYEE)
+    ]
+
 
     return render_template(
         'command_waiting.html',

@@ -40,6 +40,40 @@
 
 
 
+{% macro table(header, body, footer=None, className="bordered") %}
+<table class="{{className}} highlight">
+	<thead>
+		<tr>
+			{% for name in header %}
+			<th>{{name | title}}</th>
+			{% endfor %}
+		</tr>
+	</thead>
+	<tbody>
+		{% for row in body %}
+		<tr>
+			{% for column in row.values() %}
+			<td>{{ column }}</td>
+			{% endfor %}
+		</tr>
+		{% endfor %}
+	</tbody>
+	{% if fotter %}
+	<tfoot>
+		{% for row in footer %}
+		<tr>
+			{% for column in row %}
+			<td>{{ column }}</td>
+			{% endfor %}
+		</tr>
+		{% endfor %}
+	</tfoot>
+	{% endif %}
+</table>
+	
+	
+{% endmacro %}
+
 
 {% macro back_button(url, size=2, text='Back', color='blue') %}
 <a style="margin-left: 10px;" href="{{url}}" class="col s{{size}} waves-effect waves-light btn {{color}}"> {{text}} </a>

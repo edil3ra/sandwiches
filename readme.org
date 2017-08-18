@@ -231,8 +231,8 @@ The password will be hashed, the address mail must be unique because it used to 
    + [X] refactor the command to change the status
    + [X] Add anonymous user
    + [X] Tell to the login_manager instance how to find user
-   + [X] Add static method to the helper to format orders 
-   + 
+   + [X] Add static method to the helper Command to format orders 
+   + [X] Add static method to the helper Food to count and format foods
 ** Fake [16/16]
    + [X] create default admin
    + [X] create a  default shop for te admin

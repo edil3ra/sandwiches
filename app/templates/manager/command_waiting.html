@@ -17,43 +17,14 @@
 			<li class="collection-item red lighten-1">Total: {{ command.sum_price_total() }}$</li>
 		</ul>
 		<h3>Order by employee</h3>
-		<table class="bordered">
-			<thead>
-				<tr>
-					<th>Employee</th>
-					<th>Food</th>
-					<th>Price</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for order in employee_orders %}
-				<tr>
-					<td>{{ order.employee }}</td>
-					<td>{{ order.food }}</td>
-					<td>{{ order.price }}</td>
-				</tr>
-				{% endfor %}
-			</tbody>
-		</table>
+
+
+		{{ macros.table(header=employee_orders[0].keys(), body=employee_orders) }}
+		
 		<h3>Extra</h3>
-		<table class="bordered">
-			<thead>
-				<tr>
-					<th>Food</th>
-					<th>Price</th>
-				</tr>
-			</thead>
-			<tbody>
-
-				{% for order in extra_orders %}
-
-				<tr>
-					<td>{{ order.food }}</td>
-					<td>{{ order.price }}</td>
-				</tr>
-				{% endfor %}
-			</tbody>
-		</table>
+		
+		{{ macros.table(header=extra_orders[0].keys(), body=extra_orders) }}
+		
 	</div>
 </div>
 
