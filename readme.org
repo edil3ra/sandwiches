@@ -292,12 +292,42 @@ The password will be hashed, the address mail must be unique because it used to 
    + [X] Create the production config
 
 * Utils
-#+BEGIN_SRC shell 
+** Files
+#+BEGIN_SRC shell :results silent
 find . -name '*.pyc' -delete
 #+END_SRC
 
-#+RESULTS:
+** Commands
+#+BEGIN_SRC shell :results silent
+python manage.py reset_db
+#+END_SRC
 
+#+BEGIN_SRC shell :results silent
+python manage.py fill_db
+#+END_SRC
+
+#+BEGIN_SRC shell :results silent
+python manage.py command_prepare_auto
+#+END_SRC
+
+#+BEGIN_SRC shell :results silent
+python manage.py random_orders
+#+END_SRC
+
+#+BEGIN_SRC shell :results silent
+python manage.py command_wait
+#+END_SRC
+
+#+BEGIN_SRC shell :results silent
+python manage.py command_delivered
+#+END_SRC
+
+#+BEGIN_SRC shell :results silent
+python manage.py command_never_delivered
+#+END_SRC
+
+
+** Others
 #+BEGIN_SRC shell :results scalar
 python manage.py routes
 #+END_SRC
@@ -316,19 +346,3 @@ manager.index                                      HEAD,OPTIONS,GET     /manager
 static                                             HEAD,OPTIONS,GET     /static/[filename]
 #+end_example
 
-
-#+BEGIN_SRC shell :results scalar
-python manage.py random_orders
-#+END_SRC
-
-#+RESULTS:
-
-
-#+BEGIN_SRC shell :results scalar
-python manage.py command_wait
-#+END_SRC
-
-
-#+BEGIN_SRC shell :results scalar
-python manage.py command_delivered
-#+END_SRC

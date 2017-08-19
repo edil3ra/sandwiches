@@ -166,6 +166,13 @@ def command_prepare():
     shop_id = input('shop id: ')
     user_id = input('user id:')
     db.session.add(Command(delivery_address=delivery_address, shop_id=shop_id, user_id=user_id))
+
+
+@manager.command
+def command_prepare_auto():
+    '''Register a command with user_id = 1 and shop_id = 1'''
+    delivery_address = app.config['COMPANY_ADDRESS']
+    db.session.add(Command(delivery_address=delivery_address, shop_id=1, user_id=1))
     
     
 @manager.command

@@ -42,6 +42,6 @@ foods = [
 ]
 
 foods_extra = [
-    'Bread', 'Salad', 'Pain aux chocolats', 'Croissant', 'Sauce soga',
-    'Sauce tomate', 'coffee', 'ice cream'
+    u'Bread', u'Salad', u'Pain aux chocolats', u'Croissant', u'Sauce soga',
+    u'Sauce tomate', u'coffee', u'ice cream'
 ]
