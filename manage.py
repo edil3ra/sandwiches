@@ -194,7 +194,7 @@ def routes():
         output.append(line)
 
     for line in sorted(output):
-        print line
+        print(line)
     
 
 if __name__ == '__main__':

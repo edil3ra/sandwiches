@@ -41,11 +41,15 @@
 			<nav class="top-nav orange">
 				<div class="container">
 					<div class="nav-wrapper">
-						<a href="{{ url_for('main.index') }}" class="page-title">Intersentia</a>
+						<h1 class="hide"> Intersentia </h1>
+						<a class="page-title" href="{{ url_for('main.index') }}">
+							<img alt="Internsentia" src="{{ url_for('static', filename='logo.png')}}"/>
+						</a>
+							
 						{% if current_user.is_authenticated %}
 						<ul class="right hide-on-med-and-down">
 							<li>
-								<a class="dropdown-button" href="#!" data-activates="user-dropdown"><i class="large material-icons">account_circle</i></a>
+								<a class="dropdown-button orange darken-1" href="#!" data-activates="user-dropdown"><i class="large material-icons">account_circle</i></a>
 							</li>
 							{% endif %}
 						</ul>

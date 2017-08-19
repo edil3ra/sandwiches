@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, g
+
 from config import config
 
 from flask_debugtoolbar import DebugToolbarExtension
@@ -36,7 +37,8 @@ def create_app(config_name):
     def active_dropdownnav():
         url = request.url_rule.rule.split('/')[1]
         g.dopdownnav = url if url  else 'default'
-    
+        g.app_name = app.config['APP_NAME']
+        
     @app.errorhandler(403)
     def forbidden(e):
         return render_template('errors/403.html'), 403
