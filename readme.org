@@ -346,3 +346,6 @@ manager.index                                      HEAD,OPTIONS,GET     /manager
 static                                             HEAD,OPTIONS,GET     /static/[filename]
 #+end_example
 
+
+
+Command.query.filter(Command.status.in_([Command.DELIVERED, Command.NEVER_DELIVERED]), recieved=)

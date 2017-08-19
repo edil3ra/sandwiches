@@ -83,7 +83,7 @@ class Employee(db.Model):
     @fullname.setter
     def fullname(self, value):
         raise AttributeError('fullname is not settable')
-    
+
 
 class Shop(db.Model):
     __tablename__ = 'shop'
@@ -129,9 +129,9 @@ class Food(db.Model):
         ------
         str
         '''
-        return ', '.join(["{}({})".format(key, item) for key, item in foods.items()])
-        
-    
+        return ', '.join(
+            ["{}({})".format(key, item) for key, item in foods.items()])
+
 
 class Command(db.Model):
     '''
@@ -183,18 +183,19 @@ class Command(db.Model):
 
     def wait(self):
         self.status = Command.WAITING
-        self.sended = datetime.utcnow()
+        self.sended = datetime.now()
         db.session.add(self)
         return self
 
     def delivered(self):
         self.status = Command.DELIVERED
-        self.recieved = datetime.utcnow()
+        self.recieved = datetime.now()
         db.session.add(self)
         return self
 
     def never_delivered(self):
         self.status = Command.NEVER_DELIVERED
+        self.recieved = datetime.now()
         db.session.add(self)
         return self
 
@@ -241,6 +242,13 @@ class Command(db.Model):
     def last():
         '''return the last command'''
         return Command.query.order_by(Command.id.desc()).first()
+
+    def get_by_date(start, end):
+        return Command.query.filter(Command.status.in_(
+            [Command.DELIVERED, Command.NEVER_DELIVERED])).filter(
+                Command.recieved + timedelta(days=1) > datetime.now())
+
+    
 
 
 class Order(db.Model):

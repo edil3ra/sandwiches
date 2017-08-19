@@ -70,7 +70,7 @@ def create_default_command():
     shop = Shop.query.filter_by(email=config['DEFAULT_SHOP_EMAIL']).first()
     command = Command(
         delivery_address=config['COMPANY_ADDRESS'],
-        sended=datetime.utcnow(),
+        sended=datetime.now(),
         status=Command.PREPARING,
         shop=shop,
         user=admin)
@@ -173,15 +173,12 @@ def create_commands(status=Command.DELIVERED, count=5):
     managers = User.query.filter_by(is_manager=True).all()
 
     sended_minute = random.randint(MINUTE_MIN_SENDED, MINUTE_MAX_SENDED)
-    recieved_minute = random.randint(MINUTE_MIN_SENDED, MINUTE_MAX_SENDED)
+    recieved_minute = random.randint(MINUTE_MIN_RECIEVED, MINUTE_MAX_RECIEVED)
 
     for _ in range(count):
-        if status == Command.DELIVERED:
-            sended = datetime.utcnow() - timedelta(minutes=sended_minute)
-            recieved = sended + timedelta(minutes=recieved_minute)
-        else:
-            sended = datetime.utcnow() - timedelta(minutes=sended_minute)
-            recieved = None
+        sended = datetime.now() - timedelta(minutes=sended_minute)
+        recieved = sended + timedelta(minutes=recieved_minute)
+
 
         delivery_address = config['COMPANY_ADDRESS']
         shop = random.choice(shops)

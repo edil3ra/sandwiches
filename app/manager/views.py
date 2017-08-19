@@ -8,7 +8,7 @@ from ..models import Shop, Food, Command, Employee, Order
 from .forms import ShopForm, FoodForm, CommandForm
 from . import manager
 from .. import db
-
+from datetime import datetime, timedelta
 
 @manager.before_request
 @login_required
@@ -20,10 +20,11 @@ def protect_manager_blueprint():
     else:
         pass
 
+
 @manager.before_request
 def active_sidenav():
     url = request.url_rule.rule.split('/')[2]
-    g.sidenav = url if url  else 'default'
+    g.sidenav = url if url else 'default'
 
 
 @manager.route('/', methods=['GET', 'POST'])
@@ -31,7 +32,9 @@ def index():
     command = Command.last()
 
     if command is None:
-        flash('This is you first command, you must have at least one shop registred before starting new command')
+        flash(
+            'This is you first command, you  have to at least register one shop before making command'
+        )
         return handle_done()
 
     if command.is_preparing:
@@ -43,27 +46,22 @@ def index():
     elif command.is_done:
         return handle_done()
 
-        
-
 
 def handle_preparing(command):
     extra_foods = command.shop.foods.filter_by(extra=True).order_by(Food.name)
-    food_count_dict = Food.counter_foods([order.food for order in command.extra_orders()])
+    food_count_dict = Food.counter_foods(
+        [order.food for order in command.extra_orders()])
     employee_orders = command.employees_orders().join(Employee).order_by(
         Employee.firstname)
-
 
     extra_foods_formatted = [
         OrderedDict(
             zip(["id", "name", "price", "count"], [
-                food.id,
-                food.name,
-                food.price,
-                food_count_dict.get(food.name) or 0 
-            ]))
-        for food in extra_foods
+                food.id, food.name, food.price,
+                food_count_dict.get(food.name) or 0
+            ])) for food in extra_foods
     ]
-    
+
     employee_orders_formatted = [
         OrderedDict(
             zip(["employee", "food", "price"], [
@@ -74,7 +72,6 @@ def handle_preparing(command):
             ]))
         for orders in Order.groupby(employee_orders, Order.GROUP_BY_EMPLOYEE)
     ]
-
 
     return render_template(
         'command_preparing.html',
@@ -138,9 +135,6 @@ def handle_done():
     return render_template('command_done.html', form=form)
 
 
-    
-
-
 @manager.route('/increment_food/<int:food_id>', methods=['GET'])
 def increment_food(food_id):
     command = Command.last()
@@ -177,7 +171,7 @@ def decrement_food(food_id):
 @manager.route('/wait')
 def wait():
     Command.last().wait()
-    flash('you have validate the current command' )
+    flash('you have validate the current command')
     return redirect(url_for('.index'))
 
 
@@ -192,21 +186,21 @@ def send_mail_command():
 def cancel():
     '''should send an email to all employee that registred a command'''
     Command.last().cancel()
-    flash('you have cancel the current command, please inform your employees' )
+    flash('you have cancel the current command, please inform your employees')
     return redirect(url_for('.index'))
 
 
 @manager.route('/delivered')
 def delivered():
     Command.last().delivered()
-    flash('The command correctly delivered' )
+    flash('The command correctly delivered')
     return redirect(url_for('.index'))
 
 
 @manager.route('/never_delivered')
 def never_delivered():
     Command.last().never_delivered()
-    flash('The command was never delivered' )
+    flash('The command was never delivered')
     return redirect(url_for('.index'))
 
 
@@ -340,7 +334,25 @@ def food_delete(pk):
     return redirect(url_for('.shop', pk=food.shop_id))
 
 
+@manager.route('/users')
+def users():
+    start_date = datetime.now() - timedelta(days=10)
+    end_date = datetime.now()
+    
+    orders = db.session.query(Order, db.func.sum(Food.price))\
+    .join(Order.command)\
+    .join(Order.employee)\
+    .join(Order.food)\
+    .filter(Order.employee != None)\
+    .filter(Command.status.in_([Command.DELIVERED, Command.NEVER_DELIVERED]))\
+    .filter(start_date <= Command.recieved)\
+    .group_by(Order.employee_id)
+    
+    users = [{'name': order.employee.fullname, 'salary': order.employee.salary, 'price': price} for order, price in orders.all()]
+    
+    return render_template('users.html', users=users)
 
-@manager.route('/details')
-def details():
-    return render_template('details.html')
+
+@manager.route('/history')
+def history():
+    return render_template('history.html')

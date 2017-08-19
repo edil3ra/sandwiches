@@ -80,7 +80,7 @@ def register_employee():
             return redirect(url_for('manager.index'))
         else:
             flash('You are registerd as an employe with mail:{}'.format(user.email))
-            return redirect(url_for('employee.index'))
+            return redirect(url_for('main.index'))
             
 
     return render_template('register_employee.html', form=form)
