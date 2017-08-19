@@ -3,7 +3,7 @@
 {% block content_body %}
 <h2>Add food to {{shop.name}}</h2>
 
-<form method="post" action="{{url_for('.food_create', pk_shop=shop.id)}}">
+<form method="post" action="{{url_for('.food_create', pk=shop.id)}}">
 	{{ form.csrf_token() }}
 	<div class="row">
 		{{ macros.input_widget(form.name) }}

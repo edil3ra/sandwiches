@@ -178,7 +178,7 @@ class Command(db.Model):
         return self.is_delivered or self.is_never_delivered
 
     def cancel(self):
-        db.session.delete()
+        db.session.delete(self)
         return self
 
     def wait(self):

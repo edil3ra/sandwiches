@@ -30,6 +30,10 @@ def active_sidenav():
 def index():
     command = Command.last()
 
+    if command is None:
+        flash('This is you first command, you must have at least one shop registred before starting new command')
+        return handle_done()
+
     if command.is_preparing:
         return handle_preparing(command)
 
@@ -37,7 +41,9 @@ def index():
         return handle_waiting(command)
 
     elif command.is_done:
-        return handle_done(command)
+        return handle_done()
+
+        
 
 
 def handle_preparing(command):
@@ -115,21 +121,24 @@ def handle_waiting(command):
         extra_orders=extra_orders_formatted)
 
 
-def handle_done(command):
+def handle_done():
     form = CommandForm()
     if not form.delivery_address.data:
         form.delivery_address.data = current_app.config['COMPANY_ADDRESS']
 
     if form.validate_on_submit():
         flash('the command was succefully added')
-        command = Command(
+        new_command = Command(
             delivery_address=form.delivery_address.data,
             shop_id=form.shop.data,
             user=current_user)
-        db.session.add(command)
+        db.session.add(new_command)
         db.session.commit()
         return redirect(url_for('.index'))
-    return render_template('command_done.html', form=form, command=command)
+    return render_template('command_done.html', form=form)
+
+
+    
 
 
 @manager.route('/increment_food/<int:food_id>', methods=['GET'])
@@ -168,6 +177,7 @@ def decrement_food(food_id):
 @manager.route('/wait')
 def wait():
     Command.last().wait()
+    flash('you have validate the current command' )
     return redirect(url_for('.index'))
 
 
@@ -180,19 +190,23 @@ def send_mail_command():
 
 @manager.route('/cancel')
 def cancel():
+    '''should send an email to all employee that registred a command'''
     Command.last().cancel()
+    flash('you have cancel the current command, please inform your employees' )
     return redirect(url_for('.index'))
 
 
 @manager.route('/delivered')
 def delivered():
     Command.last().delivered()
+    flash('The command correctly delivered' )
     return redirect(url_for('.index'))
 
 
 @manager.route('/never_delivered')
 def never_delivered():
     Command.last().never_delivered()
+    flash('The command was never delivered' )
     return redirect(url_for('.index'))
 
 
@@ -272,9 +286,9 @@ def shop_create():
     return render_template('shop_create.html', form=form)
 
 
-@manager.route('/food/create_<int:pk_shop>_shop', methods=['GET', 'POST'])
-def food_create(pk_shop):
-    shop = Shop.query.filter_by(id=pk_shop).first()
+@manager.route('/food/create_<int:pk>_shop', methods=['GET', 'POST'])
+def food_create(pk):
+    shop = Shop.query.filter_by(id=pk).first()
     if not shop:
         flash('You try to add food to a non existing shop')
         return redirect(url_for('.shops'))
@@ -288,7 +302,7 @@ def food_create(pk_shop):
             shop=shop)
         db.session.add(food)
         flash('The food: {} has been add to {}'.format(food.name, shop.name))
-        return redirect(url_for('.shop', pk=pk_shop))
+        return redirect(url_for('.shop', pk=pk))
 
     return render_template('food_create.html', form=form, shop=shop)
 

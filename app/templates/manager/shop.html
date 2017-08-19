@@ -23,29 +23,6 @@
 		</form>
 		<h3>Foods</h3>
 
+		{{macros.table_crud(['name', 'price', 'extra'], foods, '.food_create', '.food_update', '.food_delete', shop.id) }}
 
-		<table class="bordered">
-			<thead>
-				<tr>
-					<th>Name</th>
-					<th>price</th>
-					<th>extra</th>
-					<th><a href="{{url_for('.food_create', pk_shop=shop.id)}}" class="btn btn-floating green"><i class="material-icons">add</i></a></th>
-					<th></th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for food in foods %}
-				<tr>
-					<td>{{ food.name }}</td>			
-					<td>{{ food.price | round(2) }}</td>			
-					<td>{{ food.extra }}</td>
-					<td><a href="{{ url_for('.food_update', pk=food.id) }}" class="btn btn-floating orange"><i class="material-icons">edit</i></a></td>
-					<td><a href="{{ url_for('.food_delete', pk=food.id) }}" class="btn btn-floating red"><i class="material-icons">delete</i></a></td>
-				</tr>
-				{% endfor %}
-			</tbody>
-		</table>
-	</div>
-</div>
 {% endblock %}

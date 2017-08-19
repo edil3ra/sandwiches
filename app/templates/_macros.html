@@ -23,9 +23,9 @@
 {% macro select_widget(field, size=12) %}
 <div class="col s{{size}} input-field">
 	<select id="{{field.id}}" name="{{field.name}}">
-		<option disabled selected value="{{field.choices[0][0]}}"> {{field.choices[0][1]}} </option>
+		<option disabled value="{{field.choices[0][0]}}"> {{field.choices[0][1]}} </option>
 		{% for (value, label) in field.choices[1:] %}
-		<option value="{{value}}">{{label}}</option>
+		<option value="{{value}}">{{ label }}</option>
 		{% endfor %}
 	</select>
 </div>
@@ -73,14 +73,19 @@
 {% endmacro %}
 
 
-{% macro table_crud(header, entities, add_url, update_url, delete_url, className="bordered") %}
+{% macro table_crud(header, entities, add_url, update_url, delete_url, create_pk=False, className="bordered") %}
 <table class="{{className}} highlight">
 	<thead>
 		<tr>
 			{% for name in header %}
 			<th>{{name | title}}</th>
 			{% endfor %}
-			<th><a href="{{ url_for(add_url) }}" class="btn btn-floating green"><i class="material-icons">add</i></a></th>
+			{% if create_pk %}
+			<th><a href="{{ url_for(add_url, pk=create_pk) }}" class="btn btn-floating green"><i class="material-icons">add</i></a></th>			
+			{% else %}
+			<th><a href="{{ url_for(add_url) }}" class="btn btn-floating green"><i class="material-icons">add</i></a></th>			
+
+			{% endif %}
 			<th></th>
 		</tr>
 	</thead>

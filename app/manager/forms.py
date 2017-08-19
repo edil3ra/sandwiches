@@ -22,7 +22,7 @@ class FoodForm(FlaskForm):
 
 
 class CommandForm(FlaskForm):
-    delivery_address = StringField('Where do you want to be delivered', validators=[Required(), Length(1, 128)])
+    delivery_address = StringField('Where do you want your command to be delivered', validators=[Required(), Length(1, 128)])
     shop = SelectField('Choose a shop to make your command', coerce=int)
     submit = SubmitField('Command')
 

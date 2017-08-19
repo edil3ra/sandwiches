@@ -117,7 +117,19 @@ def fixtures_creation():
         print('{}/{} -- end {} with {} args  {} '.\
               format(i+1, len(fixtures), message, args, kwargs))
 
+@manager.command
+def reset_db():
+    '''
+    Reset the db
+    '''
+    db.drop_all()
+    db.create_all()
 
+    print('Start default admin creation')
+    fx.create_default_admin()
+    print('End default admin creation')
+    
+        
 @manager.command
 def fill_db():
     '''
