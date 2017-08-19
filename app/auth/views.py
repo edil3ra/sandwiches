@@ -20,7 +20,7 @@ def login():
             if user.is_manager:
                 return redirect(url_for('manager.index'))
             elif user.is_employee:
-                return url_for('main.index')
+                return redirect(url_for('main.index'))
             else:
                 return redirect(request.args.get('next') or url_for('main.index'))
                 
@@ -77,10 +77,12 @@ def register_employee():
         login_user(user, True)
         if form.is_manager.data:
             flash('You are registerd as an employee and manager with mail:{}'.format(user.email))
+            return redirect(url_for('manager.index'))
         else:
             flash('You are registerd as an employe with mail:{}'.format(user.email))
+            return redirect(url_for('employee.index'))
             
-        return redirect(url_for('manager.index'))
+
     return render_template('register_employee.html', form=form)
 
 

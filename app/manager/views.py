@@ -1,13 +1,24 @@
 from collections import OrderedDict
 
 from flask import render_template, redirect, flash, url_for, request, current_app, g
-from flask_login import current_user
+from flask_login import current_user, login_required
 
+from ..decorators import manager_required
 from ..models import Shop, Food, Command, Employee, Order
 from .forms import ShopForm, FoodForm, CommandForm
 from . import manager
 from .. import db
 
+
+@manager.before_request
+@login_required
+@manager_required
+def protect_manager_blueprint():
+    if not current_user.is_manager:
+        flash('You are not a manager')
+        return redirect(url_for('auth.login'))
+    else:
+        pass
 
 @manager.before_request
 def active_sidenav():

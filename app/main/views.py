@@ -6,8 +6,7 @@ from flask_login import current_user, login_required
 @main.before_request
 @login_required
 @employee_required
-def before_request():
-    flash('hello')
+def protect_main_blueprint():
     if not current_user.is_employee:
         flash('user')
         return redirect(url_for('auth.login'))
