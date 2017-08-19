@@ -336,7 +336,7 @@ def food_delete(pk):
 
 @manager.route('/users')
 def users():
-    start_date = datetime.now() - timedelta(days=10)
+    start_date = datetime.now() - timedelta(days=30)
     end_date = datetime.now()
     
     orders = db.session.query(Order, db.func.sum(Food.price))\

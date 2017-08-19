@@ -26,7 +26,7 @@ RATE_EMPLOYEE_COMMANDED_MIN = 1
 RATE_EMPLOYEE_COMMANDED_MAX = 4
 
 MINUTE_MIN_SENDED = 1 * 5 * 60
-MINUTE_MAX_SENDED = 30 * 24 * 60
+MINUTE_MAX_SENDED = 60 * 24 * 60 
 
 MINUTE_MIN_RECIEVED = 1 * 1 * 30
 MINUTE_MAX_RECIEVED = 1 * 4 * 60
@@ -172,10 +172,10 @@ def create_commands(status=Command.DELIVERED, count=5):
     shops = Shop.query.all()
     managers = User.query.filter_by(is_manager=True).all()
 
-    sended_minute = random.randint(MINUTE_MIN_SENDED, MINUTE_MAX_SENDED)
-    recieved_minute = random.randint(MINUTE_MIN_RECIEVED, MINUTE_MAX_RECIEVED)
-
     for _ in range(count):
+        sended_minute = random.randint(MINUTE_MIN_SENDED, MINUTE_MAX_SENDED)
+        recieved_minute = random.randint(MINUTE_MIN_RECIEVED, MINUTE_MAX_RECIEVED)
+        
         sended = datetime.now() - timedelta(minutes=sended_minute)
         recieved = sended + timedelta(minutes=recieved_minute)
 
