@@ -85,20 +85,17 @@
 		</tr>
 	</thead>
 	<tbody>
-		{% for row in entities %}
-		{% for column in entities %}
+		{% for entity in entities %}
 		<tr>
-
 			{% for name in header %}
-			<td>{{ column[name] }}</td>
+			<td>{{ entity[name] }}</td>
 			{% endfor %}
-			<td><a href="{{ url_for(update_url, pk=column['id']) }}" class="btn btn-floating orange"><i class="material-icons">edit</i></a></td>
-			<td><a href="{{ url_for(delete_url, pk=column['id']) }}" class="btn btn-floating red"><i class="material-icons">delete</i></a></td>
+			<td><a href="{{ url_for(update_url, pk=entity['id']) }}" class="btn btn-floating orange"><i class="material-icons">edit</i></a></td>
+			<td><a href="{{ url_for(delete_url, pk=entity['id']) }}" class="btn btn-floating red"><i class="material-icons">delete</i></a></td>
 		</tr>
 
 		{% endfor %}
 
-		{% endfor %}
 	</tbody>
 </table>
 {% endmacro %}
