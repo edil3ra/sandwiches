@@ -13,19 +13,19 @@
   - pip install -r requirements.txt
 
 ** Launch sever in developement
-   python manage.py runserver
+   + python manage.py runserver
 
 ** If you want a scenario with an empty database run
-   python manage.py reset_db 
+   + python manage.py reset_db 
 
 ** If you want a scenario with an filled database run
-   python manage.py fill_db 
+   + python manage.py fill_db 
 
 ** If you want to create orders for the the current command run
-   python manage.py random_orders
+   + python manage.py random_orders
 
 ** if you want to see all possible command run 
-   +python manage.py
+   + python manage.py
 
 
 * Description
