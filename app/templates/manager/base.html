@@ -7,7 +7,7 @@
 {% set navigation_sidebar = [
 ('default', url_for('.index'), 'Command'),
 ('shops', url_for('.shops'), 'Shops'),
-('history', '#', 'History')
+('details', url_for('.details'), 'Details')
 ] -%}
 
 {% for name, url, text in navigation_sidebar %}

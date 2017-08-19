@@ -300,3 +300,9 @@ def food_delete(pk):
     db.session.delete(food)
     flash('The food {} has been removed'.format(food.name))
     return redirect(url_for('.shop', pk=food.shop_id))
+
+
+
+@manager.route('/details')
+def details():
+    return render_template('details.html')
