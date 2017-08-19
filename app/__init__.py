@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, g
 from config import config
 
 from flask_debugtoolbar import DebugToolbarExtension
@@ -32,6 +32,11 @@ def create_app(config_name):
     app.register_blueprint(manager_blueprint, url_prefix='/manager')
 
 
+    @app.before_request
+    def active_dropdownnav():
+        url = request.url_rule.rule.split('/')[1]
+        g.dopdownnav = url if url  else 'default'
+    
     @app.errorhandler(403)
     def forbidden(e):
         return render_template('errors/403.html'), 403

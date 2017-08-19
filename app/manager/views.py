@@ -12,7 +12,7 @@ from .. import db
 @manager.before_request
 def active_sidenav():
     url = request.url_rule.rule.split('/')[2]
-    g.current_nav_name = url if url  else 'default'
+    g.sidenav = url if url  else 'default'
 
 
 @manager.route('/', methods=['GET', 'POST'])

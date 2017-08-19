@@ -17,14 +17,19 @@
 	</head>
 	<body>
 		{% block header %}
+
 		<header>
 			{% if current_user.is_authenticated %}
 			<ul id="user-dropdown" class="dropdown-content red lighten-1">
 				{% if current_user.is_employee %}
-				<li> <a class="white-text" href="{{url_for('main.index')}}">Employee</a></li>
+				<li class="{% if 'default' == g.dopdownnav %}active red darken-1{% endif %}">
+					<a class="white-text" href="{{url_for('main.index')}}">Employee</a>
+				</li>
 				{% endif %}
 				{% if current_user.is_manager %}
-				<li><a class="white-text" href="{{url_for('manager.index')}}">Manager</a></li>
+				<li class="{% if 'manager' == g.dopdownnav %}active red darken-1{% endif %}">
+					<a class="white-text" href="{{url_for('manager.index')}}">Manager</a>
+				</li>
 				{% endif %}
 				{% if current_user.is_admin %}
 				<li><a class="white-text" href="#">Admin</a></li>
