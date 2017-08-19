@@ -70,7 +70,6 @@ def handle_preparing(command):
     ]
 
 
-    
     return render_template(
         'command_preparing.html',
         command=command,
@@ -199,7 +198,7 @@ def never_delivered():
 
 @manager.route('/shops')
 def shops():
-    shops = Shop.query.all()
+    shops = Shop.query.order_by(Shop.name)
     return render_template('shops.html', shops=shops)
 
 

@@ -73,6 +73,37 @@
 {% endmacro %}
 
 
+{% macro table_crud(header, entities, add_url, update_url, delete_url, className="bordered") %}
+<table class="{{className}} highlight">
+	<thead>
+		<tr>
+			{% for name in header %}
+			<th>{{name | title}}</th>
+			{% endfor %}
+			<th><a href="{{ url_for(add_url) }}" class="btn btn-floating green"><i class="material-icons">add</i></a></th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for row in entities %}
+		{% for column in entities %}
+		<tr>
+
+			{% for name in header %}
+			<td>{{ column[name] }}</td>
+			{% endfor %}
+			<td><a href="{{ url_for(update_url, pk=column['id']) }}" class="btn btn-floating orange"><i class="material-icons">edit</i></a></td>
+			<td><a href="{{ url_for(delete_url, pk=column['id']) }}" class="btn btn-floating red"><i class="material-icons">delete</i></a></td>
+		</tr>
+
+		{% endfor %}
+
+		{% endfor %}
+	</tbody>
+</table>
+{% endmacro %}
+
+
 {% macro back_button(url, size=2, text='Back', color='blue') %}
 <a style="margin-left: 10px;" href="{{url}}" class="col s{{size}} waves-effect waves-light btn {{color}}"> {{text}} </a>
 {% endmacro %}

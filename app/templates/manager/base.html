@@ -5,13 +5,13 @@
 {% block side_nav %}
 
 {% set navigation_sidebar = [
-('default', url_for('.index'), 'Command'),
-('shops', url_for('.shops'), 'Shops'),
-('details', url_for('.details'), 'Details')
+(['default'], url_for('.index'), 'Command'),
+(['shops', 'shop'], url_for('.shops'), 'Shops'),
+(['details'], url_for('.details'), 'Details')
 ] -%}
 
 {% for name, url, text in navigation_sidebar %}
-<li class="bold {% if name == g.sidenav %}active{% endif %}">
+<li class="bold {% if g.sidenav in name %}active{% endif %}">
 	<a href="{{ url }}" class="waves-effect  white-text "> {{ text }} </a>
 </li>
 {% endfor %}
