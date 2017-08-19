@@ -8,16 +8,25 @@
   Mail system not started
   
 * Installation
-  virtualenv -p python2.7 _env
-  source _env/bin/activate
-  pip install -r requirements.txt
+  - virtualenv -p python2.7 _env
+  - source _env/bin/activate
+  - pip install -r requirements.txt
 
-  
+** Launch sever in developement
+   python manage.py runserver
 
-** commands
-   python manage.py runserver | Run the development server
-   python manage.py fill_db | Fill the database with random data, create a default admin
-   python manage.py python manage.py | random_orders, fill the last command with random orders
+** If you want a scenario with an empty database run
+   python manage.py reset_db 
+
+** If you want a scenario with an filled database run
+   python manage.py fill_db 
+
+** If you want to create orders for the the current command run
+   python manage.py random_orders
+
+** if you want to see all possible command run 
+   +python manage.py
+
 
 * Description
 ** Technologies
