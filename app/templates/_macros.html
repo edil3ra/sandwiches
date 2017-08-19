@@ -40,7 +40,7 @@
 
 
 
-{% macro table(header, body, footer=None, className="bordered") %}
+{% macro table_show(header, body, footer=None, className="bordered") %}
 <table class="{{className}} highlight">
 	<thead>
 		<tr>
@@ -70,8 +70,6 @@
 	</tfoot>
 	{% endif %}
 </table>
-	
-	
 {% endmacro %}
 
 

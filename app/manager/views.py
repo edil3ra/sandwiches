@@ -41,16 +41,41 @@ def index():
 
 
 def handle_preparing(command):
-    extra_foods = command.shop.foods.filter_by(extra=True)
-    extra_orders = command.extra_orders().join(Food).order_by(Food.name)
-    employee_orders = command.employees_orders()
+    extra_foods = command.shop.foods.filter_by(extra=True).order_by(Food.name)
+    food_count_dict = Food.counter_foods([order.food for order in command.extra_orders()])
+    employee_orders = command.employees_orders().join(Employee).order_by(
+        Employee.firstname)
 
+
+    extra_foods_formatted = [
+        OrderedDict(
+            zip(["id", "name", "price", "count"], [
+                food.id,
+                food.name,
+                food.price,
+                food_count_dict.get(food.name) or 0 
+            ]))
+        for food in extra_foods
+    ]
+    
+    employee_orders_formatted = [
+        OrderedDict(
+            zip(["employee", "food", "price"], [
+                orders[0].employee.fullname,
+                Food.format_counter_foods(
+                    Food.counter_foods([order.food for order in orders])),
+                Order.sum_price(orders),
+            ]))
+        for orders in Order.groupby(employee_orders, Order.GROUP_BY_EMPLOYEE)
+    ]
+
+
+    
     return render_template(
         'command_preparing.html',
         command=command,
-        extra_foods=extra_foods,
-        extra_orders=extra_orders_format,
-        employee_orders=employee_orders)
+        extra_foods=extra_foods_formatted,
+        employee_orders=employee_orders_formatted)
 
 
 def handle_waiting(command):

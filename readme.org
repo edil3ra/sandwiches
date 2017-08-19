@@ -308,4 +308,18 @@ static                                             HEAD,OPTIONS,GET     /static/
 #+end_example
 
 
+#+BEGIN_SRC shell :results scalar
+python manage.py random_orders
+#+END_SRC
 
+#+RESULTS:
+
+
+#+BEGIN_SRC shell :results scalar
+python manage.py command_wait
+#+END_SRC
+
+
+#+BEGIN_SRC shell :results scalar
+python manage.py command_delivered
+#+END_SRC
