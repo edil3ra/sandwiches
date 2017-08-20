@@ -41,7 +41,7 @@
 			</li>
 			{% else %}
 			<li>
-				<a href="{{ url_for('.commands', page=p, per_page=pagination.per_page) }}">{{ p }}</a>
+				<a class="white-text" href="{{ url_for('.commands', page=p, per_page=pagination.per_page) }}">{{ p }}</a>
 			</li>
 			{% endif %}
 			{% else %}

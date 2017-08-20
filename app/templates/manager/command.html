@@ -2,13 +2,76 @@
 
 
 {% block content_body %}
-<div class="row ">
-	<div class="col l12 ">
-		{{ command.id }}
+<div class="row">
+	<div class="col l12">
+		<h2 class="my-hr-title">Command <strong>{{ command.id }}</strong></h2>
+	</div>
+</div>
+<div class="row">
+	<div class="col l12">
+		<h3>Details Command</h3>
+		<dl>
+			<dt>Delivery address:</dt>
+			<dd>{{ command.delivery_address }}</dd>
+		</dl>
+		<dl>
+			<dt>Command sended at: </dt>
+			<dd>{{ command.sended_text }}</dd>
+		</dl>
+		<dl>
+			<dt>Command recieved at: </dt>
+			<dd>{{ command.recieve_text }}</dd>
+		</dl>
+		<dl>
+			<dt>Shop information: </dt>
+			<dd>{{ command.shop.name }}</dd>
+		</dl>
+		<hr class="my-hr"/>
+		<dl>
+			<dt>Total by employee: </dt>
+			<dd>{{ command.sum_price_employee() }}€</dd>
+		</dl>
+		<dl>
+			<dt>Total by extra: </dt>
+			<dd>{{ command.sum_price_extra() }}€</dd>
+		</dl>
+		<dl>
+			<dt>Total: </dt>
+			<dd>{{ command.sum_price_total() }}€</dd>
+		</dl>
+	</div>
+</div>
 
+<div class="row">
+	<div class="col l12">
+		<h3>Details orders</h3>
+		<table class="bordered highlight lighten-1">
+			<thead>
+				<tr>
+					<th>Employee</th>
+					<th>Food</th>
+					<th>Price</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for order in command.orders %}
+				<tr>
+					<td>{{ order.employee.fullname or 'extra' }}</td>
+					<td>{{ order.food.name }}</td>
+					<td>{{ order.food.price }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+
+
+<div class="row">
+	<div class="col l12">
 		{% set page = session.get('page') or config['DEFAULT_PAGE'] %}
 		{% set per_page = session.get('per_page') or config['DEFAULT_PER_PAGE'] %}
-		<a class="btn" href="{{url_for('.commands', page=page, per_page=per_page )}}">Back</a>
+		<a class="btn blue" href="{{url_for('.commands', page=page, per_page=per_page )}}">Back</a>
 	</div>
 </div>
 {% endblock %}
