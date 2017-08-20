@@ -40,10 +40,10 @@ input, label{
 	font-size: 1.7em !important;
 }
 
- .row .input-field input:focus {
-	 border-bottom: 1px solid #fff !important;
-	 box-shadow: 0 1px 0 0 #fff !important;
- }
+.row .input-field input:focus {
+	border-bottom: 1px solid #fff !important;
+	box-shadow: 0 1px 0 0 #fff !important;
+}
 
 
 table.highlight > tbody > tr:hover {
@@ -54,3 +54,5 @@ table.highlight > tbody > tr:hover {
 	color: white !important;
 	background-color: #E53935 !important;
 }
+
+

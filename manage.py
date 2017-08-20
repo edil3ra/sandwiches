@@ -86,24 +86,23 @@ def fixtures_creation():
             },
         },
         {
-            'message': 'Delivered commands creation',
-            'function': fx.create_commands,
-            'args': [],
-            'kwargs': {
-                'count': 10,
-                'status': Command.DELIVERED
-            },
-        },
-        {
             'message': 'Not Delivered commands creation',
             'function': fx.create_commands,
             'args': [],
             'kwargs': {
-                'count': 2,
+                'count': 8,
                 'status': Command.NEVER_DELIVERED
             },
         },
-        
+        {
+            'message': 'Delivered commands creation',
+            'function': fx.create_commands,
+            'args': [],
+            'kwargs': {
+                'count': 45,
+                'status': Command.DELIVERED
+            },
+        },
         {
             'message': 'orders creation',
             'function': fx.create_orders,
