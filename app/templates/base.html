@@ -23,7 +23,7 @@
 			<ul id="user-dropdown" class="dropdown-content red lighten-1">
 				{% if current_user.is_employee %}
 				<li class="{% if 'default' == g.dopdownnav %}active red darken-1{% endif %}">
-					<a class="white-text" href="{{url_for('main.index')}}">Employee</a>
+					<a class="white-text" href="{{url_for('employee.index')}}">Employee</a>
 				</li>
 				{% endif %}
 				{% if current_user.is_manager %}
@@ -42,7 +42,7 @@
 				<div class="container">
 					<div class="nav-wrapper">
 						<h1 class="hide"> Intersentia </h1>
-						<a class="page-title" href="{{ url_for('main.index') }}">
+						<a class="page-title" href="{{ url_for('employee.index') }}">
 							<img alt="Internsentia" src="{{ url_for('static', filename='logo.png')}}"/>
 						</a>
 							

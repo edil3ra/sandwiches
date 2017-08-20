@@ -23,8 +23,8 @@ def create_app(config_name):
     db.init_app(app)
     login_manager.init_app(app)
     
-    from .main import main as main_blueprint
-    app.register_blueprint(main_blueprint)
+    from .employee import employee as employee_blueprint
+    app.register_blueprint(employee_blueprint)
 
     from .auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint, url_prefix='/auth')
@@ -35,9 +35,12 @@ def create_app(config_name):
 
     @app.before_request
     def active_dropdownnav():
-        url = request.path.rstrip('/').split('/')[1]
-        g.dopdownnav = url if url  else 'default'
         g.app_name = app.config['APP_NAME']
+
+        try:
+            g.dropdownnav = request.path.rstrip('/').split('/')[1]
+        except IndexError:
+            g.dropdownnav = 'default'
         
     @app.errorhandler(403)
     def forbidden(e):

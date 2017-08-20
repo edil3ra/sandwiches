@@ -3,8 +3,16 @@
 
 
 {% block side_nav %}
-<li class="bold"><a href="#" class="waves-effect waves-teal">Command</a></li>
-<li class="bold"><a href="#" class="waves-effect waves-teal">History</a></li>
+
+{% set navigation_sidebar = [
+(['home', 'default'], url_for('.index'), 'Home'),
+] -%}
+
+{% for name, url, text in navigation_sidebar %}
+<li class="bold {% if g.sidenav in name %}active{% endif %}">
+	<a href="{{ url }}" class="waves-effect  white-text "> {{ text }} </a>
+</li>
+{% endfor %}
 {% endblock %}
 
 {% block content %}

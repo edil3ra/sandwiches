@@ -25,8 +25,10 @@ def protect_manager_blueprint():
 
 @manager.before_request
 def active_sidenav():
-    url = request.path.rstrip('/').split('/')[2]
-    g.sidenav = url if url else 'default'
+    try:
+        g.sidenav = request.path.rstrip('/').split('/')[2]
+    except IndexError:
+        g.sidenav = 'default'
 
 
 @manager.route('/home', methods=['GET', 'POST'])

@@ -20,9 +20,9 @@ def login():
             if user.is_manager:
                 return redirect(url_for('manager.index'))
             elif user.is_employee:
-                return redirect(url_for('main.index'))
+                return redirect(url_for('employee.index'))
             else:
-                return redirect(request.args.get('next') or url_for('main.index'))
+                return redirect(request.args.get('next') or url_for('employee.index'))
                 
         flash('Invalid username or password.')
     return render_template('login.html', form=form)
@@ -49,7 +49,7 @@ def register_manager():
         db.session.commit()
         login_user(user, True)
         flash('You are registred as a manager with mail:{}'.format(user.email))
-        return redirect(url_for('main.index'))
+        return redirect(url_for('employee.index'))
     return render_template('register_manager.html', form=form)
 
 
@@ -80,7 +80,7 @@ def register_employee():
             return redirect(url_for('manager.index'))
         else:
             flash('You are registerd as an employe with mail:{}'.format(user.email))
-            return redirect(url_for('main.index'))
+            return redirect(url_for('employee.index'))
             
 
     return render_template('register_employee.html', form=form)
