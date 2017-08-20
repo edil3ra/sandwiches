@@ -5,7 +5,7 @@
 {% block side_nav %}
 
 {% set navigation_sidebar = [
-(['home', 'default'], url_for('.index'), 'Home'),
+(['home', 'default'], url_for('employee.index'), 'Home'),
 ] -%}
 
 {% for name, url, text in navigation_sidebar %}

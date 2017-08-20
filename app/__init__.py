@@ -49,7 +49,13 @@ def create_app(config_name):
 
     @app.errorhandler(404)
     def page_not_found(e):
-        return render_template('errors/404.html'), 404
+        print(request.path)
+        if request.path.startswith('/manager'):
+            return render_template('errors/404_manager.html'), 404
+        elif request.path.startswith('/'):
+            return render_template('errors/404_employee.html'), 404
+        else:
+            return render_template('errors/404.html'), 404
 
 
     @app.errorhandler(500)

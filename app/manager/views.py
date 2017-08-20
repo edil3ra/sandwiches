@@ -31,6 +31,7 @@ def active_sidenav():
         g.sidenav = 'default'
 
 
+        
 @manager.route('/home', methods=['GET', 'POST'])
 def index():
     command = Command.last()

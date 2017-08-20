@@ -5,10 +5,10 @@
 {% block side_nav %}
 
 {% set navigation_sidebar = [
-(['home'], url_for('.index'), 'Command'),
-(['shops', 'shop'], url_for('.shops'), 'Shops'),
-(['employees'], url_for('.employees'), 'Employees Details'),
-(['commands', 'command'], url_for('.commands'), 'Command Details')
+(['home'], url_for('manager.index'), 'Command'),
+(['shops', 'shop'], url_for('manager.shops'), 'Shops'),
+(['employees'], url_for('manager.employees'), 'Employees Details'),
+(['commands', 'command'], url_for('manager.commands'), 'Command Details')
 ] -%}
 
 {% for name, url, text in navigation_sidebar %}

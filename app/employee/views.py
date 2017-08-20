@@ -21,7 +21,7 @@ def active_sidenav():
     except IndexError:
         g.sidenav = 'default'
 
-    
+
 @employee.route('/')
 @employee.route('/home')
 def index():
