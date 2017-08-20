@@ -326,7 +326,6 @@ python manage.py command_delivered
 python manage.py command_never_delivered
 #+END_SRC
 
-
 ** Others
 #+BEGIN_SRC shell :results scalar
 python manage.py routes

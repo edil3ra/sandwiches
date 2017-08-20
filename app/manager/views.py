@@ -334,10 +334,10 @@ def food_delete(pk):
     return redirect(url_for('.shop', pk=food.shop_id))
 
 
-@manager.route('/users')
-def users():
+@manager.route('/employees')
+def employees():
     start_date = datetime.now() - timedelta(days=30)
-    end_date = datetime.now()
+    end_date = start_date + timedelta(days=20)
     
     orders = db.session.query(Order, db.func.sum(Food.price))\
     .join(Order.command)\
@@ -346,13 +346,14 @@ def users():
     .filter(Order.employee != None)\
     .filter(Command.status.in_([Command.DELIVERED, Command.NEVER_DELIVERED]))\
     .filter(start_date <= Command.recieved)\
+    .filter(end_date >= Command.recieved)\
     .group_by(Order.employee_id)
     
-    users = [{'name': order.employee.fullname, 'salary': order.employee.salary, 'price': price} for order, price in orders.all()]
+    employees = [{'name': order.employee.fullname, 'salary': order.employee.salary, 'price': price} for order, price in orders.all()]
     
-    return render_template('users.html', users=users)
+    return render_template('employees.html', employees=employees)
 
 
-@manager.route('/history')
-def history():
-    return render_template('history.html')
+@manager.route('/commands')
+def commands():
+    return render_template('commands.html')
