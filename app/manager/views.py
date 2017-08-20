@@ -1,6 +1,6 @@
 from collections import OrderedDict
 
-from flask import render_template, redirect, flash, url_for, request, current_app, g, abort
+from flask import render_template, redirect, flash, url_for, request, current_app, g, abort, session
 from flask_login import current_user, login_required
 
 from ..decorators import manager_required
@@ -355,7 +355,7 @@ def employees(offset_month=0):
     pagination = {
         'is_previous_month': end_date - relativedelta(months=1) >= first_ordered_date,
         'is_next_month': start_date + relativedelta(months=1) <= last_ordered_date,
-        'is_previous_year': end_date - relativedelta(years=1) >= last_ordered_date,
+        'is_previous_year': end_date - relativedelta(years=1) >= first_ordered_date,
         'is_next_year': start_date + relativedelta(years=1) <= last_ordered_date
     }
 
@@ -394,6 +394,11 @@ def commands():
                             .order_by(Command.id.desc())
     pagination = commands.paginate(page, per_page)
     commands_indexed = enumerate(pagination.items)
+
+    session['page'] = page
+    session['per_page'] = per_page
+    
+    print(session)
     
     return render_template('commands.html', commands=commands_indexed, Command=Command, pagination=pagination)
 
