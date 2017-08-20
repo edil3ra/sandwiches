@@ -23,7 +23,7 @@ def protect_manager_blueprint():
 
 @manager.before_request
 def active_sidenav():
-    url = request.url_rule.rule.split('/')[2]
+    url = request.path.rstrip('/').split('/')[1]
     g.sidenav = url if url else 'default'
 
 
