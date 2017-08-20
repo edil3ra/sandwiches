@@ -8,7 +8,7 @@ from flask import url_for
 from app import create_app, db, auth
 from app.models import User, Employee, Shop, Food, Command, Order
 from utils import fixtures as fx
-
+from datetime import datetime, timedelta, date
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 manager = Manager(app)
@@ -31,7 +31,11 @@ def make_shell_context():
         Food=Food,
         Order=Order,
         Command=Command,
-        l=Command.last())
+        l=Command.last(),
+        datetime=datetime,
+        date=date,
+        timedelta=timedelta,
+    )
 
 
 manager.add_command("shell", Shell(make_context=make_shell_context))

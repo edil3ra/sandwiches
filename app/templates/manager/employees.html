@@ -5,8 +5,39 @@
 <div class="row ">
 	<div class="col l12 ">
 		<h2>Users Details</h2>
-		
+		{% if not employees %}
+		<p class="flow-text">Nothing to show for this month stop messing with url :-)</p>
+		{% else %}
+		<ul class="pagination center">
+			{% if pagination['is_previous_year'] %}
+			<li><a href="{{ url_for('.employees', offset_month=current_offset + 12) }}"><i style="width: 30px;" class="material-icons red-text">arrow_backward</i></a></li>
+			{% else %}
+			<li class="disabled"> <a href="#"><i style="width: 30px;" class="material-icons red-text text-lighten-2">arrow_backward</i></a></li>
+
+			{% endif %}
+
+			{% if pagination['is_previous_month'] %}
+			<li><a href="{{ url_for('.employees', offset_month=current_offset + 1) }}"><i class="material-icons red-text">chevron_left</i></a></li>
+			{% else %}
+			<li class="disabled"><a href="#"><i class="material-icons red-text text-lighten-2 ">chevron_left</i></a></li>			
+			{% endif %}
+
+			<li>{{ current_date.strftime('%d-%m-%-Y') }}</li>
+
+			{% if pagination['is_next_month'] %}
+			<li><a href="{{ url_for('.employees', offset_month=current_offset - 1) }}"><i class="material-icons red-text">chevron_right</i></a></li>
+			{% else %}
+			<li class="disabled"><a href="#"><i class="material-icons red-text text-lighten-2 ">chevron_right</i></a></li>			
+			{% endif %}
+
+			{% if pagination['is_next_year'] %}
+			<li><a href="{{ url_for('.employees', offset_month=current_offset - 12) }}"><i class="material-icons red-text">arrow_forward</i></a></li>
+			{% else %}
+			<li class="disabled"><a href="#"><i class="material-icons red-text text-lighten-2 ">arrow_forward</i></a></li>			
+			{% endif %}
+		</ul>
 		{{ macros.table_show(header=employees[0].keys(), body=employees) }}
+		{% endif %}
 	</div>
 </div>
 {% endblock %}

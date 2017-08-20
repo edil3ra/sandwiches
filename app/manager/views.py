@@ -8,7 +8,9 @@ from ..models import Shop, Food, Command, Employee, Order
 from .forms import ShopForm, FoodForm, CommandForm
 from . import manager
 from .. import db
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
+from dateutil.relativedelta import relativedelta
+
 
 @manager.before_request
 @login_required
@@ -23,7 +25,7 @@ def protect_manager_blueprint():
 
 @manager.before_request
 def active_sidenav():
-    url = request.path.rstrip('/').split('/')[1]
+    url = request.path.rstrip('/').split('/')[2]
     g.sidenav = url if url else 'default'
 
 
@@ -334,11 +336,29 @@ def food_delete(pk):
     return redirect(url_for('.shop', pk=food.shop_id))
 
 
-@manager.route('/employees')
-def employees():
-    start_date = datetime.now() - timedelta(days=30)
-    end_date = start_date + timedelta(days=20)
+@manager.route('/employees/')
+@manager.route('/employees/<int:offset_month>')
+def employees(offset_month=0):
+
+    start_date = datetime.today().replace(day=1) - relativedelta(
+        months=offset_month)
+    end_date = start_date + relativedelta(months=1) - relativedelta(days=1)
+
+    first_ordered_date = Command.query.filter(
+        Command.status.in_([Command.DELIVERED, Command.NEVER_DELIVERED
+                            ])).order_by(Command.recieved).first().recieved
     
+    last_ordered_date = Command.query.filter(
+        Command.status.in_([Command.DELIVERED, Command.NEVER_DELIVERED])
+    ).order_by(Command.recieved.desc()).first().recieved
+
+    pagination = {
+        'is_previous_month': end_date - relativedelta(months=1) >= first_ordered_date,
+        'is_next_month': start_date + relativedelta(months=1) <= last_ordered_date,
+        'is_previous_year': end_date - relativedelta(years=1) >= last_ordered_date,
+        'is_next_year': start_date + relativedelta(years=1) <= last_ordered_date
+    }
+
     orders = db.session.query(Order, db.func.sum(Food.price))\
     .join(Order.command)\
     .join(Order.employee)\
@@ -351,18 +371,19 @@ def employees():
 
     employees_formatted = [
         OrderedDict(
-            zip(["name", "salary", "monthly expenses", "Net salary"],
-                [order.employee.fullname,
-                 order.employee.salary,
-                 expense,
-                 order.employee.salary - expense]))
-        for order, expense in orders.all()
+            zip(["name", "salary", "monthly expenses", "Net salary"], [
+                order.employee.fullname, order.employee.salary, expense,
+                order.employee.salary - expense
+            ])) for order, expense in orders.all()
     ]
 
-    
-    employees = [{'name': order.employee.fullname, 'salary': order.employee.salary, 'price': price} for order, price in orders.all()]
-    
-    return render_template('employees.html', employees=employees_formatted)
+    return render_template(
+        'employees.html',
+        employees=employees_formatted,
+        current_date=start_date,
+        current_offset=offset_month,
+        pagination=pagination
+    )
 
 
 @manager.route('/commands')

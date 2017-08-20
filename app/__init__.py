@@ -35,7 +35,7 @@ def create_app(config_name):
 
     @app.before_request
     def active_dropdownnav():
-        url = request.path.rstrip('/').split('/')[0]
+        url = request.path.rstrip('/').split('/')[1]
         g.dopdownnav = url if url  else 'default'
         g.app_name = app.config['APP_NAME']
         
