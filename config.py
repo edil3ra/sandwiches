@@ -12,6 +12,9 @@ class Config:
 
     DEFAULT_SHOP_EMAIL = os.environ.get('DEFAULT_SHOP_EMAIL') or 'vincent.houba.test@gmail.com'
     COMPANY_ADDRESS = os.environ.get('COMPANY_ADDRESS') or 'company address 03 Liege Observatoire'
+
+    DEFAULT_PAGE = 1
+    DEFAULT_PER_PAGE = 10
     
     @staticmethod
     def init_app(app):

@@ -2,5 +2,13 @@
 
 
 {% block content_body %}
-{{ command }}
+<div class="row ">
+	<div class="col l12 ">
+		{{ command.id }}
+
+		{% set page = session.get('page') or config['DEFAULT_PAGE'] %}
+		{% set per_page = session.get('per_page') or config['DEFAULT_PER_PAGE'] %}
+		<a class="btn" href="{{url_for('.commands', page=page, per_page=per_page )}}">Back</a>
+	</div>
+</div>
 {% endblock %}

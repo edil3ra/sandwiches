@@ -388,8 +388,8 @@ def employees(offset_month=0):
 
 @manager.route('/commands')
 def commands():
-    page = int(request.args.get('page') or 1)
-    per_page = int(request.args.get('per_page') or 10)
+    page = int(request.args.get('page') or current_app.config['DEFAULT_PAGE'])
+    per_page = int(request.args.get('per_page') or current_app.config['DEFAULT_PER_PAGE'])
     commands = Command.query.filter(Command.status.in_([Command.DELIVERED, Command.NEVER_DELIVERED]))\
                             .order_by(Command.id.desc())
     pagination = commands.paginate(page, per_page)
