@@ -195,7 +195,6 @@ class Command(db.Model):
     def recieved_text(self):
         return self.recieved.strftime('%c')
 
-        
 
     @recieved_text.setter
     def recieve_text(self):
@@ -206,7 +205,6 @@ class Command(db.Model):
     def sended_text(self):
         return self.sended.strftime('%c')
 
-        
 
     @sended_text.setter
     def sended_text(self):

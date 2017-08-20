@@ -1,11 +1,14 @@
 * Introduction
-  The application is in prealpha
-  I need more time to finish it but you can already see what I build
-  Models are done
-  authentication app is done
-  Manager app is almost done
-  Emplopee app not started
-  Mail system not started
+  Application is currently in beta.
+
+  Authentication side: beta.
+
+  Manager side: beta.
+
+  Emplopee side: not started.
+
+  Mail system: not started.
+
   
 * Installation
   - virtualenv -p python2.7 _env
@@ -28,34 +31,48 @@
    + python manage.py
 
 
+* Improvements
+** Authentication
+   + Send a email the user to validate account.
+   + Have a forget password button (send the password encrypted to the user email).
+   + Have a rember me checkbox (Cookie to remeber the user).
+   + Have an unregistred button.
+   + Have Profile page where the user can change his details.
+
+** Manager
+   + Make a search for the commands details.
+   + Ideally manager should be able to create delete and edit order made by employee.
+   + Possibily to make multiples commands.
+
+** Employee
+   + Register multple orders to for the last command.
+   + Register multple orders to for current waitings commands.(But manager must be able to create multiple command for that )
+   + Page with information of the orders he made, how much he spend this month, which foods he already order on which shop, a lot...
+** Admin
+   Full crud on the application.
+
 * Description
 ** Technologies
 *** Backend
-	I choose [[http://flask.pocoo.org/][flask]] for the backend, I hesitaded between django and Flask, both could do the job, but I want a light solution.
+	I have choosen [[http://flask.pocoo.org/][Flask]] for the backend, I hesitaded between Django and Flask, both could do the job, but I wanted a lighter solution.
 
-	Sqlite for the database, you can change the database very easly as everything is done through an orm, sqlite, is just esaier for testing, but it lack good migration support.
+	Sqlite for the database, you can change the database very easly as everything is done through an orm, sqlite is just esaier for testing, but it lack good migration support.
 
-	Sqalchemy as orm, flask provide a wrapper around it so it's a perfect match.
+	Sqalchemy for the orm, flask provide a wrapper around it so it's a perfect match.
 
 *** Front end
 	Materialize for the css front.
 	Jquery as a dependecy .
-** Environement
-   The application have testing, developing, and production environements..
-   Default setting is provide for all the developement environement.
-   It's possible to rewrite some setting by environment variables
+** Environment
+   The application have 3 different environements (testing, developing production).
 
-*** environment variable that you want to change
-	FLASK_CONFIG *To choose the dev, prod, test environement*
-    SECRET_KEY *To secure the app*
-	SQLALCHEMY_DATABASE_URI *For configuring the database*
-    MAIL_USERNAME *To manage the mail sender username*
-    MAIL_PASSWORD *To manage the mail sender password*
-    DEFAULT_SHOP_EMAIL *Shop default email* 
+   Some config are set by environment variables but have default value for development and testing environment.
 
-    ADMIN_EMAIL *Admin default email* | must be set for production mode
-    ADMIN_PASSWORD *Admin default password* | must be set production mode
-    COMPANY_ADDRESS *The addres of the company* (when the email is sended it will craft it with this variable)
+*** Environment variables that you must set for production
+    SECRET_KEY *Admin default email* 
+    ADMIN_EMAIL *Admin default email* 
+    ADMIN_PASSWORD *Admin default password*
+    COMPANY_ADDRESS *The addres of the company*
 
 ** Depedencies
 *** General
