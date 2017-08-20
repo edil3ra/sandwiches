@@ -23,6 +23,6 @@
 		</form>
 		<h3>Foods</h3>
 
-		{{macros.table_crud(['name', 'price', 'extra'], foods, '.food_create', '.food_update', '.food_delete', shop.id) }}
+		{{macros.table_crud(foods, ['name', 'price', 'extra'], '.food_create', '.food_update', '.food_delete', shop.id) }}
 
 {% endblock %}

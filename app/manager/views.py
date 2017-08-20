@@ -1,6 +1,6 @@
 from collections import OrderedDict
 
-from flask import render_template, redirect, flash, url_for, request, current_app, g
+from flask import render_template, redirect, flash, url_for, request, current_app, g, abort
 from flask_login import current_user, login_required
 
 from ..decorators import manager_required
@@ -29,7 +29,7 @@ def active_sidenav():
     g.sidenav = url if url else 'default'
 
 
-@manager.route('/', methods=['GET', 'POST'])
+@manager.route('/home', methods=['GET', 'POST'])
 def index():
     command = Command.last()
 
@@ -195,7 +195,7 @@ def cancel():
 @manager.route('/delivered')
 def delivered():
     Command.last().delivered()
-    flash('The command correctly delivered')
+    flash('The command was succefully delivered')
     return redirect(url_for('.index'))
 
 
@@ -388,4 +388,21 @@ def employees(offset_month=0):
 
 @manager.route('/commands')
 def commands():
-    return render_template('commands.html')
+    page = int(request.args.get('page') or 1)
+    per_page = int(request.args.get('per_page') or 10)
+    commands = Command.query.filter(Command.status.in_([Command.DELIVERED, Command.NEVER_DELIVERED]))\
+                            .order_by(Command.id.desc())
+    pagination = commands.paginate(page, per_page)
+    commands_indexed = enumerate(pagination.items)
+    
+    return render_template('commands.html', commands=commands_indexed, Command=Command, pagination=pagination)
+
+
+
+@manager.route('/command/<int:pk>')
+def command(pk):
+    command = Command.query.filter_by(id=pk).first()
+    if not command:
+        abort(404)
+    return render_template('command.html', command=command)
+

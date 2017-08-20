@@ -3,7 +3,9 @@
 {% block content_body %}
 <div class="row">
 	<div class="col l12 ">
-		<h2>Validate the current command</h2>
+		<h3>Waiting</h3>
+		<p class="text-flow">Command is wating to be deliverd, please validate the command if it was delivered correctly or not</p>
+		
 		<a href="{{ url_for('.send_mail_command') }}" class="btn blue">Send Mail</a>
 		<a href="{{ url_for('.delivered') }}" class="btn green">Delivered</a>
 		<a href="{{ url_for('.never_delivered') }}" class="btn red">Never Delivered</a>

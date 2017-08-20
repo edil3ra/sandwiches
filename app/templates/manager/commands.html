@@ -5,6 +5,41 @@
 <div class="row ">
 	<div class="col l12 ">
 		<h2>List of commands</h2>
+		<table class="bordered highlight">
+			<thead>
+				<tr>
+					<th>id</th>
+					<th>status</th>
+					<th>sended</th>
+					<th>recieved</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for index, command in commands %}
+				{% set trClass = 'green' if command.status == Command.DELIVERED else 'red' %}
+				<tr class="{{ trClass }}">
+					<td><a class="btn-floating center" href="{{ url_for('.command', pk=command.id) }}">{{ index+1 }}</a> </td>
+					<td>{{ command.status_text }}</td>
+					<td>{{ command.sended_text }}</td>
+					<td>{{ command.recieved_text }}</td>
+				</tr>
+
+				{% endfor %}
+			</tbody>
+		</table>
+		<ul class="pagination center">
+			{% if pagination.has_prev %}
+			<li><a href="{{ url_for('.commands', page=pagination.page - 1) }}"><i class="material-icons red-text">chevron_left</i></a></li>
+			{% else %}
+			<li class="disabled"> <i class="material-icons red-text text-lighten-2">chevron_left</i></li>
+			{% endif %}
+			{% if pagination.has_next %}
+			<li><a href="{{ url_for('.commands', page=pagination.page + 1) }}"><i class="material-icons red-text">chevron_right</i></a></li>
+			{% else %}
+			<li class="disabled"> <i class="material-icons red-text text-lighten-2">chevron_right</i></li>
+			{% endif %}
+		</ul>
+        
 	</div>
 </div>
 {% endblock %}

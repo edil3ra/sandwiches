@@ -177,6 +177,42 @@ class Command(db.Model):
     def is_done(self):
         return self.is_delivered or self.is_never_delivered
 
+    @property
+    def status_text(self):
+        return [
+            'preparing',
+            'waiting',
+            'done',
+            'cancel'
+        ][self.status]
+
+    @status_text.setter
+    def status_text(self):
+        raise AttributeError('attribute is not settable')
+
+
+    @property
+    def recieved_text(self):
+        return self.recieved.strftime('%c')
+
+        
+
+    @recieved_text.setter
+    def recieve_text(self):
+        raise AttributeError('attribute is not settable')
+
+
+    @property
+    def sended_text(self):
+        return self.sended.strftime('%c')
+
+        
+
+    @sended_text.setter
+    def sended_text(self):
+        raise AttributeError('attribute is not settable')
+
+    
     def cancel(self):
         db.session.delete(self)
         return self

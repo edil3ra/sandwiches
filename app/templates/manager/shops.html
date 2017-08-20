@@ -5,7 +5,7 @@
 <div class="row ">
 	<div class="col l12 ">
 		<h2>Shops</h2>
-		{{macros.table_crud(['name', 'email', 'telephone', 'address'], shops, '.shop_create', '.shop', '.shop_delete') }}
+		{{macros.table_crud(shops, ['name', 'email', 'telephone', 'address'],  '.shop_create', '.shop', '.shop_delete') }}
 	</div>
 </div>
 {% endblock %}

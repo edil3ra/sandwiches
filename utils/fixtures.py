@@ -65,16 +65,6 @@ def create_default_shop():
     db.session.commit()
 
 
-def create_default_command():
-    admin = User.get_admin()
-    shop = Shop.query.filter_by(email=config['DEFAULT_SHOP_EMAIL']).first()
-    command = Command(
-        delivery_address=config['COMPANY_ADDRESS'],
-        sended=datetime.now(),
-        status=Command.PREPARING,
-        shop=shop,
-        user=admin)
-
 
 def create_managers(count=5):
     for _ in range(count):

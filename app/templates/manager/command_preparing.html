@@ -1,6 +1,15 @@
 {% extends 'manager/base.html' %}
 
 {% block content_body %}
+<div class="row">
+	<div class="col l12 ">
+		<h3>Preparing</h3>
+		<p class="text-flow">Command is still in preparation, employee can still make new order manager can add make extra orders, you also can cancel the command, just warn the employees </p>
+		<a href="{{ url_for('.send_mail_command') }}" class="btn blue">Send Mail</a>
+		<a href="{{ url_for('.wait') }}" class="btn green">Validate</a>
+		<a href="{{ url_for('.cancel' )}}" class="btn red">Cancel</a>
+	</div>
+</div>
 <div class="row ">
 	<div class="col l12 ">
 		<h3>Extra order for the current command </h3>
@@ -40,13 +49,6 @@
 		{% else %}
 		<p class="flow-text" >No orders was done by employees for this command yet</p>
 		{% endif %}
-	</div>
-</div>
-<div class="row">
-	<div class="col l12 ">
-		<a href="{{ url_for('.send_mail_command') }}" class="btn blue">Send Mail</a>
-		<a href="{{ url_for('.wait') }}" class="btn green">Validate</a>
-		<a href="{{ url_for('.cancel' )}}" class="btn red">Cancel</a>
 	</div>
 </div>
 {% endblock %}
