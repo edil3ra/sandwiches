@@ -348,10 +348,21 @@ def employees():
     .filter(start_date <= Command.recieved)\
     .filter(end_date >= Command.recieved)\
     .group_by(Order.employee_id)
+
+    employees_formatted = [
+        OrderedDict(
+            zip(["name", "salary", "monthly expenses", "Net salary"],
+                [order.employee.fullname,
+                 order.employee.salary,
+                 expense,
+                 order.employee.salary - expense]))
+        for order, expense in orders.all()
+    ]
+
     
     employees = [{'name': order.employee.fullname, 'salary': order.employee.salary, 'price': price} for order, price in orders.all()]
     
-    return render_template('employees.html', employees=employees)
+    return render_template('employees.html', employees=employees_formatted)
 
 
 @manager.route('/commands')
