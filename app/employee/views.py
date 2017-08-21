@@ -49,7 +49,11 @@ def index():
                        .filter(Order.command == command)\
                        .group_by(Food.name)
 
-    orders, orders_count, orders_price = zip(*orders_with_foods_count_and_price)
+    if orders_with_foods_count_and_price.count() == 0:
+        orders, orders_count, orders_price = [], [], []
+    else:
+        orders, orders_count, orders_price = zip(*orders_with_foods_count_and_price)
+        
     foods = [order.food for order in orders]
 
     foods_details = { food.name: {'count': count, 'total': price, 'count_style': min(count, 4)}
