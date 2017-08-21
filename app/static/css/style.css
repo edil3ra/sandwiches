@@ -73,8 +73,6 @@ dt {
 
 dd {
 	display: block;
-	/* float: right !important; */
-	/* width: 50%; */
 }
 
 .my-hr {
@@ -86,5 +84,15 @@ dd {
 }
 
 .my-hr-title {
-	border-bottom: 1px solid white
+	border-bottom: 1px solid white;
+}
+
+
+.disabled-remove:hover {
+	cursor: default !important;
+}
+
+.card-details {
+	margin-left: 2em;
+	font-weight: bold;
 }

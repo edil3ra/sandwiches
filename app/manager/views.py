@@ -401,7 +401,6 @@ def commands():
     session['page'] = page
     session['per_page'] = per_page
     
-    print(session)
     
     return render_template('commands.html', commands=commands_indexed, Command=Command, pagination=pagination)
 

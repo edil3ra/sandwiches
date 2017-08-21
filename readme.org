@@ -9,7 +9,6 @@
 
   Mail system: not started.
 
-  
 * Installation
   - virtualenv -p python2.7 _env
   - source _env/bin/activate
@@ -29,7 +28,6 @@
 
 ** if you want to see all possible command run 
    + python manage.py
-
 
 * Improvements
 ** Authentication

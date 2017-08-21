@@ -1,8 +1,80 @@
 {% extends 'employee/base.html' %}
 {% block content_body %}
 <div class="row ">
-	<div class="col l12 ">
-		<h2>I am in the index base view</h2>
+	<div class="col l12">
+		{% if command.is_preparing %}
+		<h3>Make you orders in the shop {{ command.shop.name }}</h3>
+		<ul class="collection with-header orange">
+			<li class="collection-header orange"><h4>Menu</h4></li>
+			
+			{% for food in command.shop.foods %}
+			{% if food.name in foods_details %}
+
+			
+			<li class="collection-item orange darken-{{ foods_details[food.name]['count_style'] }}">
+				{{ food.name }} - {{ food.price}}€  <span class="card-details"> | </span>
+				<span class="card-details"> ({{ foods_details[food.name]['count'] }}) {{ foods_details[food.name]['total'] }}€</span>
+				<a style="margin-left: 20px;" href="{{ url_for('.remove_order', food_id=food.id) }}" class="secondary-content">
+					<i class="material-icons  red white-text">remove</i>
+				</a>
+				<a  href="{{ url_for('.add_order', food_id=food.id) }}" class="secondary-content">
+					<i class="material-icons  green white-text">add</i>
+				</a>
+			</li>			
+			
+			{% else %}
+			<li class="collection-item orange">
+				{{ food.name }} - {{ food.price}}€
+				<a style="margin-left: 20px;" href="#" class="disabled-remove secondary-content">
+					<i class="material-icons red lighten-2 white-text">remove</i>
+				</a>
+				<a href="{{ url_for('.add_order', food_id=food.id) }}" class="secondary-content">
+					<i class="material-icons  green white-text">add</i>
+				</a>
+			</li>			
+			{% endif %}
+			{% endfor %}
+		</ul>
+
+		{% elif command.is_waiting %}
+		<h3>The command has been send by the manager wait for it to be delivered</h3>
+
+		<div class="row">
+			<div class="col l12">
+				<table class="bordered highlight lighten-1">
+					<thead>
+						<tr>
+							<th>Food</th>
+							<th>Count</th>
+							<th>Price</th>
+						</tr>
+					</thead>
+					<tfoot>
+						<tr>
+							<td>total</td>
+							<td></td>
+							<td><strong>{{ total_employee }}€</strong></td>
+						</tr>
+					</tfoot>
+					<tbody>
+						{% for name in foods_details %}
+						<tr>
+							<td>{{ name }}</td>
+							<td>{{ foods_details[name]['count'] }}</td>
+							<td>{{ foods_details[name]['total'] }}€</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+
+				</table>
+			</div>
+		</div>
+		
+		
+		{% else%}
+		<h3>There is no command right now</h3>
+		{% endif %}
+		
 	</div>
 </div>
 {% endblock %}
